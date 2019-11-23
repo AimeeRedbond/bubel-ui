@@ -76,7 +76,7 @@ class BankingState extends State<Banking> {
                 DefaultTextStyle(
                   child: Container(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {_transferPopup();},
                       child: ClipOval(
                         child: Container(
                           color: Colors.lightBlueAccent,
@@ -136,6 +136,37 @@ class BankingState extends State<Banking> {
     );
   }
 
+  Future _transferPopup(){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      child: Text("Submitß"),
+                      onPressed: () {
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
   void _pushSettings() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(   // Add 20 lines from here...
