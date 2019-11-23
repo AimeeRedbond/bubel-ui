@@ -28,27 +28,27 @@ class BankingState extends State<Banking> {
   ];
   var _groups = <Widget>[
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON0',
       child: Text('Food'),
     ),
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON1',
       child: Text('Food'),
     ),
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON2',
       child: Text('Food'),
     ),
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON3',
       child: Text('Food'),
     ),
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON4',
       child: Text('Food'),
     ),
     LayoutId(
-      id: 'Button0',
+      id: 'BUTTON5',
       child: Text('Food'),
     ),
   ];
@@ -58,84 +58,77 @@ class BankingState extends State<Banking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         title: Text('bubbl: banking made bubbly'),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
-    ),
-    body: Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Spacer(),
-            DefaultTextStyle(
-              child: Container(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: ClipOval(
-                    child: Container(
-                      color: Colors.lightBlueAccent,
-                      height: 60.0, // height of the button
-                      width: 60.0, // width of the button
-                      child: Center(child: Text('+')),
+      ),
+      body: Column(
+        children: <Widget>[
+          Row(
+              children: <Widget>[
+                Spacer(),
+                DefaultTextStyle(
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: ClipOval(
+                        child: Container(
+                          color: Colors.lightBlueAccent,
+                          height: 60.0, // height of the button
+                          width: 60.0, // width of the button
+                          child: Center(child: Text('+')),
+                        ),
+                      ),
                     ),
                   ),
+                  style: TextStyle(color: Colors.white),
                 ),
-              ),
-              style: TextStyle(color: Colors.white),
-            ),
-            Spacer(flex: 4),
-            DefaultTextStyle(
-              child: Container(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: ClipOval(
-                    child: Container(
-                      color: Colors.lightBlueAccent,
-                      height: 60.0, // height of the button
-                      width: 60.0, // width of the button
-                      child: Center(child: Text('->')),
+                Spacer(flex: 4),
+                DefaultTextStyle(
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: ClipOval(
+                        child: Container(
+                          color: Colors.lightBlueAccent,
+                          height: 60.0, // height of the button
+                          width: 60.0, // width of the button
+                          child: Center(child: Text('->')),
+                        ),
+                      ),
                     ),
                   ),
+                  style: TextStyle(color: Colors.white),
                 ),
-              ),
-              style: TextStyle(color: Colors.white),
-            ),
-            Spacer(),
-          ]
-        ),
-        CustomMultiChildLayout(
-          delegate: _CircularLayoutDelegate(
-            itemCount: 6,
-            radius: 150.0,
+                Spacer(),
+              ]
           ),
-          children: _groups,
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                color: Colors.lightBlueAccent,
-                textColor: Colors.white,//`Icon` to display
-                child: Text('Spending Visuals'), //`Text` to display
-                onPressed: () {},
-                padding: EdgeInsets.all(20.0),
-              )
-            ),
-            Expanded(
-              child: FlatButton(
-                color: Colors.lightBlueAccent,
-                textColor: Colors.white,//`Icon` to display
-                child: Text('Standard View'), //`Text` to display
-                onPressed: _pushStandardView,
-                padding: EdgeInsets.all(20.0),
-              )
-            ),
-          ]
-        )
-      ],
-    ),
+          Row(
+              children: <Widget>[
+                Expanded(
+                    child: FlatButton(
+                      color: Colors.lightBlueAccent,
+                      textColor: Colors.white,//`Icon` to display
+                      child: Text('Spending Visuals'), //`Text` to display
+                      onPressed: () {},
+                      padding: EdgeInsets.all(20.0),
+                    )
+                ),
+                Expanded(
+                    child: FlatButton(
+                      color: Colors.lightBlueAccent,
+                      textColor: Colors.white,//`Icon` to display
+                      child: Text('Standard View'), //`Text` to display
+                      onPressed: _pushStandardView,
+                      padding: EdgeInsets.all(20.0),
+                    )
+                ),
+              ]
+          )
+        ],
+      ),
     );
   }
 
