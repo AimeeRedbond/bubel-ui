@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 class BankingState extends State<Banking> {
   final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
   var _transactions = <Map>[
-    { 'amount':13, 'date':"2019-11-24", "description":"Unlucky buy"},
+    { 'amount':13, 'date':"2019-11-24", "description":"Kremlin museum"},
     { 'amount':3, 'date':"2019-11-23", "description":"Meal deal"},
     { 'amount':5, 'date':"2019-11-22", "description":"Cost a fiver"},
     { 'amount':45, 'date':"2019-11-20", "description":"Microwave"},
@@ -88,16 +88,16 @@ class BankingState extends State<Banking> {
           final Iterable<ListTile> tiles = _transactions.map(
                 (Map transaction) {
               return ListTile(
-                leading: Text(
+                title: Text(
                   transaction["description"],
                   style: _biggerFont,
                 ),
-                title: Text(
-                  "£" + transaction["amount"].toString(),
+                subtitle: Text(
+                  transaction["date"],
                   style: _biggerFont,
                 ),
                 trailing: Text(
-                  transaction["date"],
+                  "£" + transaction["amount"].toString(),
                   style: _biggerFont,
                 ),
               );
