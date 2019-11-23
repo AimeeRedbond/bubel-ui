@@ -1,4 +1,5 @@
 
+//Helper functions for validating fields
 String validatePayee(String payeeName){
   if (payeeName.isEmpty) {
     return 'Username can\'t be empty.';
@@ -15,7 +16,7 @@ String validateAmount(String amount){
   return null;
 }
 
-
+//Helper functions for calculating moneys and formatting with currency symbols etc
 double getBalance(transactions){
   var amounts = transactions.map((transaction) => transaction["amount"]);
   var totalSpending = amounts.reduce((curr, next) => curr + next);

@@ -275,7 +275,7 @@ class BankingState extends State<Banking> {
             tiles: tilesList,
           ).toList();
 
-          return Scaffold(         // Add 6 lines from here...
+          return Scaffold(
             appBar: AppBar(
               title: Text('Spending visuals'),
             ),
