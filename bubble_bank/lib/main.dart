@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
+import 'helper.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -148,22 +150,6 @@ class BankingState extends State<Banking> {
     }
   }
 
-  String validatePayee(String payeeName){
-        if (payeeName.isEmpty) {
-          return 'Username can\'t be empty.';
-        }
-        return null;
-  }
-
-  String validateAmount(String amount){
-    if (amount.isEmpty) {
-      return "Amount can\'t be empty.";
-    } else if (amount == "0"){
-      return "Amount can\'t be zero";
-    }
-    return null;
-  }
-
   Future _transferPopup(){
     return showDialog(
         context: context,
@@ -250,26 +236,6 @@ class BankingState extends State<Banking> {
     );
   }
 
-  double _getBalance(transactions){
-    var amounts = transactions.map((transaction) => transaction["amount"]);
-    var totalSpending = amounts.reduce((curr, next) => curr + next);
-    return totalSpending;
-  }
-
-  String _formatMoney(double money){
-    if (money < 0.0){
-      return "-£" + (-money).toStringAsFixed(2);
-    }
-    return "+£" + money.toStringAsFixed(2);
-  }
-
-  String _formatBalance(double money){
-    if (money < 0.0){
-      return "-£" + (-money).toStringAsFixed(2);
-    }
-    return "£" + money.toStringAsFixed(2);
-  }
-
   void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -286,7 +252,7 @@ class BankingState extends State<Banking> {
                   style: _biggerFont,
                 ),
                 trailing: Text(
-                  _formatMoney(transaction["amount"]),
+                  formatMoney(transaction["amount"]),
                   style: _biggerFont,
                 ),
               );
@@ -298,7 +264,7 @@ class BankingState extends State<Banking> {
             title: Padding(
               padding: EdgeInsets.all(50.0),
               child: Text(
-                _formatBalance(_getBalance(_transactions)),
+                formatBalance(getBalance(_transactions)),
                 style: _balanceFont,
                 textAlign: TextAlign.center,
               ))
