@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -10,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'bubel',
       theme: ThemeData(          // Add the 3 lines from here...
-        primaryColor: Colors.white,
+        primaryColor: Colors.purpleAccent,
       ),
       home: RandomWords(),
     );
@@ -19,16 +18,17 @@ class MyApp extends StatelessWidget {
 
 class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
-  final _saved = Set<WordPair>();
+  final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
+  final _saved = <WordPair>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('bubel: banking made bubbly'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
     ),
     body: _buildSuggestions(),
@@ -72,15 +72,15 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void _pushSaved() {
+  void _pushSettings() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(   // Add 20 lines from here...
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map(
-                (WordPair pair) {
+          final Iterable<ListTile> tiles = _settings.map(
+                (String str) {
               return ListTile(
                 title: Text(
-                  pair.asPascalCase,
+                  str,
                   style: _biggerFont,
                 ),
               );
@@ -94,7 +94,7 @@ class RandomWordsState extends State<RandomWords> {
 
           return Scaffold(         // Add 6 lines from here...
             appBar: AppBar(
-              title: Text('Saved Suggestions'),
+              title: Text('Settings'),
             ),
             body: ListView(children: divided),
           );
