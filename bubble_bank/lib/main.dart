@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter/widgets.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -170,8 +172,8 @@ class BankingState extends State<Banking> {
             title: Text("Make a payment"),
             content: Form(
               key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Wrap(
+                alignment: WrapAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(8.0),
