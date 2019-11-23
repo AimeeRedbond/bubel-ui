@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -24,6 +25,32 @@ class BankingState extends State<Banking> {
     { 'amount':45, 'date':"2019-11-20", "description":"Microwave"},
     { 'amount':5, 'date':"2019-10-01", "description":"Starbucks coffee"},
   ];
+  var _groups = <Widget>[
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+    LayoutId(
+      id: 'Button0',
+      child: Text('Food'),
+    ),
+  ];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
@@ -37,13 +64,73 @@ class BankingState extends State<Banking> {
     ),
     body: Column(
       children: <Widget>[
-        Center(
-          child: FlatButton.icon(
-            color: Colors.lightBlueAccent,
-            icon: Icon(Icons.add_a_photo), //`Icon` to display
-            label: Text('Add a Photo'), //`Text` to display
-            onPressed: _pushStandardView,
+        Row(
+          children: <Widget>[
+            Spacer(),
+            DefaultTextStyle(
+              child: Container(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.lightBlueAccent,
+                      height: 60.0, // height of the button
+                      width: 60.0, // width of the button
+                      child: Center(child: Text('+')),
+                    ),
+                  ),
+                ),
+              ),
+              style: TextStyle(color: Colors.white),
+            ),
+            Spacer(flex: 4),
+            DefaultTextStyle(
+              child: Container(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.lightBlueAccent,
+                      height: 60.0, // height of the button
+                      width: 60.0, // width of the button
+                      child: Center(child: Text('->')),
+                    ),
+                  ),
+                ),
+              ),
+              style: TextStyle(color: Colors.white),
+            ),
+            Spacer(),
+          ]
         ),
+        CustomMultiChildLayout(
+          delegate: _CircularLayoutDelegate(
+            itemCount: 6,
+            radius: 150.0,
+          ),
+          children: _groups,
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: FlatButton(
+                color: Colors.lightBlueAccent,
+                textColor: Colors.white,//`Icon` to display
+                child: Text('Spending Visuals'), //`Text` to display
+                onPressed: () {},
+                padding: EdgeInsets.all(20.0),
+              )
+            ),
+            Expanded(
+              child: FlatButton(
+                color: Colors.lightBlueAccent,
+                textColor: Colors.white,//`Icon` to display
+                child: Text('Standard View'), //`Text` to display
+                onPressed: _pushStandardView,
+                padding: EdgeInsets.all(20.0),
+              )
+            ),
+          ]
         )
       ],
     ),
@@ -119,6 +206,51 @@ class BankingState extends State<Banking> {
       ),
     );
   }
+}
+
+class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
+  static const String actionButton = 'BUTTON';
+  Offset center;
+  final int itemCount;
+  final double radius;
+
+  _CircularLayoutDelegate({
+    @required this.itemCount,
+    @required this.radius,
+  });
+
+  @override
+  void performLayout(Size size) {
+    center = Offset(size.width / 2, size.height / 2);
+    for (int i = 0; i < itemCount; i++) {
+      final String actionButtonId = '$actionButton$i';
+
+      if (hasChild(actionButtonId)) {
+        final Size buttonSize =
+        layoutChild(actionButtonId, BoxConstraints.loose(size));
+        final double itemAngle = _calculateItemAngle(i);
+
+        positionChild(
+          actionButtonId,
+          Offset(
+            (center.dx - buttonSize.width / 2) + (radius) * cos(itemAngle),
+            (center.dy - buttonSize.height / 2) +
+                (radius) * sin(itemAngle),
+          ),
+        );
+      }}}
+
+  static const double _radiansPerDegree = pi / 180;
+  double _startAngle = -90.0 * _radiansPerDegree;
+  double _itemSpacing = 360.0 / 5.0;
+  double _calculateItemAngle(int index) {
+    return _startAngle + index * _itemSpacing * _radiansPerDegree;
+  }
+
+  @override
+  bool shouldRelayout(_CircularLayoutDelegate oldDelegate) =>
+      itemCount != oldDelegate.itemCount ||
+          radius != oldDelegate.radius ;
 }
 
 class Banking extends StatefulWidget {
