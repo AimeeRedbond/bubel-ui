@@ -18,13 +18,17 @@ class MyApp extends StatelessWidget {
 
 class BankingState extends State<Banking> {
   final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
-  var _initial_balance = 100;
   var _transactions = <Map>[
-    { 'amount':13, 'date':"2019-11-24", "description":"Kremlin museum"},
-    { 'amount':3, 'date':"2019-11-23", "description":"Meal deal"},
-    { 'amount':5, 'date':"2019-11-22", "description":"Cost a fiver"},
-    { 'amount':45, 'date':"2019-11-20", "description":"Microwave"},
-    { 'amount':5, 'date':"2019-10-01", "description":"Starbucks coffee"},
+    { 'amount':-13.50, 'date':"2019-11-24", "description":"Kremlin museum"},
+    { 'amount':-3.4, 'date':"2019-11-23", "description":"Sainsbury's meal deal"},
+    { 'amount':5.0, 'date':"2019-11-22", "description":"Got a fiver"},
+    { 'amount':-45.0, 'date':"2019-11-20", "description":"Microwave"},
+    { 'amount':-5.0, 'date':"2019-10-04", "description":"Starbucks coffee"},
+    { 'amount':-2.0, 'date':"2019-10-03", "description":"Stickers"},
+    { 'amount':-3.0, 'date':"2019-10-02", "description":"Tesco meal deal"},
+    { 'amount':-15.0, 'date':"2019-10-01", "description":"Bus ticket"},
+    { 'amount':-5.0, 'date':"2019-09-29", "description":"Starbucks coffee"},
+    { 'amount':100.0, 'date':"2019-09-28", "description":"Top up from Banana Pay"},
   ];
   var _groups = <Widget>[
     LayoutId(
@@ -163,10 +167,17 @@ class BankingState extends State<Banking> {
     );
   }
 
-  int _getBalance(transactions){
+  double _getBalance(transactions){
     var amounts = transactions.map((transaction) => transaction["amount"]);
     var total_spending = amounts.reduce((curr, next) => curr + next);
-    return _initial_balance - total_spending;
+    return total_spending;
+  }
+
+  String _formatMoney(double money){
+    if (money > 0.0){
+      return "£" + money.toStringAsFixed(2);
+    }
+    return "-£" + (-money).toStringAsFixed(2);
   }
 
   void _pushStandardView() {
@@ -185,7 +196,7 @@ class BankingState extends State<Banking> {
                   style: _biggerFont,
                 ),
                 trailing: Text(
-                  "£" + transaction["amount"].toString(),
+                  _formatMoney(transaction["amount"]),
                   style: _biggerFont,
                 ),
               );
@@ -197,9 +208,9 @@ class BankingState extends State<Banking> {
             title: Padding(
               padding: EdgeInsets.all(50.0),
               child: Text(
-              "£" + _getBalance(_transactions).toString(),
-              style: _balanceFont,
-              textAlign: TextAlign.center,
+                _formatMoney(_getBalance(_transactions)),
+                style: _balanceFont,
+                textAlign: TextAlign.center,
               ))
           ));
           final List<Widget> divided = ListTile
