@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
 class BankingState extends State<Banking> {
   final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
-  var transactions = <Map>[
+  var _transactions = <Map>[
     { 'amount':13, 'date':"2019-11-24", "description":"Unlucky buy"},
     { 'amount':3, 'date':"2019-11-23", "description":"Meal deal"},
     { 'amount':5, 'date':"2019-11-22", "description":"Cost a fiver"},
@@ -83,13 +83,21 @@ class BankingState extends State<Banking> {
 
   void _pushStandardView() {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(   // Add 20 lines from here...
+      MaterialPageRoute<void>(
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _settings.map(
-                (String str) {
+          final Iterable<ListTile> tiles = _transactions.map(
+                (Map transaction) {
               return ListTile(
+                leading: Text(
+                  transaction["description"],
+                  style: _biggerFont,
+                ),
                 title: Text(
-                  str,
+                  "£" + transaction["amount"].toString(),
+                  style: _biggerFont,
+                ),
+                trailing: Text(
+                  transaction["date"],
                   style: _biggerFont,
                 ),
               );
@@ -103,7 +111,7 @@ class BankingState extends State<Banking> {
 
           return Scaffold(         // Add 6 lines from here...
             appBar: AppBar(
-              title: Text('Settings'),
+              title: Text('Standard view'),
             ),
             body: ListView(children: divided),
           );
