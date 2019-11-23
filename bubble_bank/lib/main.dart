@@ -17,6 +17,13 @@ class MyApp extends StatelessWidget {
 
 class BankingState extends State<Banking> {
   final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
+  var transactions = <Map>[
+    { 'amount':13, 'date':"2019-11-24", "description":"Unlucky buy"},
+    { 'amount':3, 'date':"2019-11-23", "description":"Meal deal"},
+    { 'amount':5, 'date':"2019-11-22", "description":"Cost a fiver"},
+    { 'amount':45, 'date':"2019-11-20", "description":"Microwave"},
+    { 'amount':5, 'date':"2019-10-01", "description":"Starbucks coffee"},
+  ];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
