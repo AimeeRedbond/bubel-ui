@@ -58,6 +58,9 @@ class BankingState extends State<Banking> {
   ];
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final _balanceFont = const TextStyle(fontSize: 40);
+  final formKey = GlobalKey<FormState>();
+  String payee;
+  String amount;
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +138,29 @@ class BankingState extends State<Banking> {
       ),
     );
   }
+  void _submit() {
+    final form = formKey.currentState;
+
+    if (form.validate()) {
+      form.save();
+    }
+  }
+
+  String validatePayee(String payeeName){
+        if (payeeName.isEmpty) {
+          return 'Username can\'t be empty.';
+        }
+        return null;
+  }
+
+  String validateAmount(String amount){
+    if (amount.isEmpty) {
+      return "Amount can\'t be empty.";
+    } else if (amount == "0"){
+      return "Amount can\'t be zero";
+    }
+    return null;
+  }
 
   Future _transferPopup(){
     return showDialog(
@@ -143,6 +169,7 @@ class BankingState extends State<Banking> {
           return AlertDialog(
             title: Text("Make a payment"),
             content: Form(
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -151,18 +178,28 @@ class BankingState extends State<Banking> {
                     child: TextFormField(
                         decoration: const InputDecoration(
                           icon: Icon(Icons.person),
-                          hintText: "Petr File",
+                          hintText: "John Doe",
                           labelText: 'To:',
-                        )),
+                        ),
+                      validator: validatePayee,
+                      onSaved: (val) => payee = val,
+                    ),
+
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.account_balance_wallet),
-                          hintText: "£0",
-                          labelText: 'Amount',
-                        )),
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.account_balance_wallet),
+                        hintText: "£0",
+                        labelText: 'Amount',
+                      ),
+                      onChanged: (String s) {
+                        return "£" + s;
+                      },
+                        validator: validateAmount,
+                        onSaved: (val) => amount = val,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -170,8 +207,7 @@ class BankingState extends State<Banking> {
                       color: Colors.lightBlueAccent,
                       textColor: Colors.white,
                       child: Text("Send"),
-                      onPressed: () {
-                      },
+                      onPressed: _submit,
                     ),
                   )
                 ],
@@ -180,6 +216,7 @@ class BankingState extends State<Banking> {
           );
         });
   }
+
   void _pushSettings() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(   // Add 20 lines from here...
