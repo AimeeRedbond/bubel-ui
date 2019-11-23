@@ -174,10 +174,10 @@ class BankingState extends State<Banking> {
   }
 
   String _formatMoney(double money){
-    if (money > 0.0){
-      return "£" + money.toStringAsFixed(2);
+    if (money < 0.0){
+      return "-£" + (-money).toStringAsFixed(2);
     }
-    return "-£" + (-money).toStringAsFixed(2);
+    return "+£" + money.toStringAsFixed(2);
   }
 
   void _pushStandardView() {
