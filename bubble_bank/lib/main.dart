@@ -35,13 +35,53 @@ class BankingState extends State<Banking> {
           IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
     ),
-    body: Center(
-      child: Text('Balance', style: _biggerFont,),
+    body: Column(
+      children: <Widget>[
+        Center(
+          child: FlatButton.icon(
+            color: Colors.lightBlueAccent,
+            icon: Icon(Icons.add_a_photo), //`Icon` to display
+            label: Text('Add a Photo'), //`Text` to display
+            onPressed: _pushStandardView,
+        ),
+        )
+      ],
     ),
     );
   }
 
   void _pushSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(   // Add 20 lines from here...
+        builder: (BuildContext context) {
+          final Iterable<ListTile> tiles = _settings.map(
+                (String str) {
+              return ListTile(
+                title: Text(
+                  str,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final List<Widget> divided = ListTile
+              .divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          return Scaffold(         // Add 6 lines from here...
+            appBar: AppBar(
+              title: Text('Settings'),
+            ),
+            body: ListView(children: divided),
+          );
+        },
+      ),
+    );
+  }
+
+  void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(   // Add 20 lines from here...
         builder: (BuildContext context) {
