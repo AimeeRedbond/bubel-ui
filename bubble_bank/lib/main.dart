@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
@@ -291,51 +290,6 @@ class BankingState extends State<Banking> {
       ),
     );
   }
-}
-
-class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
-  static const String actionButton = 'BUTTON';
-  Offset center;
-  final int itemCount;
-  final double radius;
-
-  _CircularLayoutDelegate({
-    @required this.itemCount,
-    @required this.radius,
-  });
-
-  @override
-  void performLayout(Size size) {
-    center = Offset(size.width / 2, size.height / 2);
-    for (int i = 0; i < itemCount; i++) {
-      final String actionButtonId = '$actionButton$i';
-
-      if (hasChild(actionButtonId)) {
-        final Size buttonSize =
-        layoutChild(actionButtonId, BoxConstraints.loose(size));
-        final double itemAngle = _calculateItemAngle(i);
-
-        positionChild(
-          actionButtonId,
-          Offset(
-            (center.dx - buttonSize.width / 2) + (radius) * cos(itemAngle),
-            (center.dy - buttonSize.height / 2) +
-                (radius) * sin(itemAngle),
-          ),
-        );
-      }}}
-
-  static const double _radiansPerDegree = pi / 180;
-  double _startAngle = -90.0 * _radiansPerDegree;
-  double _itemSpacing = 360.0 / 5.0;
-  double _calculateItemAngle(int index) {
-    return _startAngle + index * _itemSpacing * _radiansPerDegree;
-  }
-
-  @override
-  bool shouldRelayout(_CircularLayoutDelegate oldDelegate) =>
-      itemCount != oldDelegate.itemCount ||
-          radius != oldDelegate.radius ;
 }
 
 class Banking extends StatefulWidget {
