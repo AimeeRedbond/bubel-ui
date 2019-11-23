@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
 
 class BankingState extends State<Banking> {
   final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
+  var _initial_balance = 100;
   var _transactions = <Map>[
     { 'amount':13, 'date':"2019-11-24", "description":"Kremlin museum"},
     { 'amount':3, 'date':"2019-11-23", "description":"Meal deal"},
@@ -52,6 +53,7 @@ class BankingState extends State<Banking> {
     ),
   ];
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  final _balanceFont = const TextStyle(fontSize: 40);
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +170,12 @@ class BankingState extends State<Banking> {
     );
   }
 
+  int _getBalance(transactions){
+    var amounts = transactions.map((transaction) => transaction["amount"]);
+    var total_spending = amounts.reduce((curr, next) => curr + next);
+    return _initial_balance - total_spending;
+  }
+
   void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -190,15 +198,26 @@ class BankingState extends State<Banking> {
               );
             },
           );
+
+          var tilesList = tiles.toList();
+          tilesList.insert(0, ListTile(
+            title: Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Text(
+              "£" + _getBalance(_transactions).toString(),
+              style: _balanceFont,
+              textAlign: TextAlign.center,
+              ))
+          ));
           final List<Widget> divided = ListTile
               .divideTiles(
             context: context,
-            tiles: tiles,
+            tiles: tilesList,
           ).toList();
 
           return Scaffold(         // Add 6 lines from here...
             appBar: AppBar(
-              title: Text('Standard view'),
+              title: Text('Spending visuals'),
             ),
             body: ListView(children: divided),
           );
