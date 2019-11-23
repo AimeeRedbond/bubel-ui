@@ -180,6 +180,13 @@ class BankingState extends State<Banking> {
     return "+£" + money.toStringAsFixed(2);
   }
 
+  String _formatBalance(double money){
+    if (money < 0.0){
+      return "-£" + (-money).toStringAsFixed(2);
+    }
+    return "£" + money.toStringAsFixed(2);
+  }
+
   void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -208,7 +215,7 @@ class BankingState extends State<Banking> {
             title: Padding(
               padding: EdgeInsets.all(50.0),
               child: Text(
-                _formatMoney(_getBalance(_transactions)),
+                _formatBalance(_getBalance(_transactions)),
                 style: _balanceFont,
                 textAlign: TextAlign.center,
               ))
