@@ -76,13 +76,13 @@ class BankingState extends State<Banking> {
                 DefaultTextStyle(
                   child: Container(
                     child: GestureDetector(
-                      onTap: () {_transferPopup();},
+                      onTap: _transferPopup,
                       child: ClipOval(
                         child: Container(
                           color: Colors.lightBlueAccent,
                           height: 60.0, // height of the button
                           width: 60.0, // width of the button
-                          child: Center(child: Text('+')),
+                          child: Center(child: Icon(Icons.add),),
                         ),
                       ),
                     ),
@@ -93,13 +93,13 @@ class BankingState extends State<Banking> {
                 DefaultTextStyle(
                   child: Container(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: _transferPopup,
                       child: ClipOval(
                         child: Container(
                           color: Colors.lightBlueAccent,
                           height: 60.0, // height of the button
                           width: 60.0, // width of the button
-                          child: Center(child: Text('->')),
+                          child: Center(child: Icon(Icons.swap_horiz)),
                         ),
                       ),
                     ),
@@ -123,7 +123,7 @@ class BankingState extends State<Banking> {
                 Expanded(
                     child: FlatButton(
                       color: Colors.lightBlueAccent,
-                      textColor: Colors.white,//`Icon` to display
+                      textColor: Colors.white,
                       child: Text('Standard View'), //`Text` to display
                       onPressed: _pushStandardView,
                       padding: EdgeInsets.all(20.0),
@@ -141,22 +141,35 @@ class BankingState extends State<Banking> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            title: Text("Make a payment"),
             content: Form(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: TextFormField(),
+                    child: TextFormField(
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person),
+                          hintText: "Petr File",
+                          labelText: 'To:',
+                        )),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: TextFormField(),
+                    child: TextFormField(
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.account_balance_wallet),
+                          hintText: "£0",
+                          labelText: 'Amount',
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
-                      child: Text("Submitß"),
+                      color: Colors.lightBlueAccent,
+                      textColor: Colors.white,
+                      child: Text("Send"),
                       onPressed: () {
                       },
                     ),
@@ -200,8 +213,8 @@ class BankingState extends State<Banking> {
 
   double _getBalance(transactions){
     var amounts = transactions.map((transaction) => transaction["amount"]);
-    var total_spending = amounts.reduce((curr, next) => curr + next);
-    return total_spending;
+    var totalSpending = amounts.reduce((curr, next) => curr + next);
+    return totalSpending;
   }
 
   String _formatMoney(double money){
