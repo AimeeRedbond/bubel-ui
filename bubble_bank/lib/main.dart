@@ -42,7 +42,8 @@ class BankingState extends State<Banking> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('bubbl: banking made bubbly'),
+        leading: new Container(),
+        title: Center( child: Text('bubbl')),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
@@ -242,7 +243,7 @@ class BankingState extends State<Banking> {
   }
 
   void _pushStandardView() {
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {return lol();},
       ),
@@ -250,117 +251,9 @@ class BankingState extends State<Banking> {
   }
 
   void _pushVisualsView() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {return xoxo();},
-      ),
-    );
+    Navigator.of(context).pop();
   }
 
-  Scaffold xoxo(){
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('bubbl: banking made bubbly'),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
-          ],
-        ),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100.0,
-                child: Row(
-                    children: <Widget>[
-                      Spacer(),
-                      DefaultTextStyle(
-                        child: Container(
-                          child: GestureDetector(
-                            onTap: _transferPopup,
-                            child: ClipOval(
-                              child: Container(
-                                color: Colors.lightBlueAccent,
-                                height: 60.0, // height of the button
-                                width: 60.0, // width of the button
-                                child: Center(child: Icon(Icons.add),),
-                              ),
-                            ),
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Spacer(flex: 4),
-                      DefaultTextStyle(
-                        child: Container(
-                          child: GestureDetector(
-                            onTap: _transferPopup,
-                            child: ClipOval(
-                              child: Container(
-                                color: Colors.lightBlueAccent,
-                                height: 60.0, // height of the button
-                                width: 60.0, // width of the button
-                                child: Center(child: Icon(Icons.swap_horiz)),
-                              ),
-                            ),
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Spacer(),
-                    ]
-                ),
-              ),
-              Expanded(
-                child: Stack(
-                    children: <Widget>[
-                      Container(
-                        child: CustomMultiChildLayout(
-                          delegate: _CircularLayoutDelegate(
-                            itemCount: 6,
-                            radius: 140.0,
-                          ),
-                          children: _makeGroups(_transactions),
-                        ),
-                      ),
-                      DefaultTextStyle(
-                        child: Container(
-                          child: Center(
-                              child: Text(formatBalance(getBalance(_transactions)))
-                          ),
-                        ),
-                        style: TextStyle(color: Colors.black, fontSize: 40.0),
-                      )
-                    ]
-                ),
-              ),
-              Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: FlatButton(
-                          color: Colors.black45,
-                          textColor: Colors.white,//`Icon` to display
-                          child: Text('Spending Visuals'), //`Text` to display
-                          onPressed: () {},
-                          padding: EdgeInsets.all(20.0),
-                        )
-                    ),
-                    Expanded(
-                        child: FlatButton(
-                          color: Colors.lightBlueAccent,
-                          textColor: Colors.white,
-                          child: Text('Standard View'), //`Text` to display
-                          onPressed: _pushStandardView,
-                          padding: EdgeInsets.all(20.0),
-                        )
-                    ),
-                  ]
-              )
-            ],
-          ),
-        ),
-      );
-  }
   List<Widget> _makeGroups(transactions) {
     List<Widget> groups = [];
     List<String> emojis = ['🍕', '🛒', '👗', '🚂', '🎭', '🤷‍♀️'];
@@ -376,7 +269,8 @@ class BankingState extends State<Banking> {
   Scaffold lol(){
     return Scaffold(
       appBar: AppBar(
-        title: Text('bubbl: banking made bubbly'),
+        leading: new Container(),
+        title: Center( child: Text('bubbl')),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
