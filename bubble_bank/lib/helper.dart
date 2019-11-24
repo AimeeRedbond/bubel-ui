@@ -145,7 +145,7 @@ List<List> getRatios(groups, total) {
 }
 
 List<Widget> makeGroups(ratios, transactions) {
-  double range = 220.0 - 60.0;
+  double range = 170.0 - 60.0;
   double max = range/ratios[0][1];
   double fontRange = 50.0 - 20.0;
   double fontM = fontRange/ratios[0][1];
