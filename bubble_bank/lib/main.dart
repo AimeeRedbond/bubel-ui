@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 
@@ -50,6 +51,7 @@ class BankingState extends State<Banking> {
   String payee;
   String amount;
   Future<String> post;
+  List<Map> petrTrans;
 
   @override
   void initState() {
@@ -113,21 +115,7 @@ class BankingState extends State<Banking> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            Center(
-              child: FutureBuilder<String>(
-                future: post,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data);
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-
-                  // By default, show a loading spinner.
-                  return CircularProgressIndicator();
-                },
-              ),
-            ),
+            
             Container(
               height: 100.0,
               child: transferButtons(),
@@ -182,6 +170,12 @@ class BankingState extends State<Banking> {
         ),
       ),
     );
+  }
+
+  Text hi(String lol){
+    _transactions = json.decode(lol);
+    print(_transactions);
+    return Text(lol.toString());
   }
 
   void _submit() {

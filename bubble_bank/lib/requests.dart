@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchPost() async {
   final response =
-  await http.get('http://ec2-34-241-212-9.eu-west-1.compute.amazonaws.com:5000/transactions/out/3d54f7d6-421c-4be5-a8a2-e7bb52c78026');
+  await http.get('http://ec2-34-241-212-9.eu-west-1.compute.amazonaws.com:5000/transactions/out/fdae6cea-43df-4edf-9251-2985858fb017');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
-    return json.decode(response.body);
+    return (response.body);
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load post');
@@ -29,11 +29,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Future<String> post;
 
-  @override
-  void initState() {
-    super.initState();
-    post = fetchPost();
-  }
 
   @override
   Widget build(BuildContext context) {
