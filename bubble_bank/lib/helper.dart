@@ -207,3 +207,4 @@ class CircularBubble extends StatelessWidget {
     );
   }
 }
+

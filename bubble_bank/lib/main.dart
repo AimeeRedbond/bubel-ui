@@ -226,16 +226,12 @@ class BankingState extends State<Banking> {
   void pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {return lol();},
+        builder: (BuildContext context) {return standardScaffold();},
       ),
     );
   }
 
-  void pushVisualsView() {
-    Navigator.of(context).pop();
-  }
-
-  Scaffold lol(){
+  Scaffold standardScaffold(){
     return Scaffold(
       appBar: AppBar(
         leading: new Container(),
