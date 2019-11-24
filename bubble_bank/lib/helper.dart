@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 final biggerFont = const TextStyle(fontSize: 18.0);
 final balanceFont = const TextStyle(fontSize: 40);
 final buttons = Colors.pink;
+final Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👕', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
 
 //Helper functions for validating fields
 String validatePayee(String payeeName){
@@ -113,7 +114,7 @@ Iterable<ListTile> transactionsTiles(List<Map> transactions){
   );
 }
 
-Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions){
+Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group){
   List amounts = transactions.map((transaction) => transaction["amount"]).toList();
 
   double bestDiff = -1;
@@ -144,8 +145,9 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions){
   },
   ).toList();
   
-  tiles.insert(0, ListTile(title: Text("!!!", style: biggerFont,)));
-  tiles.insert(besti.toInt()+1, ListTile(title: Text("!!", style: biggerFont,)));
+  tiles.insert(0, ListTile(trailing: Text(emojis[group]*3, style: TextStyle(fontSize: 28))));
+  tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(emojis[group]*2, style: TextStyle(fontSize: 28))));
+  tiles.insert(besti.toInt()+3, ListTile(trailing:  Text(emojis[group], style: TextStyle(fontSize: 28))));
   return tiles;
 }
 
@@ -184,7 +186,6 @@ List<Widget> makeGroups(ratios, transactions) {
   double fontRange = 50.0 - 20.0;
   double fontM = fontRange/ratios[0][1];
   List<Widget> groups = [];
-  Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
   for (int i = 0; i < 6; i++) {
     groups.add( LayoutId(
         id: 'GROUP$i',
@@ -270,7 +271,7 @@ Scaffold groupScaffold(transactions, context, group){
             )
           ),
           Expanded(
-            child: transactionsView(transactionsTilesWithCategorys(sortTransactions(transactions, "amount", true)), context)
+            child: transactionsView(transactionsTilesWithCategorys(sortTransactions(transactions, "amount", true), group), context)
           )
         ]
       )
