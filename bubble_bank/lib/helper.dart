@@ -230,10 +230,11 @@ Scaffold groupScaffold(transactions, context, group){
             Padding(
       padding: EdgeInsets.all(20),
       child: Text(
-            formatBalance(-getBalance(transactions)),
-            style: balanceFont,
-            textAlign: TextAlign.center,
-          )),
+        "You spent " + formatBalance(-getBalance(transactions)) + " on " + group + " in the past month.",
+        style: TextStyle(fontSize: 34),
+        textAlign: TextAlign.center,
+      )
+            ),
       Expanded(
         child: transactionsView(transactionsTiles(sortTransactions(transactions, "date", false)), context)
       )
