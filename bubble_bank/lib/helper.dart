@@ -143,7 +143,7 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group)
     );
   },
   ).toList();
-  
+
   tiles.insert(0, ListTile(trailing: Text(emojis[group]*3, style: TextStyle(fontSize: 28))));
   tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(emojis[group]*2, style: TextStyle(fontSize: 28))));
   if (besti.toInt()+3 < tiles.length) {
@@ -162,6 +162,32 @@ ListView transactionsView(tiles, context){
   ).toList();
 
   return ListView(children: divided);
+}
+
+List<Map> groupDuplicates(List<Map> transactions){
+  Map<String, Map<double, int>> noT = new Map<String, Map<double, int>>();
+  List<Map> groupedTransactions = new List<Map>();
+  for (Map t in transactions) {
+    if (noT.containsKey(t['description']) && noT[t['description']].containsKey(t['amount'])) {
+      noT[t['description']][t['amount']] += 1;
+    } else {
+      noT[t['description']] = {};
+      noT[t['description']][t['amount']] = 1;
+    }
+  }
+  for (String des in noT.keys) {
+    for (double amo in noT[des].keys) {
+      if (noT[des][amo] > 1) {
+        groupedTransactions.add({
+          'description': des + ' x ' + noT[des][amo].toString(),
+          'amount': amo * noT[des][amo]
+        });
+      } else {
+        groupedTransactions.add({'description': des, 'amount': amo});
+      }
+    }
+  }
+  return groupedTransactions;
 }
 
 List<List> sortMap(Map<String, double> map) {
