@@ -235,7 +235,10 @@ class BankingState extends State<Banking> {
   }
 
   List<Widget> _makeGroups(ratios, transactions) {
-    double max_size = 220.0/ratios[0][1];
+    double range = 220.0 - 60.0;
+    double max = range/ratios[0][1];
+    double font_range = 50.0 - 20.0;
+    double font_m = font_range/ratios[0][1];
     List<Widget> groups = [];
     Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
     for (int i = 0; i < 6; i++) {
@@ -244,10 +247,12 @@ class BankingState extends State<Banking> {
         child: CircularBubble(
             name: emojis[ratios[i][0]],
             ratio: ratios[i][1],
-            h: ratios[i][1]*max_size,
-            w: ratios[i][1]*max_size,
+            h: 60.0 + ratios[i][1]*max,
+            w: 60.0 + ratios[i][1]*max,
             group: ratios[i][0],
-            t: transactions,)
+            t: transactions,
+            font: 20.0 + ratios[i][1]*font_m,
+        )
       ));
     }
     return groups;
@@ -379,6 +384,7 @@ class CircularBubble extends StatelessWidget {
   final double ratio;
   final String group;
   final List<Map> t;
+  final double font;
 
   CircularBubble({
     @required this.name,
@@ -387,6 +393,7 @@ class CircularBubble extends StatelessWidget {
     @required this.ratio,
     @required this.group,
     @required this.t,
+    @required this.font,
   });
 
   @override
@@ -400,7 +407,7 @@ class CircularBubble extends StatelessWidget {
               color: Colors.pinkAccent,
               height: h, // height of the button
               width: w, // width of the button
-              child: Center(child: Text(name, style: balanceFont,)),
+              child: Center(child: Text(name, style: TextStyle(fontSize: font))),
             ),
           ),
         ),
