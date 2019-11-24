@@ -226,18 +226,19 @@ Scaffold groupScaffold(transactions, context, group){
         ],
       ),
       body: Column(
-          children: <Widget>[
-            Padding(
-      padding: EdgeInsets.all(20),
-      child: Text(
-        "You spent " + formatBalance(-getBalance(transactions)) + " on " + group + " in the past month.",
-        style: TextStyle(fontSize: 34),
-        textAlign: TextAlign.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              "You spent " + formatBalance(-getBalance(transactions)) + " on " + group + " in the past month.",
+              style: TextStyle(fontSize: 34),
+              textAlign: TextAlign.center,
+            )
+          ),
+          Expanded(
+            child: transactionsView(transactionsTiles(sortTransactions(transactions, "amount", true)), context)
+          )
+        ]
       )
-            ),
-      Expanded(
-        child: transactionsView(transactionsTiles(sortTransactions(transactions, "date", false)), context)
-      )
-  ]
-  ));
+  );
 }
