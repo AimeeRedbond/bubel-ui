@@ -107,7 +107,8 @@ class BankingState extends State<Banking> {
                         itemCount: 6,
                         radius: 140.0,
                       ),
-                      children: _makeGroups(_getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
+                      children:
+                      makeGroups(getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
                     ),
                   ),
                   DefaultTextStyle(
@@ -293,7 +294,8 @@ class BankingState extends State<Banking> {
                     formatBalance(getBalance(_transactions)),
                     style: balanceFont,
                     textAlign: TextAlign.center,
-                  ))
+                  )
+              )
           ),
           Expanded(
             child: transactionsView(transactionsTiles(sortTransactions(_transactions, "date", false)), context)
@@ -303,9 +305,9 @@ class BankingState extends State<Banking> {
                 Expanded(
                     child: FlatButton(
                       color: buttons,
-                      textColor: Colors.white,//`Icon` to display
-                      child: Text('Spending Visuals'), //`Text` to display
-                      onPressed: pushVisualsView,
+                      textColor: Colors.white,
+                      child: Text('Spending Visuals'),
+                      onPressed: () {Navigator.of(context).pop();},
                       padding: EdgeInsets.all(20.0),
                     )
                 ),

@@ -124,7 +124,78 @@ ListView transactionsView(transactions, context){
 }
 
 List<List> sortMap(Map<String, double> map) {
-  List<List> lol = map.keys.map( (String k) { return [k, map[k]]; }).toList();
+  List<List> lol = map.keys.map((String k) {
+    return [k, map[k]];
+  }).toList();
   lol.sort((List p1, List p2) => p1[1].compareTo(p2[1]));
   return lol;
+}
+
+List<List> getRatios(groups, total) {
+  Map<String, double> ratios = {'Entertainment': 0.0, 'Restaurants': 0.0, 'Groceries': 0.0, 'Shopping': 0.0, 'Transport': 0.0, 'Other': 0.0};
+  for (String group in groups.keys) {
+    for (var t in groups[group]) {
+      ratios[group] += t['amount'];
+    }
+    ratios[group] = ratios[group]/total;
   }
+  return sortMap(ratios);
+}
+
+
+List<Widget> makeGroups(ratios, transactions) {
+  double max_size = 220.0/ratios[0][1];
+  List<Widget> groups = [];
+  Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
+  for (int i = 0; i < 6; i++) {
+    groups.add( LayoutId(
+        id: 'GROUP$i',
+        child: CircularBubble(
+          name: emojis[ratios[i][0]],
+          ratio: ratios[i][1],
+          h: ratios[i][1]*max_size,
+          w: ratios[i][1]*max_size,
+          group: ratios[i][0],
+          t: transactions,)
+    ));
+  }
+  return groups;
+}
+
+class CircularBubble extends StatelessWidget {
+  final String name;
+  final double h;
+  final double w;
+  final double ratio;
+  final String group;
+  final List<Map> t;
+
+  CircularBubble({
+    @required this.name,
+    @required this.h,
+    @required this.w,
+    @required this.ratio,
+    @required this.group,
+    @required this.t,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      child: Container(
+        child: GestureDetector(
+          onTap: () {transactionsView(transactionsTiles(sortTransactions(t, "date", false)), context);},
+          child: ClipOval(
+            child: Container(
+              color: Colors.pinkAccent,
+              height: h, // height of the button
+              width: w, // width of the button
+              child: Center(child: Text(name, style: balanceFont,)),
+            ),
+          ),
+        ),
+      ),
+      style: TextStyle(color: Colors.white),
+    );
+  }
+}
