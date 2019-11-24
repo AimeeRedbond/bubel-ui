@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+final biggerFont = const TextStyle(fontSize: 18.0);
+final balanceFont = const TextStyle(fontSize: 40);
 
 //Helper functions for validating fields
 String validatePayee(String payeeName){
@@ -35,4 +39,57 @@ String formatBalance(double money){
     return "-£" + (-money).toStringAsFixed(2);
   }
   return "£" + money.toStringAsFixed(2);
+}
+
+
+// Methods to build bespoke widgets
+Iterable<ListTile> settingsList(List<String> settings) {
+  final Iterable<ListTile> tiles = settings.map(
+        (String str) {
+          return ListTile(
+            title: Text(
+              str,
+              style: biggerFont,
+            ),
+          );
+          },
+  );
+  return tiles;
+}
+
+Scaffold settingsView(context){
+  final Iterable<ListTile> tiles = settingsList(['My account details', 'Set date and time', 'Swap current default']);
+  final List<Widget> divided = ListTile
+      .divideTiles(
+    context: context,
+    tiles: tiles,
+  ).toList();
+
+  return Scaffold(         // Add 6 lines from here...
+    appBar: AppBar(
+      title: Text('Settings'),
+    ),
+    body: ListView(children: divided),
+  );
+}
+
+Iterable<ListTile> transactionsList(List<Map> transactions){
+  return transactions.map(
+        (Map transaction) {
+      return ListTile(
+        title: Text(
+          transaction["description"],
+          style: biggerFont,
+        ),
+        subtitle: Text(
+          transaction["date"],
+          style: biggerFont,
+        ),
+        trailing: Text(
+          formatMoney(transaction["amount"]),
+          style: biggerFont,
+        ),
+      );
+    },
+  );
 }

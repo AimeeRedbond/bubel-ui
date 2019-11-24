@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class BankingState extends State<Banking> {
-  final _settings = <String>['My account details', 'Set date and time', 'Swap current default'];
-  var _transactions = <Map>[
+  List<Map> _transactions = <Map>[
     { 'amount':-13.50, 'date':"2019-11-24", "description":"Kremlin museum"},
     { 'amount':-3.4, 'date':"2019-11-23", "description":"Sainsbury's meal deal"},
     { 'amount':5.0, 'date':"2019-11-22", "description":"Got a fiver"},
@@ -34,8 +33,6 @@ class BankingState extends State<Banking> {
     { 'amount':-5.0, 'date':"2019-09-29", "description":"Starbucks coffee"},
     { 'amount':100.0, 'date':"2019-09-28", "description":"Top up from Banana Pay"},
   ];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-  final _balanceFont = const TextStyle(fontSize: 40);
   final formKey = GlobalKey<FormState>();
   String payee;
   String amount;
@@ -198,53 +195,11 @@ class BankingState extends State<Banking> {
 
   void _pushSettings() {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(   // Add 20 lines from here...
+      MaterialPageRoute<void>(
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _settings.map(
-                (String str) {
-              return ListTile(
-                title: Text(
-                  str,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final List<Widget> divided = ListTile
-              .divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList();
-
-          return Scaffold(         // Add 6 lines from here...
-            appBar: AppBar(
-              title: Text('Settings'),
-            ),
-            body: ListView(children: divided),
-          );
+          return settingsView(context);
         },
       ),
-    );
-  }
-
-  Iterable<ListTile> transactionsList(List<Map> transactions){
-    return transactions.map(
-          (Map transaction) {
-        return ListTile(
-          title: Text(
-            transaction["description"],
-            style: _biggerFont,
-          ),
-          subtitle: Text(
-            transaction["date"],
-            style: _biggerFont,
-          ),
-          trailing: Text(
-            formatMoney(transaction["amount"]),
-            style: _biggerFont,
-          ),
-        );
-      },
     );
   }
 
@@ -257,7 +212,7 @@ class BankingState extends State<Banking> {
             padding: EdgeInsets.all(50.0),
             child: Text(
               formatBalance(getBalance(_transactions)),
-              style: _balanceFont,
+              style: balanceFont,
               textAlign: TextAlign.center,
             ))
     ));
