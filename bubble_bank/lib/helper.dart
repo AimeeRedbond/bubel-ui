@@ -81,7 +81,7 @@ Scaffold settingsScaffold(context){
   final List<Widget> divided = ListTile
       .divideTiles(
     context: context,
-    tiles: settingsList(['My account details', 'Set date and time', 'Swap current default']),
+    tiles: settingsList(['My account details',]),
   ).toList();
 
   return Scaffold(
