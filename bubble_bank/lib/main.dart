@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 
 import 'helper.dart';
+import 'requests.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,6 +49,13 @@ class BankingState extends State<Banking> {
   final formKey = GlobalKey<FormState>();
   String payee;
   String amount;
+  Future<Post> post;
+
+  @override
+  void initState() {
+    super.initState();
+    post = fetchPost();
+  }
 
   Row transferButtons(){
     return Row(
@@ -105,6 +113,21 @@ class BankingState extends State<Banking> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
+            Center(
+              child: FutureBuilder<Post>(
+                future: post,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data.title);
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+
+                  // By default, show a loading spinner.
+                  return CircularProgressIndicator();
+                },
+              ),
+            ),
             Container(
               height: 100.0,
               child: transferButtons(),
