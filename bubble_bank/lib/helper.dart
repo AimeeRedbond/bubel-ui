@@ -101,7 +101,7 @@ Iterable<ListTile> transactionsTiles(List<Map> transactions){
           style: biggerFont,
         ),
         subtitle: Text(
-          transaction["date"] ? transaction["date"].toString().split(" ")[0] : "",
+          transaction.containsKey("date") ? transaction["date"].toString().split(" ")[0] : "",
           style: biggerFont,
         ),
         trailing: Text(
@@ -130,10 +130,6 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group)
     return ListTile(
       title: Text(
         transaction["description"],
-        style: biggerFont,
-      ),
-      subtitle: Text(
-        transaction["date"].toString().split(" ")[0],
         style: biggerFont,
       ),
       trailing: Text(
@@ -300,7 +296,7 @@ Scaffold groupScaffold(transactions, context, group){
             )
           ),
           Expanded(
-            child: transactionsView(transactionsTilesWithCategorys(sortTransactions(transactions, "amount", true), group), context)
+            child: transactionsView(transactionsTilesWithCategorys(groupDuplicates(sortTransactions(transactions, "amount", true)), group), context)
           )
         ]
       )
