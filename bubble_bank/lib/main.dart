@@ -87,7 +87,7 @@ class BankingState extends State<Banking> {
         leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
         ],
       ),
       body: Container(
@@ -138,7 +138,7 @@ class BankingState extends State<Banking> {
                     color: buttons,
                     textColor: Colors.white,
                     child: Text('Standard View'), //`Text` to display
-                    onPressed: pushStandardView,
+                    onPressed: () {pushView(context, standardScaffold(_transactions, context));},
                     padding: EdgeInsets.all(20.0),
                   )
                 ),
@@ -213,31 +213,14 @@ class BankingState extends State<Banking> {
         });
   }
 
-  void _pushSettings() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return settingsView(context);
-        },
-      ),
-    );
-  }
 
-  void pushStandardView() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {return standardScaffold();},
-      ),
-    );
-  }
-
-  Scaffold standardScaffold(){
+  Scaffold standardScaffold(transactions, context){
     return Scaffold(
       appBar: AppBar(
         leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
         ],
       ),
       body: Container(

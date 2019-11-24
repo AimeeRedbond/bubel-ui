@@ -76,7 +76,7 @@ Iterable<ListTile> settingsList(List<String> settings) {
   return tiles;
 }
 
-Scaffold settingsView(context){
+Scaffold settingsScaffold(context){
   final Iterable<ListTile> tiles = settingsList(['My account details', 'Set date and time', 'Swap current default']);
   final List<Widget> divided = ListTile
       .divideTiles(
@@ -84,7 +84,7 @@ Scaffold settingsView(context){
     tiles: tiles,
   ).toList();
 
-  return Scaffold(         // Add 6 lines from here...
+  return Scaffold(
     appBar: AppBar(
       title: Text('Settings'),
     ),
@@ -192,7 +192,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {transactionsView(transactionsTiles(sortTransactions(t, "date", false)), context);},
+          onTap: () {pushView(context, groupScaffold(sortTransactions(segmentTransactions(t)[group], "amount", false), context, group));},
           child: ClipOval(
             child: Container(
               color: Colors.pinkAccent,
@@ -208,3 +208,23 @@ class CircularBubble extends StatelessWidget {
   }
 }
 
+void pushView(context, scaffold) {
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return scaffold;},
+    ),
+  );
+}
+
+Scaffold groupScaffold(transactions, context, group){
+  return Scaffold(
+      appBar: AppBar(
+        title: Center( child: Text(group)),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
+        ],
+      ),
+      body: transactionsView(transactionsTiles(sortTransactions(transactions, "date", false)), context)
+  );
+}
