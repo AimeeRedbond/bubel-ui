@@ -225,6 +225,18 @@ Scaffold groupScaffold(transactions, context, group){
           IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
         ],
       ),
-      body: transactionsView(transactionsTiles(sortTransactions(transactions, "date", false)), context)
-  );
+      body: Column(
+          children: <Widget>[
+            Padding(
+      padding: EdgeInsets.all(20),
+      child: Text(
+            formatBalance(-getBalance(transactions)),
+            style: balanceFont,
+            textAlign: TextAlign.center,
+          )),
+      Expanded(
+        child: transactionsView(transactionsTiles(sortTransactions(transactions, "date", false)), context)
+      )
+  ]
+  ));
 }

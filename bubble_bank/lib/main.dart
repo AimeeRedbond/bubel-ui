@@ -231,14 +231,12 @@ class BankingState extends State<Banking> {
             height: 100.0,
             child: transferButtons(),
           ),
-          ListTile(
-              title: Padding(
-                  padding: EdgeInsets.all(40),
-                  child: Text(
-                    formatBalance(getBalance(_transactions)),
-                    style: balanceFont,
-                    textAlign: TextAlign.center,
-                  )
+          Padding(
+              padding: EdgeInsets.all(40),
+              child: Text(
+                formatBalance(getBalance(_transactions)),
+                style: balanceFont,
+                textAlign: TextAlign.center,
               )
           ),
           Expanded(
