@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
