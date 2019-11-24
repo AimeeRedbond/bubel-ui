@@ -22,9 +22,9 @@ String validateAmount(String amount){
 }
 
 //Helper functions for calculating moneys and formatting with currency symbols etc
-double getBalance(transactions){
+double getBalance(List<Map> transactions){
   var amounts = transactions.map((transaction) => transaction["amount"]);
-  var totalSpending = amounts.reduce((curr, next) => curr + next);
+  double totalSpending = amounts.reduce((curr, next) => curr + next);
   return totalSpending;
 }
 
@@ -43,8 +43,8 @@ String formatBalance(double money){
 }
 
 Map<String, List<Map>> segmentTransactions(List<Map> transactions){
-  Map groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
-  for (var group in groups.keys){
+  Map<String, List<Map>> groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
+  for (String group in groups.keys){
     groups[group] = transactions.where((t) => t["group"] == group).toList();
   }
   return groups;

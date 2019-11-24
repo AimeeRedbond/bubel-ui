@@ -37,6 +37,48 @@ class BankingState extends State<Banking> {
   String payee;
   String amount;
 
+  Row transferButtons(){
+    return Row(
+        children: <Widget>[
+          Spacer(),
+          DefaultTextStyle(
+            child: Container(
+              child: GestureDetector(
+                onTap: () {},
+                child: ClipOval(
+                  child: Container(
+                    color: buttons,
+                    height: 60.0, // height of the button
+                    width: 60.0, // width of the button
+                    child: Center(child: Icon(Icons.add),),
+                  ),
+                ),
+              ),
+            ),
+            style: TextStyle(color: Colors.white),
+          ),
+          Spacer(flex: 4),
+          DefaultTextStyle(
+            child: Container(
+              child: GestureDetector(
+                onTap: _transferPopup,
+                child: ClipOval(
+                  child: Container(
+                    color: buttons,
+                    height: 60.0, // height of the button
+                    width: 60.0, // width of the button
+                    child: Center(child: Icon(Icons.swap_horiz)),
+                  ),
+                ),
+              ),
+            ),
+            style: TextStyle(color: Colors.white),
+          ),
+          Spacer(),
+        ]
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,45 +95,7 @@ class BankingState extends State<Banking> {
           children: <Widget>[
             Container(
               height: 100.0,
-              child: Row(
-                children: <Widget>[
-                  Spacer(),
-                  DefaultTextStyle(
-                    child: Container(
-                      child: GestureDetector(
-                        onTap: _transferPopup,
-                        child: ClipOval(
-                          child: Container(
-                            color: buttons,
-                            height: 60.0, // height of the button
-                            width: 60.0, // width of the button
-                            child: Center(child: Icon(Icons.add),),
-                          ),
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Spacer(flex: 4),
-                  DefaultTextStyle(
-                    child: Container(
-                      child: GestureDetector(
-                        onTap: _transferPopup,
-                        child: ClipOval(
-                          child: Container(
-                            color: buttons,
-                            height: 60.0, // height of the button
-                            width: 60.0, // width of the button
-                            child: Center(child: Icon(Icons.swap_horiz)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Spacer(),
-                ]
-              ),
+              child: transferButtons(),
             ),
             Expanded(
               child: Stack(
@@ -220,20 +224,10 @@ class BankingState extends State<Banking> {
   Scaffold standardView(){
     final Iterable<ListTile> tiles = transactionsList(_transactions);
 
-    var tilesList = tiles.toList();
-    tilesList.insert(0, ListTile(
-        title: Padding(
-            padding: EdgeInsets.all(50.0),
-            child: Text(
-              formatBalance(getBalance(_transactions)),
-              style: balanceFont,
-              textAlign: TextAlign.center,
-            ))
-    ));
     final List<Widget> divided = ListTile
         .divideTiles(
       context: context,
-      tiles: tilesList,
+      tiles: tiles,
     ).toList();
 
     return Scaffold(
@@ -280,45 +274,16 @@ class BankingState extends State<Banking> {
         children: <Widget>[
           Container(
             height: 100.0,
-            child: Row(
-                children: <Widget>[
-                  Spacer(),
-                  DefaultTextStyle(
-                    child: Container(
-                      child: GestureDetector(
-                        onTap: _transferPopup,
-                        child: ClipOval(
-                          child: Container(
-                            color: buttons,
-                            height: 60.0, // height of the button
-                            width: 60.0, // width of the button
-                            child: Center(child: Icon(Icons.add),),
-                          ),
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Spacer(flex: 4),
-                  DefaultTextStyle(
-                    child: Container(
-                      child: GestureDetector(
-                        onTap: _transferPopup,
-                        child: ClipOval(
-                          child: Container(
-                            color: buttons,
-                            height: 60.0, // height of the button
-                            width: 60.0, // width of the button
-                            child: Center(child: Icon(Icons.swap_horiz)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Spacer(),
-                ]
-            ),
+            child: transferButtons(),
+          ),
+          ListTile(
+              title: Padding(
+                  padding: EdgeInsets.all(40),
+                  child: Text(
+                    formatBalance(getBalance(_transactions)),
+                    style: balanceFont,
+                    textAlign: TextAlign.center,
+                  ))
           ),
           Expanded(
             child: standardView()
