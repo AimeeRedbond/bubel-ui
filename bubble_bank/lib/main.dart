@@ -221,20 +221,6 @@ class BankingState extends State<Banking> {
     );
   }
 
-  Scaffold standardView(){
-    final Iterable<ListTile> tiles = transactionsList(_transactions);
-
-    final List<Widget> divided = ListTile
-        .divideTiles(
-      context: context,
-      tiles: tiles,
-    ).toList();
-
-    return Scaffold(
-      body: ListView(children: divided),
-    );
-  }
-
   void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -297,7 +283,7 @@ class BankingState extends State<Banking> {
                   ))
           ),
           Expanded(
-            child: standardView()
+            child: transactionsView(_transactions)
           ),
           Row(
               children: <Widget>[
