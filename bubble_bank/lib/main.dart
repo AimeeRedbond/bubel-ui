@@ -114,11 +114,11 @@ class BankingState extends State<Banking> {
         child: Column(
           children: <Widget>[
             Center(
-              child: FutureBuilder<Post>(
+              child: FutureBuilder<String>(
                 future: post,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data.title);
+                    return Text(snapshot.data);
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   }

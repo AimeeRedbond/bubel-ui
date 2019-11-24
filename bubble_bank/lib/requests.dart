@@ -4,34 +4,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<Post> fetchPost() async {
+Future<String> fetchPost() async {
   final response =
   await http.get('http://ec2-34-241-212-9.eu-west-1.compute.amazonaws.com:5000/transactions/out/3d54f7d6-421c-4be5-a8a2-e7bb52c78026');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
-    return Post.fromJson(json.decode(response.body));
+    return json.decode(response.body);
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load post');
-  }
-}
-
-class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
-
-  Post({this.userId, this.id, this.title, this.body});
-
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
-    );
   }
 }
 
@@ -45,7 +27,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<Post> post;
+  Future<String> post;
 
   @override
   void initState() {
