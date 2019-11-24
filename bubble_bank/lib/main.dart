@@ -236,52 +236,58 @@ class BankingState extends State<Banking> {
     );
   }
 
+  Iterable<ListTile> transactionsList(List<Map> transactions){
+    return transactions.map(
+          (Map transaction) {
+        return ListTile(
+          title: Text(
+            transaction["description"],
+            style: _biggerFont,
+          ),
+          subtitle: Text(
+            transaction["date"],
+            style: _biggerFont,
+          ),
+          trailing: Text(
+            formatMoney(transaction["amount"]),
+            style: _biggerFont,
+          ),
+        );
+      },
+    );
+  }
+
+  Scaffold standardView(){
+    final Iterable<ListTile> tiles = transactionsList(_transactions);
+
+    var tilesList = tiles.toList();
+    tilesList.insert(0, ListTile(
+        title: Padding(
+            padding: EdgeInsets.all(50.0),
+            child: Text(
+              formatBalance(getBalance(_transactions)),
+              style: _balanceFont,
+              textAlign: TextAlign.center,
+            ))
+    ));
+    final List<Widget> divided = ListTile
+        .divideTiles(
+      context: context,
+      tiles: tilesList,
+    ).toList();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Spending visuals'),
+      ),
+      body: ListView(children: divided),
+    );
+  }
+
   void _pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _transactions.map(
-                (Map transaction) {
-              return ListTile(
-                title: Text(
-                  transaction["description"],
-                  style: _biggerFont,
-                ),
-                subtitle: Text(
-                  transaction["date"],
-                  style: _biggerFont,
-                ),
-                trailing: Text(
-                  formatMoney(transaction["amount"]),
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-
-          var tilesList = tiles.toList();
-          tilesList.insert(0, ListTile(
-            title: Padding(
-              padding: EdgeInsets.all(50.0),
-              child: Text(
-                formatBalance(getBalance(_transactions)),
-                style: _balanceFont,
-                textAlign: TextAlign.center,
-              ))
-          ));
-          final List<Widget> divided = ListTile
-              .divideTiles(
-            context: context,
-            tiles: tilesList,
-          ).toList();
-
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Spending visuals'),
-            ),
-            body: ListView(children: divided),
-          );
-        },
+        builder: (BuildContext context) {return standardView();},
       ),
     );
   }
