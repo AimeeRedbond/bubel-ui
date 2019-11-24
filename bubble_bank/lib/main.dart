@@ -234,12 +234,13 @@ class BankingState extends State<Banking> {
   }
 
   List<Widget> _makeGroups(ratios) {
+    double max_size = 220.0/ratios[0][1];
     List<Widget> groups = [];
     Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
     for (int i = 0; i < 6; i++) {
       groups.add( LayoutId(
         id: 'GROUP$i',
-        child: CircularBubble(name: emojis[ratios[i][0]], h: 100.0, w: 100.0),
+        child: CircularBubble(name: emojis[ratios[i][0]], ratio: ratios[i][1], h: ratios[i][1]*max_size, w: ratios[i][1]*max_size, group: ratios[i][0]),
       ));
     }
     return groups;
@@ -367,11 +368,15 @@ class CircularBubble extends StatelessWidget {
   final String name;
   final double h;
   final double w;
+  final double ratio;
+  final String group;
 
   CircularBubble({
     @required this.name,
     @required this.h,
     @required this.w,
+    @required this.ratio,
+    @required this.group,
   });
 
   @override
