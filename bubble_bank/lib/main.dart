@@ -93,14 +93,26 @@ class BankingState extends State<Banking> {
               ),
             ),
             Expanded(
-              child: Container(
-                child: CustomMultiChildLayout(
-                  delegate: _CircularLayoutDelegate(
-                    itemCount: 6,
-                    radius: 150.0,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: CustomMultiChildLayout(
+                      delegate: _CircularLayoutDelegate(
+                        itemCount: 6,
+                        radius: 140.0,
+                      ),
+                      children: _makeGroups(_transactions),
+                    ),
                   ),
-                  children: _makeGroups(_transactions),
-                ),
+                  DefaultTextStyle(
+                      child: Container(
+                        child: Center(
+                          child: Text(formatBalance(getBalance(_transactions)))
+                        ),
+                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 40.0),
+                  )
+                ]
               ),
             ),
             Row(
@@ -280,7 +292,8 @@ class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
                 (radius) * sin(itemAngle),
           ),
         );
-      }}
+      }
+    }
   }
 
   // 3
@@ -291,7 +304,7 @@ class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
 
   static double _radiansPerDegree = pi / 180;
   final double _startAngle = -90.0 * _radiansPerDegree;
-  double _itemSpacing = 360.0 / 5.0;
+  double _itemSpacing = 360.0 / 6.0;
   double _calculateItemAngle(int index) {
     return _startAngle + index * _itemSpacing * _radiansPerDegree;
   }
