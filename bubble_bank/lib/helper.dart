@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 final biggerFont = const TextStyle(fontSize: 18.0);
@@ -62,34 +63,89 @@ List<Map> sortTransactions(List<Map> transactions, String field, bool ascending)
   return transactions;
 }
 
-// Methods to build bespoke widgets
-Iterable<ListTile> settingsList(List<String> settings) {
-  final Iterable<ListTile> tiles = settings.map(
-        (String str) {
-          return ListTile(
-            title: Text(
-              str,
-              style: biggerFont,
-            ),
-          );
-          },
-  );
-  return tiles;
-}
+final formKey = GlobalKey<FormState>();
 
 Scaffold settingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['My account details',]),
-  ).toList();
 
   return Scaffold(
     appBar: AppBar(
       title: Text('Settings'),
     ),
-    body: ListView(children: divided),
+    body: Column(
+      children: <Widget>[
+        Padding(
+          child: GestureDetector(
+          onTap: () async {
+            await detailsPopup(context);
+            },
+          child: Text('Set my account details', style: biggerFont,),
+          ),
+          padding: EdgeInsets.all(20.0),
+        ),
+        Padding(
+          child: Text('My ID: ' + getId(), style: biggerFont,),
+          padding: EdgeInsets.all(20.0),
+        ),
+      ],
+    )
   );
+}
+
+void _submit() {
+  final form = formKey.currentState;
+
+  form.save();
+}
+
+Future<bool> setId(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  return prefs.setString('id', value);
+}
+
+Future<String> getId() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  return prefs.getString('id') ?? '';
+}
+
+Future detailsPopup(context){
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Set up your personal details"),
+          content: Form(
+            key: formKey,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person),
+                      hintText: "personal id",
+                      labelText: 'ID',
+                    ),
+                    onSaved: setId,
+                  ),
+
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    color: buttons,
+                    textColor: Colors.white,
+                    child: Text("Send"),
+                    onPressed: _submit,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }
 
 Iterable<ListTile> transactionsTiles(List<Map> transactions){
