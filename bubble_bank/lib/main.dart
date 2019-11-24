@@ -235,41 +235,6 @@ class BankingState extends State<Banking> {
     Navigator.of(context).pop();
   }
 
-  List<Widget> _makeGroups(ratios, transactions) {
-    double range = 220.0 - 60.0;
-    double max = range/ratios[0][1];
-    double font_range = 50.0 - 20.0;
-    double font_m = font_range/ratios[0][1];
-    List<Widget> groups = [];
-    Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
-    for (int i = 0; i < 6; i++) {
-      groups.add( LayoutId(
-        id: 'GROUP$i',
-        child: CircularBubble(
-            name: emojis[ratios[i][0]],
-            ratio: ratios[i][1],
-            h: 60.0 + ratios[i][1]*max,
-            w: 60.0 + ratios[i][1]*max,
-            group: ratios[i][0],
-            t: transactions,
-            font: 20.0 + ratios[i][1]*font_m,
-        )
-      ));
-    }
-    return groups;
-  }
-
-  List<List> _getRatios(groups, total) {
-    Map<String, double> ratios = {'Entertainment': 0.0, 'Restaurants': 0.0, 'Groceries': 0.0, 'Shopping': 0.0, 'Transport': 0.0, 'Other': 0.0};
-    for (String group in groups.keys) {
-      for (var t in groups[group]) {
-        ratios[group] += t['amount'];
-      }
-      ratios[group] = ratios[group]/total;
-    }
-    return sortMap(ratios);
-  }
-
   Scaffold lol(){
     return Scaffold(
       appBar: AppBar(
@@ -377,46 +342,6 @@ class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
     return _startAngle + index * _itemSpacing * _radiansPerDegree;
   }
 
-}
-
-class CircularBubble extends StatelessWidget {
-  final String name;
-  final double h;
-  final double w;
-  final double ratio;
-  final String group;
-  final List<Map> t;
-  final double font;
-
-  CircularBubble({
-    @required this.name,
-    @required this.h,
-    @required this.w,
-    @required this.ratio,
-    @required this.group,
-    @required this.t,
-    @required this.font,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      child: Container(
-        child: GestureDetector(
-          onTap: () {transactionsView(transactionsTiles(sortTransactions(t, "date", false)), context);},
-          child: ClipOval(
-            child: Container(
-              color: Colors.pinkAccent,
-              height: h, // height of the button
-              width: w, // width of the button
-              child: Center(child: Text(name, style: TextStyle(fontSize: font))),
-            ),
-          ),
-        ),
-      ),
-      style: TextStyle(color: Colors.white),
-    );
-  }
 }
 
 class Banking extends StatefulWidget {
