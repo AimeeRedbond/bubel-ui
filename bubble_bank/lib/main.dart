@@ -252,10 +252,11 @@ class BankingState extends State<Banking> {
 
   List<Widget> _makeGroups(transactions) {
     List<Widget> groups = [];
+    List<String> emojis = ['🍕', '🛒', '👗', '🚂', '🎭', '🤷‍♀️'];
     for (int i = 0; i < 6; i++) {
       groups.add( LayoutId(
         id: 'GROUP$i',
-        child: CircularBubble(name: 'Food', h: 100.0, w: 100.0),
+        child: CircularBubble(name: emojis[i], h: 100.0, w: 100.0),
       ));
     }
     return groups;
@@ -333,7 +334,7 @@ class CircularBubble extends StatelessWidget {
               color: Colors.amberAccent,
               height: h, // height of the button
               width: w, // width of the button
-              child: Center(child: Text(name)),
+              child: Center(child: Text(name, style: balanceFont,)),
             ),
           ),
         ),
