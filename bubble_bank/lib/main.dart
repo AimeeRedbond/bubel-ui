@@ -137,7 +137,7 @@ class BankingState extends State<Banking> {
                     color: buttons,
                     textColor: Colors.white,
                     child: Text('Standard View'), //`Text` to display
-                    onPressed: _pushStandardView,
+                    onPressed: pushStandardView,
                     padding: EdgeInsets.all(20.0),
                   )
                 ),
@@ -222,7 +222,7 @@ class BankingState extends State<Banking> {
     );
   }
 
-  void _pushStandardView() {
+  void pushStandardView() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) {return lol();},
@@ -230,7 +230,7 @@ class BankingState extends State<Banking> {
     );
   }
 
-  void _pushVisualsView() {
+  void pushVisualsView() {
     Navigator.of(context).pop();
   }
 
@@ -300,7 +300,7 @@ class BankingState extends State<Banking> {
                       color: buttons,
                       textColor: Colors.white,//`Icon` to display
                       child: Text('Spending Visuals'), //`Text` to display
-                      onPressed: _pushVisualsView,
+                      onPressed: pushVisualsView,
                       padding: EdgeInsets.all(20.0),
                     )
                 ),
@@ -321,6 +321,7 @@ class BankingState extends State<Banking> {
     );
   }
 }
+
 
 class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
   final int itemCount;
@@ -407,7 +408,6 @@ class CircularBubble extends StatelessWidget {
       style: TextStyle(color: Colors.white),
     );
   }
-
 }
 
 class Banking extends StatefulWidget {
