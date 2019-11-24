@@ -42,6 +42,13 @@ String formatBalance(double money){
   return "£" + money.toStringAsFixed(2);
 }
 
+Map<String, List<Map>> segmentTransactions(List<Map> transactions){
+  Map groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
+  for (var group in groups.keys){
+    groups[group] = transactions.where((t) => t["group"] == group).toList();
+  }
+  return groups;
+}
 
 // Methods to build bespoke widgets
 Iterable<ListTile> settingsList(List<String> settings) {
@@ -83,7 +90,7 @@ Iterable<ListTile> transactionsList(List<Map> transactions){
           style: biggerFont,
         ),
         subtitle: Text(
-          transaction["date"],
+          transaction["date"].toString().split(" ")[0],
           style: biggerFont,
         ),
         trailing: Text(

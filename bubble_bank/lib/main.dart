@@ -22,16 +22,16 @@ class MyApp extends StatelessWidget {
 
 class BankingState extends State<Banking> {
   List<Map> _transactions = <Map>[
-    { 'amount':-13.50, 'date':"2019-11-24", "description":"Kremlin museum"},
-    { 'amount':-3.4, 'date':"2019-11-23", "description":"Sainsbury's meal deal"},
-    { 'amount':5.0, 'date':"2019-11-22", "description":"Got a fiver"},
-    { 'amount':-45.0, 'date':"2019-11-20", "description":"Microwave"},
-    { 'amount':-5.0, 'date':"2019-10-04", "description":"Starbucks coffee"},
-    { 'amount':-2.0, 'date':"2019-10-03", "description":"Stickers"},
-    { 'amount':-3.0, 'date':"2019-10-02", "description":"Tesco meal deal"},
-    { 'amount':-15.0, 'date':"2019-10-01", "description":"Bus ticket"},
-    { 'amount':-5.0, 'date':"2019-09-29", "description":"Starbucks coffee"},
-    { 'amount':100.0, 'date':"2019-09-28", "description":"Top up from Banana Pay"},
+    { 'amount':-13.50, 'date':DateTime.parse("2019-11-24"), "description":"Kremlin museum", "group":"Entertainment"},
+    { 'amount':-3.4, 'date':DateTime.parse("2019-11-23"), "description":"Sainsbury's meal deal", "group": "Groceries"},
+    { 'amount':-5.0, 'date':DateTime.parse("2019-09-29"), "description":"Starbucks coffee", "group": "Restaurants"},
+    { 'amount':100.0, 'date':DateTime.parse("2019-09-28"), "description":"Top up from Banana Pay"},
+    { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants"},
+    { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Stickers", "group":"Other"},
+    { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
+    { 'amount':-45.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
+    { 'amount':-15.0, 'date':DateTime.parse("2019-10-01"), "description":"Bus ticket", "group": "Transport"},
+    { 'amount':-3.0, 'date':DateTime.parse("2019-10-02"), "description":"Tesco meal deal", "group": "Groceries"},
   ];
   final formKey = GlobalKey<FormState>();
   String payee;
