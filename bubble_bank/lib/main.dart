@@ -56,7 +56,7 @@ class BankingState extends State<Banking> {
           DefaultTextStyle(
             child: Container(
               child: GestureDetector(
-                onTap: () {},
+                onTap: _fundPopup,
                 child: ClipOval(
                   child: Container(
                     color: buttons,
@@ -214,6 +214,61 @@ class BankingState extends State<Banking> {
                       color: buttons,
                       textColor: Colors.white,
                       child: Text("Send"),
+                      onPressed: _submit,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future _fundPopup(){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Top up your account"),
+            content: Form(
+              key: formKey,
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.credit_card),
+                        hintText: "12345678",
+                        labelText: 'Account number',
+                      ),
+                      validator: validateAmount,
+                      onSaved: (val) => amount = val,
+                    ),
+
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.account_balance_wallet),
+                        hintText: "£0",
+                        labelText: 'Amount',
+                      ),
+                      onChanged: (String s) {
+                        return "£" + s;
+                      },
+                      validator: validateAmount,
+                      onSaved: (val) => amount = val,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      color: buttons,
+                      textColor: Colors.white,
+                      child: Text("Top up"),
                       onPressed: _submit,
                     ),
                   )
