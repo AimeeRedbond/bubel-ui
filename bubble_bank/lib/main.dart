@@ -107,7 +107,7 @@ class BankingState extends State<Banking> {
                         itemCount: 6,
                         radius: 140.0,
                       ),
-                      children: _makeGroups(_getRatios(segmentTransactions(_transactions), getBalance(_transactions))),
+                      children: _makeGroups(_getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
                     ),
                   ),
                   DefaultTextStyle(
@@ -234,14 +234,20 @@ class BankingState extends State<Banking> {
     Navigator.of(context).pop();
   }
 
-  List<Widget> _makeGroups(ratios) {
+  List<Widget> _makeGroups(ratios, transactions) {
     double max_size = 220.0/ratios[0][1];
     List<Widget> groups = [];
     Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
     for (int i = 0; i < 6; i++) {
       groups.add( LayoutId(
         id: 'GROUP$i',
-        child: CircularBubble(name: emojis[ratios[i][0]], ratio: ratios[i][1], h: ratios[i][1]*max_size, w: ratios[i][1]*max_size, group: ratios[i][0]),
+        child: CircularBubble(
+            name: emojis[ratios[i][0]],
+            ratio: ratios[i][1],
+            h: ratios[i][1]*max_size,
+            w: ratios[i][1]*max_size,
+            group: ratios[i][0],
+            t: transactions,)
       ));
     }
     return groups;
@@ -371,6 +377,7 @@ class CircularBubble extends StatelessWidget {
   final double w;
   final double ratio;
   final String group;
+  final List<Map> t;
 
   CircularBubble({
     @required this.name,
@@ -378,6 +385,7 @@ class CircularBubble extends StatelessWidget {
     @required this.w,
     @required this.ratio,
     @required this.group,
+    @required this.t,
   });
 
   @override
@@ -385,7 +393,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {transactionsView(transactionsTiles(sortTransactions(_transactions, "date", false)), context);},
+          onTap: () {transactionsView(transactionsTiles(sortTransactions(t, "date", false)), context);},
           child: ClipOval(
             child: Container(
               color: Colors.pinkAccent,
