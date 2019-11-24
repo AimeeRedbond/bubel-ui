@@ -78,11 +78,10 @@ Iterable<ListTile> settingsList(List<String> settings) {
 }
 
 Scaffold settingsScaffold(context){
-  final Iterable<ListTile> tiles = settingsList(['My account details', 'Set date and time', 'Swap current default']);
   final List<Widget> divided = ListTile
       .divideTiles(
     context: context,
-    tiles: tiles,
+    tiles: settingsList(['My account details', 'Set date and time', 'Swap current default']),
   ).toList();
 
   return Scaffold(
@@ -147,7 +146,11 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group)
   
   tiles.insert(0, ListTile(trailing: Text(emojis[group]*3, style: TextStyle(fontSize: 28))));
   tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(emojis[group]*2, style: TextStyle(fontSize: 28))));
-  tiles.insert(besti.toInt()+3, ListTile(trailing:  Text(emojis[group], style: TextStyle(fontSize: 28))));
+  if (besti.toInt()+3 < tiles.length) {
+    tiles.insert(besti.toInt() + 3, ListTile(
+        trailing: Text(emojis[group], style: TextStyle(fontSize: 28)))
+    );
+  }
   return tiles;
 }
 
