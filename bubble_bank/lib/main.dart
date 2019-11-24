@@ -49,7 +49,7 @@ class BankingState extends State<Banking> {
   final formKey = GlobalKey<FormState>();
   String payee;
   String amount;
-  Future<Post> post;
+  Future<String> post;
 
   @override
   void initState() {

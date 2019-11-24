@@ -82,10 +82,6 @@ Scaffold settingsScaffold(context){
           ),
           padding: EdgeInsets.all(20.0),
         ),
-        Padding(
-          child: Text('My ID: ' + getId(), style: biggerFont,),
-          padding: EdgeInsets.all(20.0),
-        ),
       ],
     )
   );
