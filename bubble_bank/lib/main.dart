@@ -29,6 +29,7 @@ class BankingState extends State<Banking> {
     { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants"},
     { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Stickers", "group":"Other"},
     { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
+    { 'amount':-4.50, 'date':DateTime.parse("2019-09-01"), "description":"Shoes", "group": "Shopping"},
     { 'amount':-30.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
     { 'amount':-15.0, 'date':DateTime.parse("2019-10-01"), "description":"Bus ticket", "group": "Transport"},
     { 'amount':-3.0, 'date':DateTime.parse("2019-10-02"), "description":"Tesco meal deal", "group": "Groceries"},
