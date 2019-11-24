@@ -113,23 +113,43 @@ Iterable<ListTile> transactionsTiles(List<Map> transactions){
   );
 }
 
-ListView transactionsView(transactions, context){
-  final Iterable<ListTile> tiles = transactions;
+Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions){
+  List amounts = transactions.map((transaction) => transaction["amount"]).toList();
 
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: tiles,
+  double bestDiff = -1;
+  double besti = 1;
+  for (int i = 1; i < amounts.length; i++) {
+    double diff = amounts[i] - amounts[i-1];
+    if (diff > bestDiff){
+      bestDiff = diff;
+      besti = i.toDouble();
+    }
+  }
+
+  List<ListTile> tiles = transactions.map( (Map transaction) {
+    return ListTile(
+      title: Text(
+        transaction["description"],
+        style: biggerFont,
+      ),
+      subtitle: Text(
+        transaction["date"].toString().split(" ")[0],
+        style: biggerFont,
+      ),
+      trailing: Text(
+        formatMoney(transaction["amount"]),
+        style: biggerFont,
+      ),
+    );
+  },
   ).toList();
-
-  return ListView(children: divided);
+  
+  tiles.insert(0, ListTile(title: Text("!!!", style: biggerFont,)));
+  tiles.insert(besti.toInt()+1, ListTile(title: Text("!!", style: biggerFont,)));
+  return tiles;
 }
 
-ListView transactionsViewWithCategories(transactions, context){
-  List amounts = transactions.map((transaction) => transaction["amount"]);
-
-  final Iterable<ListTile> tiles = transactions;
-
+ListView transactionsView(tiles, context){
   final List<Widget> divided = ListTile
       .divideTiles(
     context: context,
@@ -250,7 +270,7 @@ Scaffold groupScaffold(transactions, context, group){
             )
           ),
           Expanded(
-            child: transactionsView(transactionsTiles(sortTransactions(transactions, "amount", true)), context)
+            child: transactionsView(transactionsTilesWithCategorys(sortTransactions(transactions, "amount", true)), context)
           )
         ]
       )
