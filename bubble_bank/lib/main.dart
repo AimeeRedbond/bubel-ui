@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'bubbl',
       theme: ThemeData(          // Add the 3 lines from here...
-        primaryColor: Colors.purpleAccent,
+        primaryColor: Colors.pink,
       ),
       home: Banking(),
     );
@@ -62,7 +62,7 @@ class BankingState extends State<Banking> {
                         onTap: _transferPopup,
                         child: ClipOval(
                           child: Container(
-                            color: Colors.lightBlueAccent,
+                            color: buttons,
                             height: 60.0, // height of the button
                             width: 60.0, // width of the button
                             child: Center(child: Icon(Icons.add),),
@@ -79,7 +79,7 @@ class BankingState extends State<Banking> {
                         onTap: _transferPopup,
                         child: ClipOval(
                           child: Container(
-                            color: Colors.lightBlueAccent,
+                            color: buttons,
                             height: 60.0, // height of the button
                             width: 60.0, // width of the button
                             child: Center(child: Icon(Icons.swap_horiz)),
@@ -129,7 +129,7 @@ class BankingState extends State<Banking> {
                 ),
                 Expanded(
                   child: FlatButton(
-                    color: Colors.lightBlueAccent,
+                    color: buttons,
                     textColor: Colors.white,
                     child: Text('Standard View'), //`Text` to display
                     onPressed: _pushStandardView,
@@ -194,7 +194,7 @@ class BankingState extends State<Banking> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RaisedButton(
-                      color: Colors.lightBlueAccent,
+                      color: buttons,
                       textColor: Colors.white,
                       child: Text("Send"),
                       onPressed: _submit,
@@ -289,7 +289,7 @@ class BankingState extends State<Banking> {
                         onTap: _transferPopup,
                         child: ClipOval(
                           child: Container(
-                            color: Colors.lightBlueAccent,
+                            color: buttons,
                             height: 60.0, // height of the button
                             width: 60.0, // width of the button
                             child: Center(child: Icon(Icons.add),),
@@ -306,7 +306,7 @@ class BankingState extends State<Banking> {
                         onTap: _transferPopup,
                         child: ClipOval(
                           child: Container(
-                            color: Colors.lightBlueAccent,
+                            color: buttons,
                             height: 60.0, // height of the button
                             width: 60.0, // width of the button
                             child: Center(child: Icon(Icons.swap_horiz)),
@@ -327,7 +327,7 @@ class BankingState extends State<Banking> {
               children: <Widget>[
                 Expanded(
                     child: FlatButton(
-                      color: Colors.lightBlueAccent,
+                      color: buttons,
                       textColor: Colors.white,//`Icon` to display
                       child: Text('Spending Visuals'), //`Text` to display
                       onPressed: _pushVisualsView,
@@ -420,7 +420,7 @@ class CircularBubble extends StatelessWidget {
           onTap: () {},
           child: ClipOval(
             child: Container(
-              color: Colors.amberAccent,
+              color: Colors.pinkAccent,
               height: h, // height of the button
               width: w, // width of the button
               child: Center(child: Text(name, style: balanceFont,)),

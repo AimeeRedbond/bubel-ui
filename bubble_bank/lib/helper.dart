@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 final biggerFont = const TextStyle(fontSize: 18.0);
 final balanceFont = const TextStyle(fontSize: 40);
+final buttons = Colors.pink;
 
 //Helper functions for validating fields
 String validatePayee(String payeeName){
