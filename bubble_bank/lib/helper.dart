@@ -125,6 +125,20 @@ ListView transactionsView(transactions, context){
   return ListView(children: divided);
 }
 
+ListView transactionsViewWithCategories(transactions, context){
+  List amounts = transactions.map((transaction) => transaction["amount"]);
+
+  final Iterable<ListTile> tiles = transactions;
+
+  final List<Widget> divided = ListTile
+      .divideTiles(
+    context: context,
+    tiles: tiles,
+  ).toList();
+
+  return ListView(children: divided);
+}
+
 List<List> sortMap(Map<String, double> map) {
   List<List> lol = map.keys.map((String k) {
     return [k, map[k]];
