@@ -106,7 +106,7 @@ class BankingState extends State<Banking> {
                         itemCount: 6,
                         radius: 140.0,
                       ),
-                      children: _makeGroups(_transactions),
+                      children: _makeGroups(_getRatios(segmentTransactions(_transactions), getBalance(_transactions))),
                     ),
                   ),
                   DefaultTextStyle(
@@ -247,16 +247,27 @@ class BankingState extends State<Banking> {
     Navigator.of(context).pop();
   }
 
-  List<Widget> _makeGroups(transactions) {
+  List<Widget> _makeGroups(ratios) {
     List<Widget> groups = [];
-    List<String> emojis = ['🍕', '🛒', '👗', '🚂', '🎭', '🤷‍♀️'];
+    Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👗', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
     for (int i = 0; i < 6; i++) {
       groups.add( LayoutId(
         id: 'GROUP$i',
-        child: CircularBubble(name: emojis[i], h: 100.0, w: 100.0),
+        child: CircularBubble(name: emojis[ratios[i][0]], h: 100.0, w: 100.0),
       ));
     }
     return groups;
+  }
+
+  List<List> _getRatios(groups, total) {
+    Map<String, double> ratios = {'Entertainment': 0.0, 'Restaurants': 0.0, 'Groceries': 0.0, 'Shopping': 0.0, 'Transport': 0.0, 'Other': 0.0};
+    for (String group in groups.keys) {
+      for (var t in groups[group]) {
+        ratios[group] += t['amount'];
+      }
+      ratios[group] = ratios[group]/total;
+    }
+    return sortMap(ratios);
   }
 
   Scaffold lol(){

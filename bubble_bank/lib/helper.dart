@@ -44,7 +44,7 @@ String formatBalance(double money){
 
 Map<String, List<Map>> segmentTransactions(List<Map> transactions){
   Map<String, List<Map>> groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
-  for (String group in groups.keys){
+  for (var group in groups.keys){
     groups[group] = transactions.where((t) => t["group"] == group).toList();
   }
   return groups;
@@ -110,3 +110,9 @@ Iterable<ListTile> transactionsList(List<Map> transactions){
     },
   );
 }
+
+List<List> sortMap(Map<String, double> map) {
+  List<List> lol = map.keys.map( (String k) { return [k, map[k]]; }).toList();
+  lol.sort((List p1, List p2) => p1[1].compareTo(p2[1]));
+  return lol;
+  }
