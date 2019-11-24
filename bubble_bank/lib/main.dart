@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
@@ -33,32 +34,6 @@ class BankingState extends State<Banking> {
     { 'amount':-5.0, 'date':"2019-09-29", "description":"Starbucks coffee"},
     { 'amount':100.0, 'date':"2019-09-28", "description":"Top up from Banana Pay"},
   ];
-  var _groups = <Widget>[
-    LayoutId(
-      id: 'BUTTON0',
-      child: Text('Food'),
-    ),
-    LayoutId(
-      id: 'BUTTON1',
-      child: Text('Food'),
-    ),
-    LayoutId(
-      id: 'BUTTON2',
-      child: Text('Food'),
-    ),
-    LayoutId(
-      id: 'BUTTON3',
-      child: Text('Food'),
-    ),
-    LayoutId(
-      id: 'BUTTON4',
-      child: Text('Food'),
-    ),
-    LayoutId(
-      id: 'BUTTON5',
-      child: Text('Food'),
-    ),
-  ];
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final _balanceFont = const TextStyle(fontSize: 40);
   final formKey = GlobalKey<FormState>();
@@ -74,70 +49,87 @@ class BankingState extends State<Banking> {
           IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Row(
-              children: <Widget>[
-                Spacer(),
-                DefaultTextStyle(
-                  child: Container(
-                    child: GestureDetector(
-                      onTap: _transferPopup,
-                      child: ClipOval(
-                        child: Container(
-                          color: Colors.lightBlueAccent,
-                          height: 60.0, // height of the button
-                          width: 60.0, // width of the button
-                          child: Center(child: Icon(Icons.add),),
+      body: Container(
+        color: Colors.green,
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 100.0,
+              child: Row(
+                children: <Widget>[
+                  Spacer(),
+                  DefaultTextStyle(
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: _transferPopup,
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.lightBlueAccent,
+                            height: 60.0, // height of the button
+                            width: 60.0, // width of the button
+                            child: Center(child: Icon(Icons.add),),
+                          ),
                         ),
                       ),
                     ),
+                    style: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(color: Colors.white),
-                ),
-                Spacer(flex: 4),
-                DefaultTextStyle(
-                  child: Container(
-                    child: GestureDetector(
-                      onTap: _transferPopup,
-                      child: ClipOval(
-                        child: Container(
-                          color: Colors.lightBlueAccent,
-                          height: 60.0, // height of the button
-                          width: 60.0, // width of the button
-                          child: Center(child: Icon(Icons.swap_horiz)),
+                  Spacer(flex: 4),
+                  DefaultTextStyle(
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: _transferPopup,
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.lightBlueAccent,
+                            height: 60.0, // height of the button
+                            width: 60.0, // width of the button
+                            child: Center(child: Icon(Icons.swap_horiz)),
+                          ),
                         ),
                       ),
                     ),
+                    style: TextStyle(color: Colors.white),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  Spacer(),
+                ]
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: CustomMultiChildLayout(
+                  delegate: _CircularLayoutDelegate(
+                    itemCount: 6,
+                    radius: 150.0,
+                  ),
+                  children: _makeGroups(_transactions),
                 ),
-                Spacer(),
-              ]
-          ),
-          Row(
+              ),
+            ),
+            Row(
               children: <Widget>[
                 Expanded(
-                    child: FlatButton(
-                      color: Colors.lightBlueAccent,
-                      textColor: Colors.white,//`Icon` to display
-                      child: Text('Spending Visuals'), //`Text` to display
-                      onPressed: () {},
-                      padding: EdgeInsets.all(20.0),
-                    )
+                  child: FlatButton(
+                    color: Colors.lightBlueAccent,
+                    textColor: Colors.white,//`Icon` to display
+                    child: Text('Spending Visuals'), //`Text` to display
+                    onPressed: () {},
+                    padding: EdgeInsets.all(20.0),
+                  )
                 ),
                 Expanded(
-                    child: FlatButton(
-                      color: Colors.lightBlueAccent,
-                      textColor: Colors.white,
-                      child: Text('Standard View'), //`Text` to display
-                      onPressed: _pushStandardView,
-                      padding: EdgeInsets.all(20.0),
-                    )
+                  child: FlatButton(
+                    color: Colors.lightBlueAccent,
+                    textColor: Colors.white,
+                    child: Text('Standard View'), //`Text` to display
+                    onPressed: _pushStandardView,
+                    padding: EdgeInsets.all(20.0),
+                  )
                 ),
               ]
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -290,6 +282,98 @@ class BankingState extends State<Banking> {
       ),
     );
   }
+
+  List<Widget> _makeGroups(transactions) {
+    List<Widget> groups = [];
+    for (int i = 0; i < 6; i++) {
+      groups.add( LayoutId(
+        id: 'GROUP$i',
+        child: CircularBubble(name: 'Food', h: 100.0, w: 100.0),
+      ));
+    }
+    return groups;
+  }
+}
+
+class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
+  final int itemCount;
+  final double radius;
+  static const String actionButton = 'GROUP';
+  Offset center;
+
+  _CircularLayoutDelegate({
+    @required this.itemCount,
+    @required this.radius,
+  });
+
+  @override
+  void performLayout(Size size) {
+    center = Offset(size.width / 2, size.height / 2);
+    for (int i = 0; i < itemCount; i++) {
+      final String actionButtonId = '$actionButton$i';
+
+      if (hasChild(actionButtonId)) {
+        final Size buttonSize =
+        layoutChild(actionButtonId, BoxConstraints.loose(size));
+        final double itemAngle = _calculateItemAngle(i);
+
+        positionChild(
+          actionButtonId,
+          Offset(
+            (center.dx - buttonSize.width / 2) + (radius) * cos(itemAngle),
+            (center.dy - buttonSize.height / 2) +
+                (radius) * sin(itemAngle),
+          ),
+        );
+      }}
+  }
+
+  // 3
+  @override
+  bool shouldRelayout(_CircularLayoutDelegate oldDelegate) =>
+      itemCount != oldDelegate.itemCount ||
+          radius != oldDelegate.radius ;
+
+  static double _radiansPerDegree = pi / 180;
+  final double _startAngle = -90.0 * _radiansPerDegree;
+  double _itemSpacing = 360.0 / 5.0;
+  double _calculateItemAngle(int index) {
+    return _startAngle + index * _itemSpacing * _radiansPerDegree;
+  }
+
+}
+
+class CircularBubble extends StatelessWidget {
+  final String name;
+  final double h;
+  final double w;
+
+  CircularBubble({
+    @required this.name,
+    @required this.h,
+    @required this.w,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      child: Container(
+        child: GestureDetector(
+          onTap: () {},
+          child: ClipOval(
+            child: Container(
+              color: Colors.amberAccent,
+              height: h, // height of the button
+              width: w, // width of the button
+              child: Center(child: Text(name)),
+            ),
+          ),
+        ),
+      ),
+      style: TextStyle(color: Colors.white),
+    );
+  }
+
 }
 
 class Banking extends StatefulWidget {
