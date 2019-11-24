@@ -102,7 +102,7 @@ Iterable<ListTile> transactionsTiles(List<Map> transactions){
           style: biggerFont,
         ),
         subtitle: Text(
-          transaction["date"].toString().split(" ")[0],
+          transaction["date"] ? transaction["date"].toString().split(" ")[0] : "",
           style: biggerFont,
         ),
         trailing: Text(
