@@ -50,6 +50,15 @@ Map<String, List<Map>> segmentTransactions(List<Map> transactions){
   return groups;
 }
 
+List<Map> sortTransactions(List<Map> transactions, String field, bool ascending){
+  if (ascending) {
+    transactions.sort((t1, t2) => t1[field].compareTo(t2[field]));
+  } else{
+    transactions.sort((t1, t2) => t2[field].compareTo(t1[field]));
+  }
+  return transactions;
+}
+
 // Methods to build bespoke widgets
 Iterable<ListTile> settingsList(List<String> settings) {
   final Iterable<ListTile> tiles = settings.map(
@@ -82,7 +91,7 @@ Scaffold settingsView(context){
 }
 
 Iterable<ListTile> transactionsList(List<Map> transactions){
-  return transactions.map(
+  return sortTransactions(transactions, "date", false).map(
         (Map transaction) {
       return ListTile(
         title: Text(
