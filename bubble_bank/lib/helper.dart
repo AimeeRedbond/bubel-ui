@@ -90,8 +90,8 @@ Scaffold settingsView(context){
   );
 }
 
-Iterable<ListTile> transactionsList(List<Map> transactions){
-  return sortTransactions(transactions, "date", false).map(
+Iterable<ListTile> transactionsTiles(List<Map> transactions){
+  return transactions.map(
         (Map transaction) {
       return ListTile(
         title: Text(
@@ -111,8 +111,8 @@ Iterable<ListTile> transactionsList(List<Map> transactions){
   );
 }
 
-ListView transactionsView(transactions){
-  final Iterable<ListTile> tiles = transactionsList(transactions);
+ListView transactionsView(transactions, context){
+  final Iterable<ListTile> tiles = transactions;
 
   final List<Widget> divided = ListTile
       .divideTiles(

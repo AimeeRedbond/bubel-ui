@@ -29,9 +29,10 @@ class BankingState extends State<Banking> {
     { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants"},
     { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Stickers", "group":"Other"},
     { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
-    { 'amount':-45.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
+    { 'amount':-30.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
     { 'amount':-15.0, 'date':DateTime.parse("2019-10-01"), "description":"Bus ticket", "group": "Transport"},
     { 'amount':-3.0, 'date':DateTime.parse("2019-10-02"), "description":"Tesco meal deal", "group": "Groceries"},
+    { 'amount':-4.50, 'date':DateTime.parse("2019-10-01"), "description":"Tee-shirt", "group": "Shopping"},
   ];
   final formKey = GlobalKey<FormState>();
   String payee;
@@ -284,7 +285,7 @@ class BankingState extends State<Banking> {
                   ))
           ),
           Expanded(
-            child: transactionsView(_transactions)
+            child: transactionsView(transactionsTiles(sortTransactions(_transactions, "date", false)), context)
           ),
           Row(
               children: <Widget>[
@@ -384,7 +385,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {transactionsView(transactionsTiles(sortTransactions(_transactions, "date", false)), context);},
           child: ClipOval(
             child: Container(
               color: Colors.pinkAccent,
