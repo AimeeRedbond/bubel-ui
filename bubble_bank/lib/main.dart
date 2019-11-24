@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
@@ -47,7 +48,7 @@ class BankingState extends State<Banking> {
         ],
       ),
       body: Container(
-        color: Colors.green,
+        color: Colors.white,
         child: Column(
           children: <Widget>[
             Container(
@@ -110,7 +111,7 @@ class BankingState extends State<Banking> {
                           child: Text(formatBalance(getBalance(_transactions)))
                         ),
                       ),
-                      style: TextStyle(color: Colors.white, fontSize: 40.0),
+                      style: TextStyle(color: Colors.black, fontSize: 40.0),
                   )
                 ]
               ),
@@ -119,7 +120,7 @@ class BankingState extends State<Banking> {
               children: <Widget>[
                 Expanded(
                   child: FlatButton(
-                    color: Colors.lightBlueAccent,
+                    color: Colors.black45,
                     textColor: Colors.white,//`Icon` to display
                     child: Text('Spending Visuals'), //`Text` to display
                     onPressed: () {},
@@ -142,6 +143,7 @@ class BankingState extends State<Banking> {
       ),
     );
   }
+
   void _submit() {
     final form = formKey.currentState;
 
@@ -235,21 +237,130 @@ class BankingState extends State<Banking> {
     ).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Spending visuals'),
-      ),
       body: ListView(children: divided),
     );
   }
 
   void _pushStandardView() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {return standardView();},
+        builder: (BuildContext context) {return lol();},
       ),
     );
   }
 
+  void _pushVisualsView() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {return xoxo();},
+      ),
+    );
+  }
+
+  Scaffold xoxo(){
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('bubbl: banking made bubbly'),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
+          ],
+        ),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 100.0,
+                child: Row(
+                    children: <Widget>[
+                      Spacer(),
+                      DefaultTextStyle(
+                        child: Container(
+                          child: GestureDetector(
+                            onTap: _transferPopup,
+                            child: ClipOval(
+                              child: Container(
+                                color: Colors.lightBlueAccent,
+                                height: 60.0, // height of the button
+                                width: 60.0, // width of the button
+                                child: Center(child: Icon(Icons.add),),
+                              ),
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Spacer(flex: 4),
+                      DefaultTextStyle(
+                        child: Container(
+                          child: GestureDetector(
+                            onTap: _transferPopup,
+                            child: ClipOval(
+                              child: Container(
+                                color: Colors.lightBlueAccent,
+                                height: 60.0, // height of the button
+                                width: 60.0, // width of the button
+                                child: Center(child: Icon(Icons.swap_horiz)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Spacer(),
+                    ]
+                ),
+              ),
+              Expanded(
+                child: Stack(
+                    children: <Widget>[
+                      Container(
+                        child: CustomMultiChildLayout(
+                          delegate: _CircularLayoutDelegate(
+                            itemCount: 6,
+                            radius: 140.0,
+                          ),
+                          children: _makeGroups(_transactions),
+                        ),
+                      ),
+                      DefaultTextStyle(
+                        child: Container(
+                          child: Center(
+                              child: Text(formatBalance(getBalance(_transactions)))
+                          ),
+                        ),
+                        style: TextStyle(color: Colors.black, fontSize: 40.0),
+                      )
+                    ]
+                ),
+              ),
+              Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: FlatButton(
+                          color: Colors.black45,
+                          textColor: Colors.white,//`Icon` to display
+                          child: Text('Spending Visuals'), //`Text` to display
+                          onPressed: () {},
+                          padding: EdgeInsets.all(20.0),
+                        )
+                    ),
+                    Expanded(
+                        child: FlatButton(
+                          color: Colors.lightBlueAccent,
+                          textColor: Colors.white,
+                          child: Text('Standard View'), //`Text` to display
+                          onPressed: _pushStandardView,
+                          padding: EdgeInsets.all(20.0),
+                        )
+                    ),
+                  ]
+              )
+            ],
+          ),
+        ),
+      );
+  }
   List<Widget> _makeGroups(transactions) {
     List<Widget> groups = [];
     List<String> emojis = ['🍕', '🛒', '👗', '🚂', '🎭', '🤷‍♀️'];
@@ -260,6 +371,91 @@ class BankingState extends State<Banking> {
       ));
     }
     return groups;
+  }
+
+  Scaffold lol(){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('bubbl: banking made bubbly'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.settings), onPressed: _pushSettings),
+        ],
+      ),
+      body: Container(
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 100.0,
+            child: Row(
+                children: <Widget>[
+                  Spacer(),
+                  DefaultTextStyle(
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: _transferPopup,
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.lightBlueAccent,
+                            height: 60.0, // height of the button
+                            width: 60.0, // width of the button
+                            child: Center(child: Icon(Icons.add),),
+                          ),
+                        ),
+                      ),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Spacer(flex: 4),
+                  DefaultTextStyle(
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: _transferPopup,
+                        child: ClipOval(
+                          child: Container(
+                            color: Colors.lightBlueAccent,
+                            height: 60.0, // height of the button
+                            width: 60.0, // width of the button
+                            child: Center(child: Icon(Icons.swap_horiz)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Spacer(),
+                ]
+            ),
+          ),
+          Expanded(
+            child: standardView()
+          ),
+          Row(
+              children: <Widget>[
+                Expanded(
+                    child: FlatButton(
+                      color: Colors.lightBlueAccent,
+                      textColor: Colors.white,//`Icon` to display
+                      child: Text('Spending Visuals'), //`Text` to display
+                      onPressed: _pushVisualsView,
+                      padding: EdgeInsets.all(20.0),
+                    )
+                ),
+                Expanded(
+                    child: FlatButton(
+                      textColor: Colors.white,
+                      child: Text('Standard View'), //`Text` to display
+                      onPressed: () {},
+                      padding: EdgeInsets.all(20.0),
+                      color: Colors.black45,
+                    )
+                ),
+              ]
+          )
+        ],
+      ),
+    )
+    );
   }
 }
 
