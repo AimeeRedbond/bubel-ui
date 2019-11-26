@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
+import 'settingsHelper.dart';
 
 Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
   return Scaffold(

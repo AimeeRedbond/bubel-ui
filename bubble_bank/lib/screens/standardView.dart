@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../helper.dart';
+import 'settingsHelper.dart';
 
 Scaffold standardScaffold(transactions, context){
   return Scaffold(

@@ -57,21 +57,6 @@ List<Transaction> sortTransactions(List<Transaction> transactions, String field,
   return transactions;
 }
 
-Iterable<ListTile> settingsList(List<String> settings) {
-  final Iterable<ListTile> tiles = settings.map(
-        (String str) {
-      return ListTile(
-        title: Text(
-          str,
-          style: biggerFont,
-        ),
-      );
-    },
-  );
-  return tiles;
-}
-
-
 Iterable<ListTile> menuList(List<String> menu) {
   final Iterable<ListTile> tiles = menu.map(
         (String str) {

@@ -7,6 +7,7 @@ import '../models/transaction.dart';
 import '../models/group.dart';
 import '../helper.dart';
 import 'standardView.dart';
+import 'settingsHelper.dart';
 
 Scaffold bubblScaffold(context, transactions) {
   return Scaffold(
