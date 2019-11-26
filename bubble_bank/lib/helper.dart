@@ -161,15 +161,15 @@ Iterable<ListTile> transactionsTiles(List<Transaction> transactions){
       return ListTile(
         title: Text(
           transaction.description,
-          style: biggerFont,
+          style: TextStyle(fontSize: 15.0),
         ),
         subtitle: Text(
           transaction.date != null ? transaction.date.toString().split(" ")[0] : "",
-          style: biggerFont,
+          style: TextStyle(fontSize: 15.0),
         ),
         trailing: Text(
           formatMoney(transaction.amount),
-          style: biggerFont,
+          style: TextStyle(fontSize: 15.0),
         ),
       );
     },
@@ -193,21 +193,21 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
     return ListTile(
       title: Text(
         transaction.description,
-        style: biggerFont,
+        style: TextStyle(fontSize: 15.0),
       ),
       trailing: Text(
         formatMoney(transaction.amount),
-        style: biggerFont,
+        style: TextStyle(fontSize: 15.0),
       ),
     );
   },
   ).toList();
 
-  tiles.insert(0, ListTile(trailing: Text(group.emoji*3, style: TextStyle(fontSize: 28))));
-  tiles.insert(besti+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 28))));
+  tiles.insert(0, ListTile(trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
+  tiles.insert(besti+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 24))));
   if (besti+3 < tiles.length) {
     tiles.insert(besti.toInt() + 3, ListTile(
-        trailing: Text(group.emoji, style: TextStyle(fontSize: 28)))
+        trailing: Text(group.emoji, style: TextStyle(fontSize: 24)))
     );
   }
   return tiles;
@@ -375,7 +375,7 @@ Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
             padding: EdgeInsets.all(20),
             child: Text(
               monthlySpendingString(transactions, group),
-              style: TextStyle(fontSize: 34),
+              style: TextStyle(fontSize: 26),
               textAlign: TextAlign.center,
             )
           ),
