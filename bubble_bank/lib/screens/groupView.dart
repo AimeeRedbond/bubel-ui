@@ -31,7 +31,6 @@ Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
   );
 }
 
-
 Scaffold bubblSettingsScaffold(context){
   final List<Widget> divided = ListTile
       .divideTiles(
@@ -45,4 +44,8 @@ Scaffold bubblSettingsScaffold(context){
     ),
     body: ListView(children: divided),
   );
+}
+
+String monthlySpendingString(List<Transaction> transactions, Group group){
+  return "You spent ${formatBalance(-getBalance(transactions))} on ${group.name} in the past month.";
 }

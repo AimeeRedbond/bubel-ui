@@ -1,4 +1,3 @@
-import 'package:bubble_bank/components/settingsDrawer.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

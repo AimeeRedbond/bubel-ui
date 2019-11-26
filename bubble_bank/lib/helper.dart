@@ -172,7 +172,3 @@ void pushView(context, scaffold) {
     ),
   );
 }
-
-String monthlySpendingString(List<Transaction> transactions, Group group){
-  return "You spent ${formatBalance(-getBalance(transactions))} on ${group.name} in the past month.";
-}

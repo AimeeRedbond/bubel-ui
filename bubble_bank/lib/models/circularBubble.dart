@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
-import '../screens/bubble.dart';
+import '../screens/groupView.dart';
 
 
 class CircularBubble extends StatelessWidget {
