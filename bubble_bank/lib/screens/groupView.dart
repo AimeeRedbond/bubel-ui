@@ -80,3 +80,40 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
   }
   return groupedTransactions;
 }
+
+Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
+  List amounts = transactions.map((transaction) => transaction.amount).toList();
+
+  double bestDiff = -1;
+  int besti = 1;
+  for (int i = 1; i < amounts.length; i++) {
+    double diff = amounts[i] - amounts[i-1];
+    if (diff > bestDiff){
+      bestDiff = diff;
+      besti = i;
+    }
+  }
+
+  List<ListTile> tiles = transactions.map( (Transaction transaction) {
+    return ListTile(
+      title: Text(
+        transaction.description,
+        style: TextStyle(fontSize: 15.0),
+      ),
+      trailing: Text(
+        formatMoney(transaction.amount),
+        style: TextStyle(fontSize: 15.0),
+      ),
+    );
+  },
+  ).toList();
+
+  tiles.insert(0, ListTile(trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
+  tiles.insert(besti+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 24))));
+  if (besti+3 < tiles.length) {
+    tiles.insert(besti.toInt() + 3, ListTile(
+        trailing: Text(group.emoji, style: TextStyle(fontSize: 24)))
+    );
+  }
+  return tiles;
+}
