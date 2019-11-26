@@ -44,7 +44,7 @@ Scaffold standardScaffold(transactions, context){
                 padding: EdgeInsets.all(40),
                 child: Text(
                   formatBalance(getBalance(transactions)),
-                  style: balanceFont,
+                  style: TextStyle(fontSize: 40),
                   textAlign: TextAlign.center,
                 )
             ),

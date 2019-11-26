@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../helper.dart';
-
 Iterable<ListTile> menuList(List<String> menu) {
   final Iterable<ListTile> tiles = menu.map(
         (String str) {
       return ListTile(
         title: Text(
           str,
-          style: biggerFont,
+          style: TextStyle(fontSize: 18.0),
         ),
       );
     },

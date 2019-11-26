@@ -3,10 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 
-
-final biggerFont = const TextStyle(fontSize: 18.0);
-final balanceFont = const TextStyle(fontSize: 40);
-
 List<Group> userGroups = <Group>[
   new Group("Entertainment", '🎭'),
   new Group("Shopping", '👕'),
