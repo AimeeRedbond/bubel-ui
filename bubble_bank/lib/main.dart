@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 
 import 'helper.dart';
-import 'requests.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,7 +34,7 @@ class BankingState extends State<Banking> {
     { 'amount':-5.0, 'date':DateTime.parse("2019-09-29"), "description":"Starbucks coffee", "group": "Restaurants"},
     { 'amount':100.0, 'date':DateTime.parse("2019-09-28"), "description":"Top up from Banana Pay"},
     { 'amount':-40.0, 'date':DateTime.parse("2019-09-01"), "description":"Prada bag", "group": "Shopping"},
-    { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants"},
+    { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants`"},
     { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Brocolli", "group":"Groceries"},
     { 'amount':-4.99, 'date':DateTime.parse("2019-10-04"), "description":"Scran", "group": "Restaurants"},
     { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
@@ -49,58 +47,6 @@ class BankingState extends State<Banking> {
     { 'amount':-4.50, 'date':DateTime.parse("2019-10-01"), "description":"Tee-shirt", "group": "Shopping"},
     { 'amount':300.0, 'date':DateTime.parse("2019-10-01"), "description":"Top-up from Banana pay", "group": null},
   ];
-  final formKey = GlobalKey<FormState>();
-  String payee;
-  String amount;
-  Future<String> post;
-
-  @override
-  void initState() {
-    super.initState();
-    post = fetchPost();
-  }
-
-  Row transferButtons(){
-    return Row(
-        children: <Widget>[
-          Spacer(),
-          DefaultTextStyle(
-            child: Container(
-              child: GestureDetector(
-                onTap: _fundPopup,
-                child: ClipOval(
-                  child: Container(
-                    color: buttons,
-                    height: 60.0, // height of the button
-                    width: 60.0, // width of the button
-                    child: Center(child: Icon(Icons.add),),
-                  ),
-                ),
-              ),
-            ),
-            style: TextStyle(color: Colors.white),
-          ),
-          Spacer(flex: 4),
-          DefaultTextStyle(
-            child: Container(
-              child: GestureDetector(
-                onTap: _transferPopup,
-                child: ClipOval(
-                  child: Container(
-                    color: buttons,
-                    height: 60.0, // height of the button
-                    width: 60.0, // width of the button
-                    child: Center(child: Icon(Icons.swap_horiz)),
-                  ),
-                ),
-              ),
-            ),
-            style: TextStyle(color: Colors.white),
-          ),
-          Spacer(),
-        ]
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,125 +114,6 @@ class BankingState extends State<Banking> {
     );
   }
 
-  void _submit() {
-    final form = formKey.currentState;
-
-    if (form.validate()) {
-      form.save();
-    }
-  }
-
-  Future _transferPopup(){
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Make a payment"),
-            content: Form(
-              key: formKey,
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.person),
-                          hintText: "John Doe",
-                          labelText: 'To:',
-                        ),
-                      validator: validatePayee,
-                      onSaved: (val) => payee = val,
-                    ),
-
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.account_balance_wallet),
-                        hintText: "£0",
-                        labelText: 'Amount',
-                      ),
-                      onChanged: (String s) {
-                        return "£" + s;
-                      },
-                        validator: validateAmount,
-                        onSaved: (val) => amount = val,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      color: buttons,
-                      textColor: Colors.white,
-                      child: Text("Send"),
-                      onPressed: _submit,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  Future _fundPopup(){
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Top up your account"),
-            content: Form(
-              key: formKey,
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.credit_card),
-                        hintText: "12345678",
-                        labelText: 'Account number',
-                      ),
-                      validator: validateAmount,
-                      onSaved: (val) => amount = val,
-                    ),
-
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.account_balance_wallet),
-                        hintText: "£0",
-                        labelText: 'Amount',
-                      ),
-                      onChanged: (String s) {
-                        return "£" + s;
-                      },
-                      validator: validateAmount,
-                      onSaved: (val) => amount = val,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      color: buttons,
-                      textColor: Colors.white,
-                      child: Text("Top up"),
-                      onPressed: _submit,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-
   Scaffold standardScaffold(transactions, context){
     return Scaffold(
       appBar: AppBar(
@@ -300,10 +127,6 @@ class BankingState extends State<Banking> {
       color: Colors.white,
       child: Column(
         children: <Widget>[
-          Container(
-            height: 100.0,
-            child: transferButtons(),
-          ),
           Padding(
               padding: EdgeInsets.all(40),
               child: Text(
