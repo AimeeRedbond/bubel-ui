@@ -27,38 +27,40 @@ Scaffold bubblScaffold(context, transactions) {
     body: Container(
       child: Column(
         children: <Widget>[
-          Expanded(
-            child: Stack(
-                children: <Widget>[
-                  Container(
-                    child: CustomMultiChildLayout(
-                      delegate: CircularLayoutDelegate(
-                        itemCount: userGroups.length,
-                        radius: 140.0,
-                      ),
-                      children:
-                      makeGroupWidgets(getRatios(segmentTransactionsByGroup(
-                          transactions, userGroups),
-                          getBalance(transactions), userGroups),
-                          transactions, userGroups),
-                    ),
-                  ),
-                  DefaultTextStyle(
-                    child: Container(
-                      child: Center(
-                          child: Text(formatBalance(getBalance(
-                              transactions)))
-                      ),
-                    ),
-                    style: TextStyle(color: Colors.black, fontSize: 40.0),
-                  )
-                ]
-            ),
-          ),
+          Expanded(child: bubblWheel(transactions)),
           spendingStandardRow(context, transactions)
         ],
       ),
     ),
+  );
+}
+
+Stack bubblWheel(transactions){
+  return Stack(
+    children: <Widget>[
+      Container(
+        child: CustomMultiChildLayout(
+          delegate: CircularLayoutDelegate(
+            itemCount: userGroups.length,
+            radius: 140.0,
+          ),
+          children:
+          makeGroupWidgets(getRatios(segmentTransactionsByGroup(
+              transactions, userGroups),
+              getBalance(transactions), userGroups),
+              transactions, userGroups),
+        ),
+      ),
+      DefaultTextStyle(
+        child: Container(
+          child: Center(
+              child: Text(formatBalance(getBalance(
+                  transactions)))
+          ),
+        ),
+        style: TextStyle(color: Colors.black, fontSize: 40.0),
+      )
+    ]
   );
 }
 
