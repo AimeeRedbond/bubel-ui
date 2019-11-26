@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../helper.dart';
 import 'settingsHelper.dart';
 import '../components/settingsDrawer.dart';
+import '../moneyHelper.dart';
 
 Scaffold standardScaffold(transactions, context){
   return Scaffold(

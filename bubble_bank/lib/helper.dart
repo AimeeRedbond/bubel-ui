@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
+import 'moneyHelper.dart';
 
 List<Group> userGroups = <Group>[
   new Group("Entertainment", '🎭'),
@@ -11,27 +12,6 @@ List<Group> userGroups = <Group>[
   new Group("Groceries", "🛒"),
   new Group("Other", '🤷‍♀️'),
 ];
-
-//Helper functions for calculating moneys and formatting with currency symbols etc
-double getBalance(List<Transaction> transactions){
-  List<double> amounts = transactions.map((Transaction transaction) => transaction.amount).toList();
-  double totalSpending = amounts.reduce((double curr, double next) => curr + next);
-  return totalSpending;
-}
-
-String formatMoney(double money){
-  if (money < 0.0){
-    return "-£" + (-money).toStringAsFixed(2);
-  }
-  return "+£" + money.toStringAsFixed(2);
-}
-
-String formatBalance(double money){
-  if (money < 0.0){
-    return "-£" + (-money).toStringAsFixed(2);
-  }
-  return "£" + money.toStringAsFixed(2);
-}
 
 Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions, List<Group> groups){
   Map<Group, List<Transaction>> transactionsByGroup = new Map.fromIterable(groups,

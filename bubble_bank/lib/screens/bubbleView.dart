@@ -9,6 +9,7 @@ import '../helper.dart';
 import 'standardView.dart';
 import 'settingsHelper.dart';
 import '../components/settingsDrawer.dart';
+import '../moneyHelper.dart';
 
 Scaffold bubblScaffold(context, transactions) {
   return Scaffold(
