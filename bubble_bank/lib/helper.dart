@@ -351,6 +351,10 @@ void pushView(context, scaffold) {
   );
 }
 
+String monthlySpendingString(List<Transaction> transactions, Group group){
+  return "You spent ${formatBalance(-getBalance(transactions))} on ${group.name} in the past month.";
+}
+
 Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
   return Scaffold(
       appBar: AppBar(
@@ -364,7 +368,7 @@ Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
           Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              "You spent " + formatBalance(-getBalance(transactions)) + " on " + group.name + " in the past month.",
+              monthlySpendingString(transactions, group),
               style: TextStyle(fontSize: 34),
               textAlign: TextAlign.center,
             )
