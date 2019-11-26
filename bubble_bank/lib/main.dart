@@ -1,12 +1,10 @@
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/theme/style.dart';
 import 'package:bubble_bank/screens/bubbleView.dart';
-import 'package:flutter/material.dart';
-import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'helper.dart';
 
 void main() => runApp(MyApp());
 

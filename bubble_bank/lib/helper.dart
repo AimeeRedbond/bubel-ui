@@ -71,20 +71,6 @@ Iterable<ListTile> settingsList(List<String> settings) {
   return tiles;
 }
 
-Scaffold bubblSettingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['View in chronological order', 'Set up notifications', 'Update your bubbl emoji', 'Set up bubbl colours', 'Set your spending brackets']),
-  ).toList();
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Customise your spending breakdown'),
-    ),
-    body: ListView(children: divided),
-  );
-}
 
 Iterable<ListTile> menuList(List<String> menu) {
   final Iterable<ListTile> tiles = menu.map(
@@ -237,87 +223,6 @@ List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double tot
   return sortGroupRatios(ratios);
 }
 
-List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions, List<Group> groups) {
-  double range = 170.0 - 60.0;
-  double max = range/ratios[0][1];
-  double fontRange = 50.0 - 20.0;
-  double fontM = fontRange/ratios[0][1];
-  double subRange = 20.0 - 10.0;
-  double subM = subRange/ratios[0][1];
-  List<Widget> groupWidgets = [];
-  for (int i = 0; i < groups.length; i++) {
-    Group group = ratios[i][0];
-    double ratio = ratios[i][1];
-    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions, groups)[group];
-    groupWidgets.add( LayoutId(
-        id: 'GROUP$i',
-        child: CircularBubble(
-          title: group.emoji,
-          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions, groups)[group])).toString(),
-          ratio: ratio,
-          h: 60.0 + ratio*max,
-          w: 60.0 + ratio*max,
-          group: group,
-          transactions: groupTransactions,
-          font: 20.0 + ratio*fontM,
-          subFont: 10.0 + ratio*subM,
-        )
-    ));
-  }
-  return groupWidgets;
-}
-
-class CircularBubble extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final double h;
-  final double w;
-  final double ratio;
-  final Group group;
-  final List<Transaction> transactions;
-  final double font;
-  final double subFont;
-
-  CircularBubble({
-    @required this.title,
-    @required this.subtitle,
-    @required this.h,
-    @required this.w,
-    @required this.ratio,
-    @required this.group,
-    @required this.transactions,
-    @required this.font,
-    @required this.subFont,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      child: Container(
-        child: GestureDetector(
-          onTap: () {pushView(context, groupScaffold(sortTransactions(transactions, "amount", false), context, group));},
-          child: ClipOval(
-            child: Container(
-              color: Colors.pinkAccent,
-              height: h, // height of the button
-              width: w, // width of the button
-              child: Column(
-                children: <Widget>[
-                  Spacer(),
-                  Center(child: Text(title, style: TextStyle(fontSize: font))),
-                  Center(child: Text(subtitle, style: TextStyle(fontSize: subFont))),
-                  Spacer(),
-                ],
-              )
-            ),
-          ),
-        ),
-      ),
-      style: TextStyle(color: Colors.white),
-    );
-  }
-}
-
 void pushView(context, scaffold) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(
@@ -329,30 +234,4 @@ void pushView(context, scaffold) {
 
 String monthlySpendingString(List<Transaction> transactions, Group group){
   return "You spent ${formatBalance(-getBalance(transactions))} on ${group.name} in the past month.";
-}
-
-Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
-  return Scaffold(
-      appBar: AppBar(
-        title: Center( child: Text(group.name)),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblSettingsScaffold(context));}),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              monthlySpendingString(transactions, group),
-              style: TextStyle(fontSize: 26),
-              textAlign: TextAlign.center,
-            )
-          ),
-          Expanded(
-            child: transactionsView(transactionsTilesWithCategorys(groupDuplicates(sortTransactions(transactions, "amount", true)), group), context)
-          )
-        ]
-      )
-  );
 }
