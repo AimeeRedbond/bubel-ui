@@ -23,22 +23,25 @@ List<Transaction> sortTransactions(List<Transaction> transactions, String field,
   return transactions;
 }
 
-Iterable<ListTile> transactionsTiles(List<Transaction> transactions){
+Iterable<Container> transactionsTiles(List<Transaction> transactions){
   return transactions.map(
         (Transaction transaction) {
-      return ListTile(
-        title: Text(
-          transaction.description,
-          style: TextStyle(fontSize: 15.0),
-        ),
-        subtitle: Text(
-          transaction.date != null ? transaction.date.toString().split(" ")[0] : "",
-          style: TextStyle(fontSize: 15.0),
-        ),
-        trailing: Text(
-          formatMoney(transaction.amount),
-          style: TextStyle(fontSize: 15.0),
-        ),
+      return Container(
+          child: ListTile(
+            title: Text(
+              transaction.description,
+              style: TextStyle(fontSize: 15.0),
+            ),
+            subtitle: Text(
+              transaction.date != null ? transaction.date.toString().split(" ")[0] : "",
+              style: TextStyle(fontSize: 15.0),
+            ),
+            trailing: Text(
+              formatMoney(transaction.amount),
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+          color: tileColor(transaction.amount),
       );
     },
   );
@@ -89,4 +92,12 @@ ListView transactionsView(Iterable<Widget> tiles, context){
   ).toList();
 
   return ListView(children: divided);
+}
+
+Color tileColor(amount) {
+  if (amount < 0.0) {
+    return Colors.red[100];
+  } else {
+    return Colors.green[100];
+  }
 }
