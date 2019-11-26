@@ -7,9 +7,4 @@ class Group {
     this.name = name;
     this.emoji = emoji;
   }
-
-  String get group_name {
-    return name;
-  }
-
 }

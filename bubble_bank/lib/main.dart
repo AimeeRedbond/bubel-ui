@@ -30,6 +30,7 @@ class BankingState extends State<Banking> {
     new Transaction(-5.0, DateTime.parse("2019-09-29"), "Starbucks coffee", "Restaurants"),
     new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Transport"),
     new Transaction(-5.0, DateTime.parse("2019-10-01"), "Train ticket", "Transport"),
+    new Transaction(-5.0, DateTime.parse("2019-09-04"), "Train ticket", "Transport"),
     new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Other"),
     new Transaction(200.0, DateTime.parse("2019-11-22"), "Got a fiver", null),
   ];
@@ -78,7 +79,7 @@ class BankingState extends State<Banking> {
                   Container(
                     child: CustomMultiChildLayout(
                       delegate: _CircularLayoutDelegate(
-                        itemCount: 6,
+                        itemCount: userGroups.length,
                         radius: 140.0,
                       ),
                       children:
@@ -243,7 +244,7 @@ class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
 
   static double _radiansPerDegree = pi / 180;
   final double _startAngle = -90.0 * _radiansPerDegree;
-  double _itemSpacing = 360.0 / 6.0;
+  double _itemSpacing = 360.0 / userGroups.length;
   double _calculateItemAngle(int index) {
     return _startAngle + index * _itemSpacing * _radiansPerDegree;
   }

@@ -21,12 +21,4 @@ class Transaction {
       return group;
     }
   }
-
-  double get tran_amount {
-    return amount;
-  }
-
-  String get tran_group{
-    return group;
-  }
 }
