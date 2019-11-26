@@ -40,7 +40,7 @@ class BankingState extends State<Banking> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                child: Text('Menu'),
+                child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 20.0)),
                 decoration: BoxDecoration(
                   color: Colors.pink,
                 ),
@@ -129,7 +129,7 @@ class BankingState extends State<Banking> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Menu'),
+              child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 20.0)),
               decoration: BoxDecoration(
                 color: Colors.pink,
               ),
