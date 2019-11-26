@@ -286,17 +286,19 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   double fontM = fontRange/ratios[0][1];
   List<Widget> groupWidgets = [];
   for (int i = 0; i < userGroups.length; i++) {
-    
+    Group group = ratios[i][0];
+    double ratio = ratios[i][1];
+    List<Transaction> groupTransactions = segmentTransactions(transactions)[group];
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
-          name: ratios[i][0].emoji + "\n" + (-getBalance(segmentTransactions(transactions)[ratios[i][0]])).toString(),
-          ratio: ratios[i][1],
-          h: 60.0 + ratios[i][1]*max,
-          w: 60.0 + ratios[i][1]*max,
-          group: ratios[i][0],
-          transactions: segmentTransactions(transactions)[ratios[i][0]],
-          font: 20.0 + ratios[i][1]*fontM,
+          name: group.emoji + "\n" + (-getBalance(segmentTransactions(transactions)[group])).toString(),
+          ratio: ratio,
+          h: 60.0 + ratio*max,
+          w: 60.0 + ratio*max,
+          group: group,
+          transactions: groupTransactions,
+          font: 20.0 + ratio*fontM,
         )
     ));
   }
