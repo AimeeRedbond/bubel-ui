@@ -267,7 +267,7 @@ List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double tot
   return sortGroupRatios(ratios);
 }
 
-List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions) {
+List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions, List<Group> groups) {
   double range = 170.0 - 60.0;
   double max = range/ratios[0][1];
   double fontRange = 50.0 - 20.0;
@@ -275,15 +275,15 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   double subRange = 20.0 - 10.0;
   double subM = subRange/ratios[0][1];
   List<Widget> groupWidgets = [];
-  for (int i = 0; i < userGroups.length; i++) {
+  for (int i = 0; i < groups.length; i++) {
     Group group = ratios[i][0];
     double ratio = ratios[i][1];
-    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions, userGroups)[group];
+    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions, groups)[group];
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
           title: group.emoji,
-          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions, userGroups)[group])).toString(),
+          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions, groups)[group])).toString(),
           ratio: ratio,
           h: 60.0 + ratio*max,
           w: 60.0 + ratio*max,
