@@ -55,7 +55,7 @@ class BankingState extends State<Banking> {
         leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblViewSettingsScaffold(context));}),
         ],
       ),
       body: Container(
@@ -120,7 +120,7 @@ class BankingState extends State<Banking> {
         leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, settingsScaffold(context));}),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, standardSettingsScaffold(context));}),
         ],
       ),
       body: Container(
