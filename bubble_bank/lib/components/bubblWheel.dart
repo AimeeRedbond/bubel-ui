@@ -82,3 +82,13 @@ List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double tot
   }
   return sortGroupRatios(ratios);
 }
+
+Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions, List<Group> groups){
+  Map<Group, List<Transaction>> transactionsByGroup = new Map.fromIterable(groups,
+      key: (item) => item,
+      value: (item) => []);
+  for (Group group in transactionsByGroup.keys){
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.group == group.name).toList();
+  }
+  return transactionsByGroup;
+}
