@@ -11,6 +11,7 @@ import 'settingsHelper.dart';
 import '../components/settingsDrawer.dart';
 import '../moneyHelper.dart';
 import '../transactionHelper.dart';
+import '../components/spendingStandardRow.dart';
 
 Scaffold bubblScaffold(context, transactions) {
   return Scaffold(
@@ -54,34 +55,7 @@ Scaffold bubblScaffold(context, transactions) {
                 ]
             ),
           ),
-          Row(
-              children: <Widget>[
-                Expanded(
-                    child: FlatButton(
-                      color: Colors.black45,
-                      textColor: Colors.white,
-                      //`Icon` to display
-                      child: Text('Spending Visuals'),
-                      //`Text` to display
-                      onPressed: () {},
-                      padding: EdgeInsets.all(20.0),
-                    )
-                ),
-                Expanded(
-                    child: FlatButton(
-                      color: Colors.pink,
-                      textColor: Colors.white,
-                      child: Text('Standard View'),
-                      //`Text` to display
-                      onPressed: () {
-                        pushView(context,
-                            standardScaffold(transactions, context));
-                      },
-                      padding: EdgeInsets.all(20.0),
-                    )
-                ),
-              ]
-          )
+          spendingStandardRow(context, transactions)
         ],
       ),
     ),
