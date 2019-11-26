@@ -71,21 +71,6 @@ Iterable<ListTile> settingsList(List<String> settings) {
   return tiles;
 }
 
-Scaffold bubblViewSettingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['Set your spending groups', 'Set up your transactions timeframe']),
-  ).toList();
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Customise your bubbls'),
-    ),
-    body: ListView(children: divided),
-  );
-}
-
 Scaffold bubblSettingsScaffold(context){
   final List<Widget> divided = ListTile
       .divideTiles(
@@ -96,21 +81,6 @@ Scaffold bubblSettingsScaffold(context){
   return Scaffold(
     appBar: AppBar(
       title: Text('Customise your spending breakdown'),
-    ),
-    body: ListView(children: divided),
-  );
-}
-
-Scaffold standardSettingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['Turn on incoming/outgoing colours', 'Set up colour according to value']),
-  ).toList();
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Customise your Standard view'),
     ),
     body: ListView(children: divided),
   );

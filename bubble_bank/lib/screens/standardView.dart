@@ -77,3 +77,18 @@ Scaffold standardScaffold(transactions, context){
       )
   );
 }
+
+Scaffold standardSettingsScaffold(context){
+  final List<Widget> divided = ListTile
+      .divideTiles(
+    context: context,
+    tiles: settingsList(['Turn on incoming/outgoing colours', 'Set up colour according to value']),
+  ).toList();
+
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Customise your Standard view'),
+    ),
+    body: ListView(children: divided),
+  );
+}
