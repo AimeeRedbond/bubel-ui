@@ -1,3 +1,4 @@
+import 'package:bubble_bank/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,7 +8,7 @@ import '../components/menuDrawer.dart';
 import '../moneyHelper.dart';
 import '../transactionHelper.dart';
 
-Scaffold standardScaffold(context, transactions){
+Scaffold standardScaffold(context, List<Transaction> transactions){
   return Scaffold(
       drawer: menuDrawer(),
       appBar: AppBar(

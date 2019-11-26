@@ -26,7 +26,7 @@ Row spendingStandardRow(context, transactions){
               //`Text` to display
               onPressed: () {
                 pushView(context,
-                    standardScaffold(transactions, context));
+                    standardScaffold(context, transactions));
               },
               padding: EdgeInsets.all(20.0),
             )
