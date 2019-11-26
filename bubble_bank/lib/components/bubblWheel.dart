@@ -2,27 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../models/circularDelegate.dart';
-import '../helper.dart';
 import '../moneyHelper.dart';
 import '../transactionHelper.dart';
 import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
 
-Stack bubblWheel(transactions){
+Stack bubblWheel(transactions, groups){
   return Stack(
       children: <Widget>[
         Container(
           child: CustomMultiChildLayout(
             delegate: CircularLayoutDelegate(
-              itemCount: userGroups.length,
+              itemCount: groups.length,
               radius: 140.0,
             ),
             children:
             makeGroupWidgets(getRatios(segmentTransactionsByGroup(
-                transactions, userGroups),
-                getBalance(transactions), userGroups),
-                transactions, userGroups),
+                transactions, groups),
+                getBalance(transactions), groups),
+                transactions, groups),
           ),
         ),
         DefaultTextStyle(

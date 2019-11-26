@@ -1,4 +1,5 @@
 import 'package:bubble_bank/models/transaction.dart';
+import 'package:bubble_bank/models/group.dart';
 import 'package:bubble_bank/theme/style.dart';
 import 'package:bubble_bank/screens/bubbleView.dart';
 
@@ -39,9 +40,19 @@ class BankingState extends State<Banking> {
     new Transaction(200.0, DateTime.parse("2019-11-22"), "Got a fiver", null),
   ];
 
+  List<Group> userGroups = <Group>[
+    new Group("Entertainment", '🎭'),
+    new Group("Shopping", '👕'),
+    new Group("Transport", '🚂'),
+    new Group("Restaurants", '🍕'),
+    new Group("Groceries", "🛒"),
+    new Group("Other", '🤷‍♀️'),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
-    return bubblScaffold(context, _transactions);
+    return bubblScaffold(context, _transactions, userGroups);
   }
 }
 
