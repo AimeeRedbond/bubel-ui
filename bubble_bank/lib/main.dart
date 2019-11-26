@@ -1,4 +1,5 @@
-import 'package:bubble_bank/transaction.dart';
+import 'package:bubble_bank/models/transaction.dart';
+import 'package:bubble_bank/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'bubbl',
-      theme: ThemeData(          // Add the 3 lines from here...
-        primaryColor: Colors.pink,
-      ),
+      theme: appTheme(),
       home: Banking(),
     );
   }

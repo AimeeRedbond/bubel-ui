@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:bubble_bank/transaction.dart';
-import 'package:bubble_bank/group.dart';
+import 'package:bubble_bank/models/transaction.dart';
+import 'package:bubble_bank/models/group.dart';
 
 
 final biggerFont = const TextStyle(fontSize: 18.0);
