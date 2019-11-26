@@ -202,7 +202,6 @@ class _CircularLayoutDelegate extends MultiChildLayoutDelegate {
     }
   }
 
-  // 3
   @override
   bool shouldRelayout(_CircularLayoutDelegate oldDelegate) =>
       itemCount != oldDelegate.itemCount ||
