@@ -36,8 +36,10 @@ class BankingState extends State<Banking> {
         -5.0, DateTime.parse("2019-10-01"), "Train ticket", "Transport"),
     new Transaction(
         -5.0, DateTime.parse("2019-09-04"), "Train ticket", "Transport"),
-    new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Other"),
-    new Transaction(200.0, DateTime.parse("2019-11-22"), "Got a fiver", null),
+    new Transaction(-15.0, DateTime.parse("2019-10-01"), "Door", "Other"),
+    new Transaction(-3, DateTime.parse("2019-11-22"), "Beer", "Alcohol"),
+    new Transaction(-4, DateTime.parse("2019-11-21"), "Vodka", "Alcohol"),
+    new Transaction(300, DateTime.parse("2019-11-21"), "Got paid", null),
   ];
 
   List<Group> userGroups = <Group>[
@@ -46,6 +48,7 @@ class BankingState extends State<Banking> {
     new Group("Transport", '🚂'),
     new Group("Restaurants", '🍕'),
     new Group("Groceries", "🛒"),
+    new Group("Alcohol", "🍺"),
     new Group("Other", '🤷‍♀️'),
   ];
 

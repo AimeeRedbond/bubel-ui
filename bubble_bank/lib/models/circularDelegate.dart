@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
-import '../helper.dart';
-
 class CircularLayoutDelegate extends MultiChildLayoutDelegate {
   final int itemCount;
   final double radius;
@@ -46,9 +44,8 @@ class CircularLayoutDelegate extends MultiChildLayoutDelegate {
 
   static double _radiansPerDegree = pi / 180;
   final double _startAngle = -90.0 * _radiansPerDegree;
-  double _itemSpacing = 360.0 / userGroups.length;
   double _calculateItemAngle(int index) {
-    return _startAngle + index * _itemSpacing * _radiansPerDegree;
+    return _startAngle + index * (360.0 / itemCount) * _radiansPerDegree;
   }
 
 }
