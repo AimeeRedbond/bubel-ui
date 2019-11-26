@@ -68,7 +68,6 @@ class BankingState extends State<Banking> {
         ],
       ),
       body: Container(
-        color: Colors.white,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -157,7 +156,6 @@ class BankingState extends State<Banking> {
         ],
       ),
       body: Container(
-      color: Colors.white,
       child: Column(
         children: <Widget>[
           Padding(

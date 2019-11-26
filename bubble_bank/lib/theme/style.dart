@@ -4,10 +4,9 @@ ThemeData appTheme() {
   return ThemeData(
     primaryColor: Colors.pink,
     accentColor: Colors.orange,
-    hintColor: Colors.white,
-    dividerColor: Colors.white,
+    dividerColor: Colors.black12,
     buttonColor: Colors.white,
-    scaffoldBackgroundColor: Colors.black,
-    canvasColor: Colors.black,
+    scaffoldBackgroundColor: Colors.white,
+    canvasColor: Colors.white,
   );
 }
