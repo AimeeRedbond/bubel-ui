@@ -9,23 +9,6 @@ final balanceFont = const TextStyle(fontSize: 40);
 final buttons = Colors.pink;
 final Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👕', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
 
-//Helper functions for validating fields
-String validatePayee(String payeeName){
-  if (payeeName.isEmpty) {
-    return 'Username can\'t be empty.';
-  }
-  return null;
-}
-
-String validateAmount(String amount){
-  if (amount.isEmpty) {
-    return "Amount can\'t be empty.";
-  } else if (amount == "0"){
-    return "Amount can\'t be zero";
-  }
-  return null;
-}
-
 //Helper functions for calculating moneys and formatting with currency symbols etc
 double getBalance(List<Transaction> transactions){
   List<double> amounts = transactions.map((Transaction transaction) => transaction.tran_amount).toList();
