@@ -51,8 +51,32 @@ class BankingState extends State<Banking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Text('Menu'),
+                decoration: BoxDecoration(
+                  color: Colors.pink,
+                ),
+              ),
+              ListTile(
+                title: Text('How it all works')
+              ),
+              ListTile(
+                  title: Text('My account details')
+              ),
+              ListTile(
+                  title: Text('Manage my bank accounts')
+              ),
+              ListTile(
+                  title: Text('Suggestions for bubbl')
+              ),
+            ],
+          ),
+        ),
       appBar: AppBar(
-        leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblViewSettingsScaffold(context));}),
@@ -116,8 +140,32 @@ class BankingState extends State<Banking> {
 
   Scaffold standardScaffold(transactions, context){
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                color: Colors.pink,
+              ),
+            ),
+            ListTile(
+              title: Text('How it all works')
+            ),
+            ListTile(
+              title: Text('My account details')
+            ),
+            ListTile(
+              title: Text('Manage my bank accounts')
+            ),
+            ListTile(
+              title: Text('Suggestions for bubbl')
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
-        leading: new Container(),
         title: Center( child: Text('bubbl')),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, standardSettingsScaffold(context));}),
