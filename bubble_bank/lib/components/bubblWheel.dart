@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 
 import '../models/circularDelegate.dart';
 import '../moneyHelper.dart';
-import '../transactionHelper.dart';
 import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
@@ -27,7 +26,7 @@ Stack bubblWheel(transactions, groups){
         DefaultTextStyle(
           child: Container(
             child: Center(
-                child: Text(formatBalance(getBalance(
+                child: Text(formatMoneyWithoutPlus(getBalance(
                     transactions)))
             ),
           ),
@@ -53,7 +52,7 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions,
         id: 'GROUP$i',
         child: CircularBubble(
           title: group.emoji,
-          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions, groups)[group])).toString(),
+          subtitle: formatMoneyWithoutPlus(-getBalance(segmentTransactionsByGroup(transactions, groups)[group])).toString(),
           ratio: ratio,
           h: 60.0 + ratio*max,
           w: 60.0 + ratio*max,

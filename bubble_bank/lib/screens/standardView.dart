@@ -23,7 +23,7 @@ Scaffold standardScaffold(context, List<Transaction> transactions){
             Padding(
                 padding: EdgeInsets.all(40),
                 child: Text(
-                  formatBalance(getBalance(transactions)),
+                  formatMoneyWithoutPlus(getBalance(transactions)),
                   style: TextStyle(fontSize: 40),
                   textAlign: TextAlign.center,
                 )
