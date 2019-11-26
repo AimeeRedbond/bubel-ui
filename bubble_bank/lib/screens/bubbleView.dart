@@ -91,7 +91,7 @@ Scaffold bubblScaffold(context, transactions) {
                 ),
                 Expanded(
                     child: FlatButton(
-                      color: buttons,
+                      color: Colors.pink,
                       textColor: Colors.white,
                       child: Text('Standard View'),
                       //`Text` to display

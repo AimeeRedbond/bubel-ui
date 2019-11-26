@@ -55,7 +55,7 @@ Scaffold standardScaffold(transactions, context){
                 children: <Widget>[
                   Expanded(
                       child: FlatButton(
-                        color: buttons,
+                        color: Colors.pink,
                         textColor: Colors.white,
                         child: Text('Spending Visuals'),
                         onPressed: () {Navigator.of(context).pop();},

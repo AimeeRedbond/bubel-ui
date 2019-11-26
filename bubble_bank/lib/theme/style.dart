@@ -5,7 +5,7 @@ ThemeData appTheme() {
     primaryColor: Colors.pink,
     accentColor: Colors.orange,
     dividerColor: Colors.black12,
-    buttonColor: Colors.white,
+    buttonColor: Colors.pink,
     scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.white,
   );

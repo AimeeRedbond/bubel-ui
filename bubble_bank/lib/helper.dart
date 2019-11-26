@@ -6,7 +6,6 @@ import 'package:bubble_bank/models/group.dart';
 
 final biggerFont = const TextStyle(fontSize: 18.0);
 final balanceFont = const TextStyle(fontSize: 40);
-final buttons = Colors.pink;
 
 List<Group> userGroups = <Group>[
   new Group("Entertainment", '🎭'),
