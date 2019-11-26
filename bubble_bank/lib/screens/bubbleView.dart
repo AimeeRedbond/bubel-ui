@@ -1,3 +1,4 @@
+import 'package:bubble_bank/components/settingsDrawer.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,35 +9,11 @@ import '../models/group.dart';
 import '../helper.dart';
 import 'standardView.dart';
 import 'settingsHelper.dart';
+import '../components/settingsDrawer.dart';
 
 Scaffold bubblScaffold(context, transactions) {
   return Scaffold(
-    drawer: Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text('Menu',
-                style: TextStyle(color: Colors.white, fontSize: 20.0)),
-            decoration: BoxDecoration(
-              color: Colors.pink,
-            ),
-          ),
-          ListTile(
-              title: Text('How it all works')
-          ),
-          ListTile(
-              title: Text('My account details')
-          ),
-          ListTile(
-              title: Text('Manage my bank accounts')
-          ),
-          ListTile(
-              title: Text('Suggestions for bubbl')
-          ),
-        ],
-      ),
-    ),
+    drawer: menuDrawer(),
     appBar: AppBar(
       title: Center(child: Text('bubbl')),
       actions: <Widget>[
