@@ -35,7 +35,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {pushView(context, groupScaffold(sortTransactions(transactions, "amount", false), context, group));},
+          onTap: () {pushView(context, groupScaffold(context, sortTransactions(transactions, "amount", false), group));},
           child: ClipOval(
             child: Container(
                 color: Colors.pinkAccent,

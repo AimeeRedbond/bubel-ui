@@ -7,7 +7,7 @@ import '../components/menuDrawer.dart';
 import '../moneyHelper.dart';
 import '../transactionHelper.dart';
 
-Scaffold standardScaffold(transactions, context){
+Scaffold standardScaffold(context, transactions){
   return Scaffold(
       drawer: menuDrawer(),
       appBar: AppBar(

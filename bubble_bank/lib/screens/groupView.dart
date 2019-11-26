@@ -7,7 +7,7 @@ import 'settingsHelper.dart';
 import '../transactionHelper.dart';
 import '../moneyHelper.dart';
 
-Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
+Scaffold groupScaffold(context, List<Transaction> transactions, Group group){
   return Scaffold(
       appBar: AppBar(
         title: Center( child: Text(group.name)),

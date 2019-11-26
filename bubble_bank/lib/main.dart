@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class BankingState extends State<Banking> {
-  List<Transaction> _transactions = <Transaction>[
+  List<Transaction> userTransactions = <Transaction>[
     new Transaction(-13.50, DateTime.parse("2019-11-24"), "Kremlin museum",
         "Entertainment"),
     new Transaction(-3.4, DateTime.parse("2019-11-23"), "Sainsbury's meal deal",
@@ -52,7 +52,7 @@ class BankingState extends State<Banking> {
 
   @override
   Widget build(BuildContext context) {
-    return bubblScaffold(context, _transactions, userGroups);
+    return bubblScaffold(context, userTransactions, userGroups);
   }
 }
 
