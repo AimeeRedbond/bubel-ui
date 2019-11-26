@@ -271,10 +271,7 @@ List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double tot
       key: (item) => item,
       value: (item) => 0);
   for (Group group in groupTransactions.keys) {
-    for (Transaction t in groupTransactions[group]) {
-      ratios[group] += t.amount;
-    }
-    ratios[group] = ratios[group]/total;
+    ratios[group] = getBalance(groupTransactions[group])/total;
   }
   return sortGroupRatios(ratios);
 }
@@ -292,7 +289,7 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
-          name: group.emoji + "\n" + (-getBalance(segmentTransactions(transactions)[group])).toString(),
+          name: group.emoji + "\n" + (-getBalance(groupTransactions)).toString(),
           ratio: ratio,
           h: 60.0 + ratio*max,
           w: 60.0 + ratio*max,
