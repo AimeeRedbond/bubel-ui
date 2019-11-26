@@ -181,12 +181,12 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   List amounts = transactions.map((transaction) => transaction.amount).toList();
 
   double bestDiff = -1;
-  double besti = 1;
+  int besti = 1;
   for (int i = 1; i < amounts.length; i++) {
     double diff = amounts[i] - amounts[i-1];
     if (diff > bestDiff){
       bestDiff = diff;
-      besti = i.toDouble();
+      besti = i;
     }
   }
 
@@ -204,10 +204,9 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   },
   ).toList();
 
-  tiles.insert(0, ListTile(trailing: Text(
-      group.emoji*3, style: TextStyle(fontSize: 28))));
-  tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 28))));
-  if (besti.toInt()+3 < tiles.length) {
+  tiles.insert(0, ListTile(trailing: Text(group.emoji*3, style: TextStyle(fontSize: 28))));
+  tiles.insert(besti+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 28))));
+  if (besti+3 < tiles.length) {
     tiles.insert(besti.toInt() + 3, ListTile(
         trailing: Text(group.emoji, style: TextStyle(fontSize: 28)))
     );
