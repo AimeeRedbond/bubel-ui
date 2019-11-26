@@ -1,3 +1,4 @@
+import 'package:bubble_bank/group.dart';
 import 'package:bubble_bank/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -28,6 +29,7 @@ class BankingState extends State<Banking> {
     new Transaction(-14.50, DateTime.parse("2019-09-01"), "Trousers", "Shopping"),
     new Transaction(-5.0, DateTime.parse("2019-09-29"), "Starbucks coffee", "Restaurants"),
     new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Transport"),
+    new Transaction(-5.0, DateTime.parse("2019-10-01"), "Train ticket", "Transport"),
     new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Other"),
     new Transaction(200.0, DateTime.parse("2019-11-22"), "Got a fiver", null),
   ];
@@ -80,7 +82,7 @@ class BankingState extends State<Banking> {
                         radius: 140.0,
                       ),
                       children:
-                      makeGroups(getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
+                      makeGroupWidgets(getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
                     ),
                   ),
                   DefaultTextStyle(

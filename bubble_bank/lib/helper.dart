@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bubble_bank/transaction.dart';
+import 'package:bubble_bank/group.dart';
 
 
 final biggerFont = const TextStyle(fontSize: 18.0);
 final balanceFont = const TextStyle(fontSize: 40);
 final buttons = Colors.pink;
-final Map<String, String> emojis = {'Restaurants':'🍕', 'Groceries':'🛒', 'Shopping':'👕', 'Transport':'🚂', 'Entertainment':'🎭', 'Other':'🤷‍♀️'};
+
+List<Group> lol_groups = <Group>[
+  new Group("Entertainment", '🎭'),
+  new Group("Shopping", '👕'),
+  new Group("Transport", '🚂'),
+  new Group("Restaurants", '🍕'),
+  new Group("Groceries", "🛒"),
+  new Group("Other", '🤷‍♀️'),
+];
 
 //Helper functions for calculating moneys and formatting with currency symbols etc
 double getBalance(List<Transaction> transactions){
@@ -30,11 +39,13 @@ String formatBalance(double money){
   return "£" + money.toStringAsFixed(2);
 }
 
-Map<String, List<Transaction>> segmentTransactions(List<Transaction> transactions){
-  Map<String, List<Transaction>> groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
+Map<Group, List<Transaction>> segmentTransactions(List<Transaction> transactions){
 
-  for (String group in groups.keys){
-    groups[group] = transactions.where((Transaction t) => t.tran_group == group).toList();
+  Map<Group, List<Transaction>> groups = new Map.fromIterable(lol_groups,
+      key: (item) => item,
+      value: (item) => []);
+  for (Group group in groups.keys){
+    groups[group] = transactions.where((Transaction t) => t.tran_group == group.name).toList();
   }
   return groups;
 }
@@ -61,8 +72,6 @@ Iterable<ListTile> settingsList(List<String> settings) {
   );
   return tiles;
 }
-
-final formKey = GlobalKey<FormState>();
 
 Scaffold bubblViewSettingsScaffold(context){
   final List<Widget> divided = ListTile
@@ -181,7 +190,7 @@ Iterable<ListTile> transactionsTiles(List<Transaction> transactions){
   );
 }
 
-Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, group){
+Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
   List amounts = transactions.map((transaction) => transaction.amount).toList();
 
   double bestDiff = -1;
@@ -208,11 +217,12 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   },
   ).toList();
 
-  tiles.insert(0, ListTile(trailing: Text(emojis[group]*3, style: TextStyle(fontSize: 28))));
-  tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(emojis[group]*2, style: TextStyle(fontSize: 28))));
+  tiles.insert(0, ListTile(trailing: Text(
+      group.emoji*3, style: TextStyle(fontSize: 28))));
+  tiles.insert(besti.toInt()+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 28))));
   if (besti.toInt()+3 < tiles.length) {
     tiles.insert(besti.toInt() + 3, ListTile(
-        trailing: Text(emojis[group], style: TextStyle(fontSize: 28)))
+        trailing: Text(group.emoji, style: TextStyle(fontSize: 28)))
     );
   }
   return tiles;
@@ -251,36 +261,36 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
   return groupedTransactions;
 }
 
-List<List> sortMap(Map<String, double> map) {
-  List<List> lol = map.keys.map((String k) {
-    return [k, map[k]];
-  }).toList();
-  lol.sort((List p1, List p2) => p1[1].compareTo(p2[1]));
-  return lol;
+List<List> sortGroupRatios(Map<Group, double> groupRatios) {
+  List<List> sortedRatios = groupRatios.keys.map((Group group) {return [group, groupRatios[group]];}).toList();
+  sortedRatios.sort((List p1, List p2) => p1[1].compareTo(p2[1]));
+  return sortedRatios;
 }
 
-List<List> getRatios(groups, total) {
-  Map<String, double> ratios = {'Entertainment': 0.0, 'Restaurants': 0.0, 'Groceries': 0.0, 'Shopping': 0.0, 'Transport': 0.0, 'Other': 0.0};
-  for (String group in groups.keys) {
-    for (Transaction t in groups[group]) {
+List<List> getRatios(Map<Group, List<Transaction>> transaction_in_group, double total) {
+  Map<Group, double> ratios = new Map.fromIterable(lol_groups,
+      key: (item) => item,
+      value: (item) => 0);
+  for (Group group in transaction_in_group.keys) {
+    for (Transaction t in transaction_in_group[group]) {
       ratios[group] += t.amount;
     }
     ratios[group] = ratios[group]/total;
   }
-  return sortMap(ratios);
+  return sortGroupRatios(ratios);
 }
 
-List<Widget> makeGroups(ratios, List<Transaction> transactions) {
+List<Widget> makeGroupWidgets(ratios, List<Transaction> transactions) {
   double range = 170.0 - 60.0;
   double max = range/ratios[0][1];
   double fontRange = 50.0 - 20.0;
   double fontM = fontRange/ratios[0][1];
-  List<Widget> groups = [];
-  for (int i = 0; i < 6; i++) {
-    groups.add( LayoutId(
+  List<Widget> groupWidgets = [];
+  for (int i = 0; i < lol_groups.length; i++) {
+    groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
-          name: emojis[ratios[i][0]],
+          name: ratios[i][0].emoji,
           ratio: ratios[i][1],
           h: 60.0 + ratios[i][1]*max,
           w: 60.0 + ratios[i][1]*max,
@@ -290,7 +300,7 @@ List<Widget> makeGroups(ratios, List<Transaction> transactions) {
         )
     ));
   }
-  return groups;
+  return groupWidgets;
 }
 
 class CircularBubble extends StatelessWidget {
@@ -298,7 +308,7 @@ class CircularBubble extends StatelessWidget {
   final double h;
   final double w;
   final double ratio;
-  final String group;
+  final Group group;
   final List<Transaction> transactions;
   final double font;
 
@@ -342,10 +352,10 @@ void pushView(context, scaffold) {
   );
 }
 
-Scaffold groupScaffold(List<Transaction> transactions, context, group){
+Scaffold groupScaffold(List<Transaction> transactions, context, Group group){
   return Scaffold(
       appBar: AppBar(
-        title: Center( child: Text(group)),
+        title: Center( child: Text(group.group_name)),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblSettingsScaffold(context));}),
         ],
@@ -355,7 +365,7 @@ Scaffold groupScaffold(List<Transaction> transactions, context, group){
           Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              "You spent " + formatBalance(-getBalance(transactions)) + " on " + group + " in the past month.",
+              "You spent " + formatBalance(-getBalance(transactions)) + " on " + group.group_name + " in the past month.",
               style: TextStyle(fontSize: 34),
               textAlign: TextAlign.center,
             )
