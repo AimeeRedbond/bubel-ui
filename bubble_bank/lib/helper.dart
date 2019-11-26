@@ -273,6 +273,8 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   double max = range/ratios[0][1];
   double fontRange = 50.0 - 20.0;
   double fontM = fontRange/ratios[0][1];
+  double subRange = 20.0 - 10.0;
+  double subM = subRange/ratios[0][1];
   List<Widget> groupWidgets = [];
   for (int i = 0; i < userGroups.length; i++) {
     Group group = ratios[i][0];
@@ -281,13 +283,15 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
-          name: group.emoji + "\n" + (-getBalance(groupTransactions)).toString(),
+          title: group.emoji,
+          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions)[group])).toString(),
           ratio: ratio,
           h: 60.0 + ratio*max,
           w: 60.0 + ratio*max,
           group: group,
           transactions: groupTransactions,
           font: 20.0 + ratio*fontM,
+          subFont: 10.0 + ratio*subM,
         )
     ));
   }
@@ -295,22 +299,26 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
 }
 
 class CircularBubble extends StatelessWidget {
-  final String name;
+  final String title;
+  final String subtitle;
   final double h;
   final double w;
   final double ratio;
   final Group group;
   final List<Transaction> transactions;
   final double font;
+  final double subFont;
 
   CircularBubble({
-    @required this.name,
+    @required this.title,
+    @required this.subtitle,
     @required this.h,
     @required this.w,
     @required this.ratio,
     @required this.group,
     @required this.transactions,
     @required this.font,
+    @required this.subFont,
   });
 
   @override
@@ -324,7 +332,14 @@ class CircularBubble extends StatelessWidget {
               color: Colors.pinkAccent,
               height: h, // height of the button
               width: w, // width of the button
-              child: Center(child: Text(name, style: TextStyle(fontSize: font))),
+              child: Column(
+                children: <Widget>[
+                  Spacer(),
+                  Center(child: Text(title, style: TextStyle(fontSize: font))),
+                  Center(child: Text(subtitle, style: TextStyle(fontSize: subFont))),
+                  Spacer(),
+                ],
+              )
             ),
           ),
         ),
