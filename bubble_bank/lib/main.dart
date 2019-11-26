@@ -82,7 +82,7 @@ class BankingState extends State<Banking> {
                         radius: 140.0,
                       ),
                       children:
-                      makeGroupWidgets(getRatios(segmentTransactionsByGroup(_transactions), getBalance(_transactions)), _transactions),
+                      makeGroupWidgets(getRatios(segmentTransactionsByGroup(_transactions, userGroups), getBalance(_transactions), userGroups), _transactions),
                     ),
                   ),
                   DefaultTextStyle(

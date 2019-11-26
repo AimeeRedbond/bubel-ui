@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bubble_bank/transaction.dart';
 import 'package:bubble_bank/group.dart';
 
@@ -39,14 +38,14 @@ String formatBalance(double money){
   return "£" + money.toStringAsFixed(2);
 }
 
-Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions){
-  Map<Group, List<Transaction>> groups = new Map.fromIterable(userGroups,
+Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions, List<Group> groups){
+  Map<Group, List<Transaction>> transactionsByGroup = new Map.fromIterable(groups,
       key: (item) => item,
       value: (item) => []);
-  for (Group group in groups.keys){
-    groups[group] = transactions.where((Transaction t) => t.group == group.name).toList();
+  for (Group group in transactionsByGroup.keys){
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.group == group.name).toList();
   }
-  return groups;
+  return transactionsByGroup;
 }
 
 List<Transaction> sortTransactions(List<Transaction> transactions, String field, bool ascending){
@@ -258,8 +257,8 @@ List<List> sortGroupRatios(Map<Group, double> groupRatios) {
   return sortedRatios;
 }
 
-List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double total) {
-  Map<Group, double> ratios = new Map.fromIterable(userGroups,
+List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double total, groups) {
+  Map<Group, double> ratios = new Map.fromIterable(groups,
       key: (item) => item,
       value: (item) => 0);
   for (Group group in groupTransactions.keys) {
@@ -279,12 +278,12 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   for (int i = 0; i < userGroups.length; i++) {
     Group group = ratios[i][0];
     double ratio = ratios[i][1];
-    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions)[group];
+    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions, userGroups)[group];
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
           title: group.emoji,
-          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions)[group])).toString(),
+          subtitle: formatBalance(-getBalance(segmentTransactionsByGroup(transactions, userGroups)[group])).toString(),
           ratio: ratio,
           h: 60.0 + ratio*max,
           w: 60.0 + ratio*max,
