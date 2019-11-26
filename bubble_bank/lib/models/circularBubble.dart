@@ -4,6 +4,7 @@ import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
 import '../screens/groupView.dart';
+import '../transactionHelper.dart';
 
 
 class CircularBubble extends StatelessWidget {
