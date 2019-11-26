@@ -39,7 +39,7 @@ String formatBalance(double money){
   return "£" + money.toStringAsFixed(2);
 }
 
-Map<Group, List<Transaction>> segmentTransactions(List<Transaction> transactions){
+Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions){
   Map<Group, List<Transaction>> groups = new Map.fromIterable(userGroups,
       key: (item) => item,
       value: (item) => []);
@@ -154,18 +154,6 @@ Scaffold menuDrawerScaffold(context){
       ),
     )
   );
-}
-
-Future<bool> setId(String value) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  return prefs.setString('id', value);
-}
-
-Future<String> getId() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  return prefs.getString('id') ?? '';
 }
 
 Iterable<ListTile> transactionsTiles(List<Transaction> transactions){
@@ -290,7 +278,7 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   for (int i = 0; i < userGroups.length; i++) {
     Group group = ratios[i][0];
     double ratio = ratios[i][1];
-    List<Transaction> groupTransactions = segmentTransactions(transactions)[group];
+    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions)[group];
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(

@@ -1,4 +1,3 @@
-import 'package:bubble_bank/group.dart';
 import 'package:bubble_bank/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -83,7 +82,7 @@ class BankingState extends State<Banking> {
                         radius: 140.0,
                       ),
                       children:
-                      makeGroupWidgets(getRatios(segmentTransactions(_transactions), getBalance(_transactions)), _transactions),
+                      makeGroupWidgets(getRatios(segmentTransactionsByGroup(_transactions), getBalance(_transactions)), _transactions),
                     ),
                   ),
                   DefaultTextStyle(
