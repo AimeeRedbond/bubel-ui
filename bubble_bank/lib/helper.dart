@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bubble_bank/transaction.dart';
 import 'package:bubble_bank/group.dart';
 
