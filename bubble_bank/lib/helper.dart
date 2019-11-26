@@ -286,15 +286,16 @@ List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions)
   double fontM = fontRange/ratios[0][1];
   List<Widget> groupWidgets = [];
   for (int i = 0; i < userGroups.length; i++) {
+    
     groupWidgets.add( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
-          name: ratios[i][0].emoji,
+          name: ratios[i][0].emoji + "\n" + (-getBalance(segmentTransactions(transactions)[ratios[i][0]])).toString(),
           ratio: ratios[i][1],
           h: 60.0 + ratios[i][1]*max,
           w: 60.0 + ratios[i][1]*max,
           group: ratios[i][0],
-          transactions: transactions,
+          transactions: segmentTransactions(transactions)[ratios[i][0]],
           font: 20.0 + ratios[i][1]*fontM,
         )
     ));
@@ -326,7 +327,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {pushView(context, groupScaffold(sortTransactions(segmentTransactions(transactions)[group], "amount", false), context, group));},
+          onTap: () {pushView(context, groupScaffold(sortTransactions(transactions, "amount", false), context, group));},
           child: ClipOval(
             child: Container(
               color: Colors.pinkAccent,
