@@ -238,23 +238,28 @@ ListView transactionsView(tiles, context){
 }
 
 List<Transaction> groupDuplicates(List<Transaction> transactions){
-  Map<String, Map<double, int>> noT = new Map<String, Map<double, int>>();
+  Map<String, Map<double, int>> similarTransactionsCount = new Map<String, Map<double, int>>();
   List<Transaction> groupedTransactions = new List<Transaction>();
   for (Transaction t in transactions) {
-    if (noT.containsKey(t.description) && noT[t.description].containsKey(t.amount)) {
-      noT[t.description][t.amount] += 1;
-    } else {
-      noT[t.description] = {};
-      noT[t.description][t.amount] = 1;
+    if (!similarTransactionsCount.containsKey(t.description) || !similarTransactionsCount[t.description].containsKey(t.amount)) {
+      similarTransactionsCount[t.description] = {};
+      similarTransactionsCount[t.description][t.amount] = 0;
     }
+    similarTransactionsCount[t.description][t.amount] += 1;
   }
-  for (String des in noT.keys) {
-    for (double amo in noT[des].keys) {
-      if (noT[des][amo] > 1) {
-        groupedTransactions.add(Transaction(amo * noT[des][amo], null, des + ' x ' + noT[des][amo].toString(), ""));
+  for (String des in similarTransactionsCount.keys) {
+    for (double amo in similarTransactionsCount[des].keys) {
+      int count = similarTransactionsCount[des][amo];
+      double transactionAmount;
+      String transactionDescription;
+      if (count > 1) {
+        transactionAmount = amo*count;
+        transactionDescription = des + ' x ' + count.toString();
       } else {
-        groupedTransactions.add(Transaction(amo, null, des, ""));
+        transactionAmount = amo;
+        transactionDescription = des;
       }
+      groupedTransactions.add(Transaction(transactionAmount, null, transactionDescription, ""));
     }
   }
   return groupedTransactions;
