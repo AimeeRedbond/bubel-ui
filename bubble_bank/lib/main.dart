@@ -37,11 +37,13 @@ class BankingState extends State<Banking> {
     { 'amount':100.0, 'date':DateTime.parse("2019-09-28"), "description":"Top up from Banana Pay"},
     { 'amount':-40.0, 'date':DateTime.parse("2019-09-01"), "description":"Prada bag", "group": "Shopping"},
     { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants"},
-    { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Stickers", "group":"Other"},
+    { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Brocolli", "group":"Groceries"},
+    { 'amount':-4.99, 'date':DateTime.parse("2019-10-04"), "description":"Scran", "group": "Restaurants"},
     { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
     { 'amount':-1.99, 'date':DateTime.parse("2019-09-01"), "description":"Socks", "group": "Shopping"},
     { 'amount':-30.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
     { 'amount':-15.0, 'date':DateTime.parse("2019-10-01"), "description":"Bus ticket", "group": "Transport"},
+    { 'amount':-10.0, 'date':DateTime.parse("2019-10-01"), "description":"Train ticket", "group": "Transport"},
     { 'amount':-4.50, 'date':DateTime.parse("2019-09-01"), "description":"Shoes", "group": "Shopping"},
     { 'amount':-3.0, 'date':DateTime.parse("2019-10-02"), "description":"Tesco meal deal", "group": "Groceries"},
     { 'amount':-4.50, 'date':DateTime.parse("2019-10-01"), "description":"Tee-shirt", "group": "Shopping"},
@@ -51,7 +53,6 @@ class BankingState extends State<Banking> {
   String payee;
   String amount;
   Future<String> post;
-  List<Map> petrTrans;
 
   @override
   void initState() {
@@ -115,11 +116,6 @@ class BankingState extends State<Banking> {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            
-            Container(
-              height: 100.0,
-              child: transferButtons(),
-            ),
             Expanded(
               child: Stack(
                 children: <Widget>[
@@ -170,12 +166,6 @@ class BankingState extends State<Banking> {
         ),
       ),
     );
-  }
-
-  Text hi(String lol){
-    _transactions = json.decode(lol);
-    print(_transactions);
-    return Text(lol.toString());
   }
 
   void _submit() {
