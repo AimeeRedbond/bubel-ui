@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bubble_bank/transaction.dart';
 
 
 final biggerFont = const TextStyle(fontSize: 18.0);
@@ -26,9 +27,9 @@ String validateAmount(String amount){
 }
 
 //Helper functions for calculating moneys and formatting with currency symbols etc
-double getBalance(List<Map> transactions){
-  var amounts = transactions.map((transaction) => transaction["amount"]);
-  double totalSpending = amounts.reduce((curr, next) => curr + next);
+double getBalance(List<Transaction> transactions){
+  List<double> amounts = transactions.map((Transaction transaction) => transaction.tran_amount).toList();
+  double totalSpending = amounts.reduce((double curr, double next) => curr + next);
   return totalSpending;
 }
 
@@ -46,19 +47,20 @@ String formatBalance(double money){
   return "£" + money.toStringAsFixed(2);
 }
 
-Map<String, List<Map>> segmentTransactions(List<Map> transactions){
-  Map<String, List<Map>> groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
+Map<String, List<Transaction>> segmentTransactions(List<Transaction> transactions){
+  Map<String, List<Transaction>> groups = {"Entertainment": [], "Groceries": [], "Other": [], "Transport": [], "Shopping": [], "Restaurants":[]};
+
   for (String group in groups.keys){
-    groups[group] = transactions.where((t) => t["group"] == group).toList();
+    groups[group] = transactions.where((Transaction t) => t.tran_group == group).toList();
   }
   return groups;
 }
 
-List<Map> sortTransactions(List<Map> transactions, String field, bool ascending){
+List<Transaction> sortTransactions(List<Transaction> transactions, String field, bool ascending){
   if (ascending) {
-    transactions.sort((t1, t2) => t1[field].compareTo(t2[field]));
+    transactions.sort((t1, t2) => t1.getField(field).compareTo(t2.getField(field)));
   } else{
-    transactions.sort((t1, t2) => t2[field].compareTo(t1[field]));
+    transactions.sort((t1, t2) => t2.getField(field).compareTo(t1.getField(field)));
   }
   return transactions;
 }
@@ -175,20 +177,20 @@ Future<String> getId() async {
   return prefs.getString('id') ?? '';
 }
 
-Iterable<ListTile> transactionsTiles(List<Map> transactions){
+Iterable<ListTile> transactionsTiles(List<Transaction> transactions){
   return transactions.map(
-        (Map transaction) {
+        (Transaction transaction) {
       return ListTile(
         title: Text(
-          transaction["description"],
+          transaction.description,
           style: biggerFont,
         ),
         subtitle: Text(
-          transaction.containsKey("date") ? transaction["date"].toString().split(" ")[0] : "",
+          transaction.date != null ? transaction.date.toString().split(" ")[0] : "",
           style: biggerFont,
         ),
         trailing: Text(
-          formatMoney(transaction["amount"]),
+          formatMoney(transaction.amount),
           style: biggerFont,
         ),
       );
@@ -196,8 +198,8 @@ Iterable<ListTile> transactionsTiles(List<Map> transactions){
   );
 }
 
-Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group){
-  List amounts = transactions.map((transaction) => transaction["amount"]).toList();
+Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, group){
+  List amounts = transactions.map((transaction) => transaction.amount).toList();
 
   double bestDiff = -1;
   double besti = 1;
@@ -209,14 +211,14 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Map> transactions, group)
     }
   }
 
-  List<ListTile> tiles = transactions.map( (Map transaction) {
+  List<ListTile> tiles = transactions.map( (Transaction transaction) {
     return ListTile(
       title: Text(
-        transaction["description"],
+        transaction.description,
         style: biggerFont,
       ),
       trailing: Text(
-        formatMoney(transaction["amount"]),
+        formatMoney(transaction.amount),
         style: biggerFont,
       ),
     );
@@ -243,26 +245,23 @@ ListView transactionsView(tiles, context){
   return ListView(children: divided);
 }
 
-List<Map> groupDuplicates(List<Map> transactions){
+List<Transaction> groupDuplicates(List<Transaction> transactions){
   Map<String, Map<double, int>> noT = new Map<String, Map<double, int>>();
-  List<Map> groupedTransactions = new List<Map>();
-  for (Map t in transactions) {
-    if (noT.containsKey(t['description']) && noT[t['description']].containsKey(t['amount'])) {
-      noT[t['description']][t['amount']] += 1;
+  List<Transaction> groupedTransactions = new List<Transaction>();
+  for (Transaction t in transactions) {
+    if (noT.containsKey(t.description) && noT[t.description].containsKey(t.amount)) {
+      noT[t.description][t.amount] += 1;
     } else {
-      noT[t['description']] = {};
-      noT[t['description']][t['amount']] = 1;
+      noT[t.description] = {};
+      noT[t.description][t.amount] = 1;
     }
   }
   for (String des in noT.keys) {
     for (double amo in noT[des].keys) {
       if (noT[des][amo] > 1) {
-        groupedTransactions.add({
-          'description': des + ' x ' + noT[des][amo].toString(),
-          'amount': amo * noT[des][amo]
-        });
+        groupedTransactions.add(Transaction(amo * noT[des][amo], null, des + ' x ' + noT[des][amo].toString(), ""));
       } else {
-        groupedTransactions.add({'description': des, 'amount': amo});
+        groupedTransactions.add(Transaction(amo, null, des, ""));
       }
     }
   }
@@ -280,15 +279,15 @@ List<List> sortMap(Map<String, double> map) {
 List<List> getRatios(groups, total) {
   Map<String, double> ratios = {'Entertainment': 0.0, 'Restaurants': 0.0, 'Groceries': 0.0, 'Shopping': 0.0, 'Transport': 0.0, 'Other': 0.0};
   for (String group in groups.keys) {
-    for (var t in groups[group]) {
-      ratios[group] += t['amount'];
+    for (Transaction t in groups[group]) {
+      ratios[group] += t.amount;
     }
     ratios[group] = ratios[group]/total;
   }
   return sortMap(ratios);
 }
 
-List<Widget> makeGroups(ratios, transactions) {
+List<Widget> makeGroups(ratios, List<Transaction> transactions) {
   double range = 170.0 - 60.0;
   double max = range/ratios[0][1];
   double fontRange = 50.0 - 20.0;
@@ -303,7 +302,7 @@ List<Widget> makeGroups(ratios, transactions) {
           h: 60.0 + ratios[i][1]*max,
           w: 60.0 + ratios[i][1]*max,
           group: ratios[i][0],
-          t: transactions,
+          transactions: transactions,
           font: 20.0 + ratios[i][1]*fontM,
         )
     ));
@@ -317,7 +316,7 @@ class CircularBubble extends StatelessWidget {
   final double w;
   final double ratio;
   final String group;
-  final List<Map> t;
+  final List<Transaction> transactions;
   final double font;
 
   CircularBubble({
@@ -326,7 +325,7 @@ class CircularBubble extends StatelessWidget {
     @required this.w,
     @required this.ratio,
     @required this.group,
-    @required this.t,
+    @required this.transactions,
     @required this.font,
   });
 
@@ -335,7 +334,7 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {pushView(context, groupScaffold(sortTransactions(segmentTransactions(t)[group], "amount", false), context, group));},
+          onTap: () {pushView(context, groupScaffold(sortTransactions(segmentTransactions(transactions)[group], "amount", false), context, group));},
           child: ClipOval(
             child: Container(
               color: Colors.pinkAccent,
@@ -360,7 +359,7 @@ void pushView(context, scaffold) {
   );
 }
 
-Scaffold groupScaffold(transactions, context, group){
+Scaffold groupScaffold(List<Transaction> transactions, context, group){
   return Scaffold(
       appBar: AppBar(
         title: Center( child: Text(group)),

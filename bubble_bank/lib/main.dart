@@ -1,3 +1,4 @@
+import 'package:bubble_bank/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -21,31 +22,14 @@ class MyApp extends StatelessWidget {
 }
 
 class BankingState extends State<Banking> {
-  List<Map> _transactions = <Map>[
-    {
-      'amount':-13.50,
-      'date':DateTime.parse("2019-11-24"),
-      "description":"Kremlin museum",
-      "group":"Entertainment"
-    },
-    { 'amount':-3.4, 'date':DateTime.parse("2019-11-23"), "description":"Sainsbury's meal deal", "group": "Groceries"},
-    { 'amount':-14.50, 'date':DateTime.parse("2019-09-01"), "description":"Trousers", "group": "Shopping"},
-    { 'amount':-35.50, 'date':DateTime.parse("2019-09-01"), "description":"Expensif Shirt", "group": "Shopping"},
-    { 'amount':-5.0, 'date':DateTime.parse("2019-09-29"), "description":"Starbucks coffee", "group": "Restaurants"},
-    { 'amount':100.0, 'date':DateTime.parse("2019-09-28"), "description":"Top up from Banana Pay"},
-    { 'amount':-40.0, 'date':DateTime.parse("2019-09-01"), "description":"Prada bag", "group": "Shopping"},
-    { 'amount':-5.0, 'date':DateTime.parse("2019-10-04"), "description":"Starbucks coffee", "group": "Restaurants`"},
-    { 'amount':-2.0, 'date':DateTime.parse("2019-10-03"), "description":"Brocolli", "group":"Groceries"},
-    { 'amount':-4.99, 'date':DateTime.parse("2019-10-04"), "description":"Scran", "group": "Restaurants"},
-    { 'amount':5.0, 'date':DateTime.parse("2019-11-22"), "description":"Got a fiver"},
-    { 'amount':-1.99, 'date':DateTime.parse("2019-09-01"), "description":"Socks", "group": "Shopping"},
-    { 'amount':-30.0, 'date':DateTime.parse("2019-11-20"), "description":"Microwave", "group":"Other"},
-    { 'amount':-15.0, 'date':DateTime.parse("2019-10-01"), "description":"Bus ticket", "group": "Transport"},
-    { 'amount':-10.0, 'date':DateTime.parse("2019-10-01"), "description":"Train ticket", "group": "Transport"},
-    { 'amount':-4.50, 'date':DateTime.parse("2019-09-01"), "description":"Shoes", "group": "Shopping"},
-    { 'amount':-3.0, 'date':DateTime.parse("2019-10-02"), "description":"Tesco meal deal", "group": "Groceries"},
-    { 'amount':-4.50, 'date':DateTime.parse("2019-10-01"), "description":"Tee-shirt", "group": "Shopping"},
-    { 'amount':300.0, 'date':DateTime.parse("2019-10-01"), "description":"Top-up from Banana pay", "group": null},
+  List<Transaction> _transactions = <Transaction>[
+    new Transaction(-13.50, DateTime.parse("2019-11-24"),"Kremlin museum","Entertainment"),
+    new Transaction(-3.4, DateTime.parse("2019-11-23"), "Sainsbury's meal deal", "Groceries"),
+    new Transaction(-14.50, DateTime.parse("2019-09-01"), "Trousers", "Shopping"),
+    new Transaction(-5.0, DateTime.parse("2019-09-29"), "Starbucks coffee", "Restaurants"),
+    new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Transport"),
+    new Transaction(-15.0, DateTime.parse("2019-10-01"), "Bus ticket", "Other"),
+    new Transaction(200.0, DateTime.parse("2019-11-22"), "Got a fiver", null),
   ];
 
   @override
