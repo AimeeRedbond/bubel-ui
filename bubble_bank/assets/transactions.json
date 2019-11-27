@@ -1,6 +1,7 @@
 [
   { "amount":-3.4, "date":"2019-11-23", "description":"Sainsbury's meal deal", "group": "Groceries"},
   { "amount":-12.50, "date":"2019-09-01", "description":"Trousers", "group": "Shopping"},
+  { "amount":-3.14, "date":"2019-09-01", "description":"Trousers", "group": "Shopping"},
   { "amount":-29.50, "date":"2019-09-01", "description":"Expensif Shirt", "group": "Shopping"},
   { "amount":-5.0, "date":"2019-09-29", "description":"Starbucks coffee", "group": "Restaurants"},
   { "amount":20.0, "date":"2019-10-03", "description":"Top up from Banana Pay"},

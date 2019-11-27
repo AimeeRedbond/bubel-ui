@@ -57,7 +57,7 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
   Map<String, Map<double, int>> similarTransactionsCount = new Map<String, Map<double, int>>();
   List<Transaction> groupedTransactions = new List<Transaction>();
   for (Transaction t in transactions) {
-    if (!similarTransactionsCount.containsKey(t.description) || !similarTransactionsCount[t.description].containsKey(t.amount)) {
+    if (!similarTransactionsCount.containsKey(t.description) && !similarTransactionsCount[t.description].containsKey(t.amount)) {
       similarTransactionsCount[t.description] = {};
       similarTransactionsCount[t.description][t.amount] = 0;
     }

@@ -56,17 +56,23 @@ class BankingState extends State<Banking> {
 
     DateFormat format = new DateFormat("dd/MM/yyyy");
     for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
-      Transaction t = new Transaction(row[3], format.parse(row[0]), row[2], null);
+      String description;
+      if (row[1] == "POS"){
+        description = "same";
+      } else{
+        description = row[2];
+      }
+      Transaction t = new Transaction(row[3], format.parse(row[0]), description, null);
       transactions.add(t);
     }
     return transactions;
   }
 
   void readInTransactions() async {
-    String data = await getFileData("assets/SCOTTFD-20191127.csv");
-    userTransactions = csvToTransactions(data);
-    //String data = await getFileData("assets/transactions.json");
-    //userTransactions = jsonToTransactions(data);
+    //String data = await getFileData("assets/SCOTTFD-20191127.csv");
+    //userTransactions = csvToTransactions(data);
+    String data = await getFileData("assets/transactions.json");
+    userTransactions = jsonToTransactions(data);
   }
 
   @override
