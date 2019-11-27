@@ -51,7 +51,6 @@ List<Widget> makeGroupWidgets(List<Transaction> transactions, List<Group> groups
   for (int i = 0; i < groups.length; i++) {
     Group group = ratios[i][0];
     double ratio = ratios[i][1];
-    [group];
     groupWidgets[i] = ( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
