@@ -2,12 +2,10 @@ import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import 'package:bubble_bank/theme/style.dart';
 import 'package:bubble_bank/screens/bubbleView.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -30,8 +28,6 @@ Future<String> getFileData(String path) async {
 }
 
 class BankingState extends State<Banking> {
-  List<Transaction> userTransactions;
-
   List<Group> userGroups = <Group>[
     new Group("Shopping", '👕'),
     new Group("Transport", '🚂'),
@@ -40,7 +36,9 @@ class BankingState extends State<Banking> {
     new Group("Other", '🤷‍♀️'),
   ];
 
-  void runMyFuture() async {
+  List<Transaction> userTransactions;
+
+  void readInTransactions() async {
     String data = await getFileData("assets/transactions.json");
     List list = json.decode(data);
     userTransactions = List<Transaction>();
@@ -52,7 +50,7 @@ class BankingState extends State<Banking> {
 
   @override
   Widget build(BuildContext context) {
-    runMyFuture();
+    readInTransactions();
     return bubblScaffold(context, userTransactions, userGroups);
   }
 }

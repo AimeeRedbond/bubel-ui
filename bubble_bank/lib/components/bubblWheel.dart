@@ -7,7 +7,7 @@ import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
 
-Stack bubblWheel(transactions, groups){
+Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
   return Stack(
       children: <Widget>[
         Container(
@@ -17,10 +17,7 @@ Stack bubblWheel(transactions, groups){
               radius: 140.0,
             ),
             children:
-            makeGroupWidgets(getRatios(segmentTransactionsByGroup(
-                transactions, groups),
-                getBalance(transactions), groups),
-                transactions, groups),
+            makeGroupWidgets(getRatios(segmentTransactionsByGroup(transactions, groups), getBalance(transactions), groups), transactions, groups),
           ),
         ),
         DefaultTextStyle(
