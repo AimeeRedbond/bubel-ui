@@ -15,7 +15,7 @@ final double maxSubFontSize = 20;
 final double minSubFontSize = 10;
 final double wheelRadius = 140;
 
-Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
+Stack bubblWheel(List<Transaction> transactions, List<Group> groups, double total){
   return Stack(
       children: <Widget>[
         Container(
@@ -31,8 +31,7 @@ Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
         DefaultTextStyle(
           child: Container(
             child: Center(
-                child: Text(formatMoneyWithoutPlus(getBalance(
-                    transactions)))
+                child: Text(formatMoneyWithoutPlus(total))
             ),
           ),
           style: TextStyle(color: Colors.black, fontSize: 40.0),
@@ -80,7 +79,7 @@ Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> trans
       key: (item) => item,
       value: (item) => []);
   for (Group group in transactionsByGroup.keys){
-    transactionsByGroup[group] = transactions.where((Transaction t) => t.amount < 0 && t.group == group.name).toList();
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.group == group.name).toList();
   }
   return transactionsByGroup;
 }
@@ -92,7 +91,7 @@ List<List> getRatios(List<Transaction> transactions, List<Group> groups) {
       key: (item) => item,
       value: (item) => 0);
   for (Group group in groupTransactions.keys) {
-    ratios[group] = getBalance(groupTransactions[group])/total;
+    ratios[group] = -getBalance(groupTransactions[group])/total;
   }
   return sortGroupRatios(ratios);
 }

@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,14 +40,34 @@ class BankingState extends State<Banking> {
 
   List<Transaction> userTransactions;
 
-  void readInTransactions() async {
-    String data = await getFileData("assets/transactions.json");
+  List<Transaction> jsonToTransactions(String data) {
+    List<Transaction> transactions = List<Transaction>();
     List list = json.decode(data);
-    userTransactions = List<Transaction>();
     for (Map map in list){
       Transaction t = new Transaction(map["amount"], DateTime.parse(map["date"]), map["description"], map["group"]);
-      userTransactions.add(t);
+      transactions.add(t);
     }
+    return transactions;
+  }
+
+  List<Transaction> csvToTransactions(String data) {
+    print("batman");
+    List<Transaction> transactions = List<Transaction>();
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
+
+    DateFormat format = new DateFormat("dd/MM/yyyy");
+    for (dynamic row in rowsAsListOfValues.getRange(3,rowsAsListOfValues.length-1)){
+      Transaction t = new Transaction(row[3], format.parse(row[0]), row[2], null);
+      transactions.add(t);
+    }
+    return transactions;
+  }
+
+  void readInTransactions() async {
+    String data = await getFileData("assets/SCOTTFD-20191127.csv");
+    userTransactions = csvToTransactions(data);
+    //String data = await getFileData("assets/transactions.json");
+    //userTransactions = jsonToTransactions(data);
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:bubble_bank/moneyHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -6,6 +7,7 @@ import 'settingsHelper.dart';
 import '../components/menuDrawer.dart';
 import '../components/spendingStandardRow.dart';
 import '../components/bubblWheel.dart';
+import '../models/transaction.dart';
 
 Scaffold bubblScaffold(context, transactions, groups) {
   return Scaffold(
@@ -21,7 +23,7 @@ Scaffold bubblScaffold(context, transactions, groups) {
     body: Container(
       child: Column(
         children: <Widget>[
-          Expanded(child: bubblWheel(transactions, groups)),
+          Expanded(child: bubblWheel(transactions.where((Transaction t) => t.amount < 0).toList(), groups, getBalance(transactions))),
           spendingStandardRow(context, transactions)
         ],
       ),
