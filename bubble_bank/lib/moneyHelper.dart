@@ -2,9 +2,15 @@ import 'models/transaction.dart';
 
 //Helper functions for calculating moneys and formatting with currency symbols etc
 double getBalance(List<Transaction> transactions){
-  List<double> amounts = transactions.map((Transaction transaction) => transaction.amount).toList();
-  double totalSpending = amounts.reduce((double curr, double next) => curr + next);
-  return totalSpending;
+  print(transactions);
+  if (transactions.length > 0) {
+    List<double> amounts = transactions.map((
+        Transaction transaction) => transaction.amount).toList();
+    double totalSpending = amounts.reduce((double curr, double next) =>
+    curr + next);
+    return totalSpending;
+  }
+  return 0;
 }
 
 String formatMoney(double money){

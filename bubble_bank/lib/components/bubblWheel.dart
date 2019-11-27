@@ -13,7 +13,7 @@ final double maxFontSize = 50;
 final double minFontSize = 20;
 final double maxSubFontSize = 20;
 final double minSubFontSize = 10;
-
+final double wheelRadius = 140;
 
 Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
   return Stack(
@@ -22,7 +22,7 @@ Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
           child: CustomMultiChildLayout(
             delegate: CircularLayoutDelegate(
               itemCount: groups.length,
-              radius: 140.0,
+              radius: wheelRadius,
             ),
             children:
             makeGroupWidgets(transactions, groups),
@@ -75,6 +75,16 @@ List<List> sortGroupRatios(Map<Group, double> groupRatios) {
   return sortedRatios;
 }
 
+Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions, List<Group> groups){
+  Map<Group, List<Transaction>> transactionsByGroup = new Map.fromIterable(groups,
+      key: (item) => item,
+      value: (item) => []);
+  for (Group group in transactionsByGroup.keys){
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.amount < 0 && t.group == group.name).toList();
+  }
+  return transactionsByGroup;
+}
+
 List<List> getRatios(List<Transaction> transactions, List<Group> groups) {
   double total = getBalance(transactions);
   Map<Group, List<Transaction>> groupTransactions = segmentTransactionsByGroup(transactions, groups);
@@ -85,14 +95,4 @@ List<List> getRatios(List<Transaction> transactions, List<Group> groups) {
     ratios[group] = getBalance(groupTransactions[group])/total;
   }
   return sortGroupRatios(ratios);
-}
-
-Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> transactions, List<Group> groups){
-  Map<Group, List<Transaction>> transactionsByGroup = new Map.fromIterable(groups,
-      key: (item) => item,
-      value: (item) => []);
-  for (Group group in transactionsByGroup.keys){
-    transactionsByGroup[group] = transactions.where((Transaction t) => t.amount < 0 && t.group == group.name).toList();
-  }
-  return transactionsByGroup;
 }
