@@ -87,7 +87,7 @@ Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> trans
       key: (item) => item,
       value: (item) => []);
   for (Group group in transactionsByGroup.keys){
-    transactionsByGroup[group] = transactions.where((Transaction t) => t.group == group.name).toList();
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.amount < 0 && t.group == group.name).toList();
   }
   return transactionsByGroup;
 }

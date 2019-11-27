@@ -9,7 +9,11 @@ class Transaction {
     this.date = date;
     this.description = description;
     this.amount = amount;
-    this.group = group;
+    if (group != null) {
+      this.group = group;
+    } else{
+      this.group = "Other";
+    }
   }
 
   getField(String field){
