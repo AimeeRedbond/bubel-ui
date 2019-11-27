@@ -9,10 +9,10 @@ class Transaction {
     this.date = date;
     this.description = description;
     this.amount = amount;
-    if (group != null) {
-      this.group = group;
-    } else{
+    if (group == null) {
       this.group = "Other";
+    } else{
+      this.group = group;
     }
   }
 

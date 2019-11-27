@@ -7,6 +7,14 @@ import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
 
+final double maxBubbleSize = 170;
+final double minBubbleSize = 60;
+final double maxFontSize = 50;
+final double minFontSize = 20;
+final double maxSubFontSize = 20;
+final double minSubFontSize = 10;
+
+
 Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
   return Stack(
       children: <Widget>[
@@ -17,7 +25,7 @@ Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
               radius: 140.0,
             ),
             children:
-            makeGroupWidgets(getRatios(segmentTransactionsByGroup(transactions, groups), getBalance(transactions), groups), transactions, groups),
+            makeGroupWidgets(transactions, groups),
           ),
         ),
         DefaultTextStyle(
@@ -33,30 +41,29 @@ Stack bubblWheel(List<Transaction> transactions, List<Group> groups){
   );
 }
 
-List<Widget> makeGroupWidgets(List<List> ratios, List<Transaction> transactions, List<Group> groups) {
-  double range = 170.0 - 60.0;
-  double max = range/ratios[0][1];
-  double fontRange = 50.0 - 20.0;
-  double fontM = fontRange/ratios[0][1];
-  double subRange = 20.0 - 10.0;
-  double subM = subRange/ratios[0][1];
-  List<Widget> groupWidgets = [];
+List<Widget> makeGroupWidgets(List<Transaction> transactions, List<Group> groups) {
+  List<List> ratios = getRatios(transactions, groups);
+  double max = (maxBubbleSize - minBubbleSize)/ratios[0][1];
+  double fontM = (maxFontSize - minFontSize)/ratios[0][1];
+  double subM = (maxSubFontSize - minSubFontSize)/ratios[0][1];
+  List<Widget> groupWidgets = List<Widget>(groups.length);
+  Map<Group, List<Transaction>> groupTransactions = segmentTransactionsByGroup(transactions, groups);
   for (int i = 0; i < groups.length; i++) {
     Group group = ratios[i][0];
     double ratio = ratios[i][1];
-    List<Transaction> groupTransactions = segmentTransactionsByGroup(transactions, groups)[group];
-    groupWidgets.add( LayoutId(
+    [group];
+    groupWidgets[i] = ( LayoutId(
         id: 'GROUP$i',
         child: CircularBubble(
           title: group.emoji,
-          subtitle: formatMoneyWithoutPlus(-getBalance(segmentTransactionsByGroup(transactions, groups)[group])).toString(),
+          subtitle: formatMoneyWithoutPlus(-getBalance(groupTransactions[group])).toString(),
           ratio: ratio,
-          h: 60.0 + ratio*max,
-          w: 60.0 + ratio*max,
+          h: minBubbleSize + ratio*max,
+          w: minBubbleSize + ratio*max,
           group: group,
-          transactions: groupTransactions,
-          font: 20.0 + ratio*fontM,
-          subFont: 10.0 + ratio*subM,
+          transactions: groupTransactions[group],
+          font: minFontSize + ratio*fontM,
+          subFont: minSubFontSize + ratio*subM,
         )
     ));
   }
@@ -69,7 +76,9 @@ List<List> sortGroupRatios(Map<Group, double> groupRatios) {
   return sortedRatios;
 }
 
-List<List> getRatios(Map<Group, List<Transaction>> groupTransactions, double total, groups) {
+List<List> getRatios(List<Transaction> transactions, List<Group> groups) {
+  double total = getBalance(transactions);
+  Map<Group, List<Transaction>> groupTransactions = segmentTransactionsByGroup(transactions, groups);
   Map<Group, double> ratios = new Map.fromIterable(groups,
       key: (item) => item,
       value: (item) => 0);
