@@ -51,12 +51,11 @@ class BankingState extends State<Banking> {
   }
 
   List<Transaction> csvToTransactions(String data) {
-    print("batman");
     List<Transaction> transactions = List<Transaction>();
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
 
     DateFormat format = new DateFormat("dd/MM/yyyy");
-    for (dynamic row in rowsAsListOfValues.getRange(3,rowsAsListOfValues.length-1)){
+    for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
       Transaction t = new Transaction(row[3], format.parse(row[0]), row[2], null);
       transactions.add(t);
     }

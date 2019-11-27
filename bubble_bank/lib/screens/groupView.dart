@@ -26,7 +26,7 @@ Scaffold groupScaffold(context, List<Transaction> transactions, Group group){
                 )
             ),
             Expanded(
-                child: transactionsView(transactionsTilesWithCategorys(groupDuplicates(sortTransactions(transactions, "amount", true)), group), context)
+                child: transactionsView(transactionsTilesWithCategorys(groupDuplicates(transactions), group), context)
             )
           ]
       )
@@ -49,7 +49,7 @@ Scaffold bubblSettingsScaffold(context){
 }
 
 String monthlySpendingString(List<Transaction> transactions, Group group){
-  return "You spent ${formatMoneyWithoutPlus(-getBalance(transactions))} on ${group.name} in the past month.";
+  return "You spent ${formatMoneyWithoutPlus(getBalance(transactions).abs())} on ${group.name} in the past month.";
 }
 
 
@@ -78,7 +78,8 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
       groupedTransactions.add(Transaction(transactionAmount, null, transactionDescription, ""));
     }
   }
-  return groupedTransactions;
+
+  return sortTransactions(groupedTransactions, "amount", true);
 }
 
 Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
@@ -95,6 +96,19 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   }
 
   List<ListTile> tiles = transactions.map( (Transaction transaction) {
+    if (transaction.description.contains(new RegExp(r'x [1-9]'))) {
+      return ListTile(
+        title: Text(
+          transaction.description.substring(0, transaction.description.length - 4),
+          style: TextStyle(fontSize: 15.0),
+        ),
+        subtitle: Text(transaction.description.substring(transaction.description.length - 3)),
+        trailing: Text(
+          formatMoney(transaction.amount),
+          style: TextStyle(fontSize: 15.0),
+        ),
+      );
+    }
     return ListTile(
       title: Text(
         transaction.description,

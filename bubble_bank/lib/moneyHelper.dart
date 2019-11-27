@@ -14,14 +14,14 @@ double getBalance(List<Transaction> transactions){
 
 String formatMoney(double money){
   if (money < 0.0){
-    return "-£ ${(-money).toStringAsFixed(2)}";
+    return "-£${(money.abs()).toStringAsFixed(2)}";
   }
-  return "+£ ${money.toStringAsFixed(2)}";
+  return "+£${money.abs().toStringAsFixed(2)}";
 }
 
 String formatMoneyWithoutPlus(double money){
   if (money < 0.0){
-    return "-£" + (-money).toStringAsFixed(2);
+    return "-£${(money.abs()).toStringAsFixed(2)}";
   }
-  return "£" + money.toStringAsFixed(2);
+  return "£${money.abs().toStringAsFixed(2)}";
 }
