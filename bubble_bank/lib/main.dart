@@ -58,7 +58,7 @@ class BankingState extends State<Banking> {
     for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
       String description;
       if (row[1] == "POS"){
-        description = "same";
+        description = row[2].split(" , ")[1];
       } else{
         description = row[2];
       }
@@ -69,10 +69,10 @@ class BankingState extends State<Banking> {
   }
 
   void readInTransactions() async {
-    String data = await getFileData("assets/SCOTTFD-20191127.csv");
-    userTransactions = csvToTransactions(data);
-    //String data = await getFileData("assets/transactions.json");
-    //userTransactions = jsonToTransactions(data);
+    //String data = await getFileData("assets/SCOTTFD-20191127.csv");
+    //userTransactions = csvToTransactions(data);
+    String data = await getFileData("assets/transactions.json");
+    userTransactions = jsonToTransactions(data);
   }
 
   @override

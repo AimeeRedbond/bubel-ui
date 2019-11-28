@@ -6,6 +6,7 @@ import '../helper.dart';
 import 'settingsHelper.dart';
 import '../transactionHelper.dart';
 import '../moneyHelper.dart';
+import 'dart:math';
 
 Scaffold groupScaffold(context, List<Transaction> transactions, Group group){
   return Scaffold(
@@ -85,18 +86,6 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
 }
 
 Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
-  List amounts = transactions.map((transaction) => transaction.amount).toList();
-
-  double bestDiff = -1;
-  int besti = 1;
-  for (int i = 1; i < amounts.length; i++) {
-    double diff = amounts[i] - amounts[i-1];
-    if (diff > bestDiff){
-      bestDiff = diff;
-      besti = i;
-    }
-  }
-
   List<ListTile> tiles = transactions.map( (Transaction transaction) {
     if (transaction.description.contains(new RegExp(r'x [1-9]'))) {
       return ListTile(
@@ -124,12 +113,41 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   },
   ).toList();
 
-  tiles.insert(0, ListTile(trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
-  tiles.insert(besti+1, ListTile(trailing:  Text(group.emoji*2, style: TextStyle(fontSize: 24))));
-  if (besti+3 < tiles.length) {
-    tiles.insert(besti.toInt() + 3, ListTile(
-        trailing: Text(group.emoji, style: TextStyle(fontSize: 24)))
-    );
+  if (transactions.length > 0) {
+    List amounts = transactions.map((transaction) => transaction.amount).toList();
+
+    List<double> diffs = List<double>(amounts.length);
+    diffs[0] = 100000000000;
+    for (int i = 1; i < amounts.length; i++) {
+      double diff = amounts[i] - amounts[i - 1];
+      diffs[i] = diff;
+    }
+
+    double best = diffs.reduce(max);
+    int indexOfBest = diffs.indexOf(best);
+
+    tiles.insert(indexOfBest, ListTile(
+        trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
+  
+    List<double> diffsCopy = List.from(diffs);
+    if (diffsCopy.length > 2) {
+      diffsCopy.remove(best);
+      best = diffsCopy.reduce(max);
+      indexOfBest = diffs.indexOf(best);
+
+      tiles.insert(indexOfBest + 1, ListTile(
+          trailing: Text(group.emoji * 2, style: TextStyle(fontSize: 24))));
+
+      List<double> zest = List.from(diffsCopy);
+      if (zest.length > 2) {
+        zest.remove(best);
+        best = zest.reduce(max);
+        indexOfBest = diffs.indexOf(best);
+
+        tiles.insert(indexOfBest + 2, ListTile(
+            trailing: Text(group.emoji, style: TextStyle(fontSize: 24))));
+      }
+    }
   }
   return tiles;
 }

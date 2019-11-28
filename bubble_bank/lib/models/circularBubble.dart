@@ -5,7 +5,7 @@ import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
 import '../screens/groupView.dart';
 import '../transactionHelper.dart';
-
+import '../screens/noGroupTransactionsView.dart';
 
 class CircularBubble extends StatelessWidget {
   final String title;
@@ -35,7 +35,10 @@ class CircularBubble extends StatelessWidget {
     return DefaultTextStyle(
       child: Container(
         child: GestureDetector(
-          onTap: () {pushView(context, groupScaffold(context, sortTransactions(transactions, "amount", false), group));},
+          onTap: () {
+            if (transactions.length > 0) {pushView(context, groupScaffold(context, sortTransactions(transactions, "amount", false), group));}
+            else {pushView(context, noGroupTransactionsScaffold(context, group));}
+            },
           child: ClipOval(
             child: Container(
                 color: Colors.pinkAccent,
