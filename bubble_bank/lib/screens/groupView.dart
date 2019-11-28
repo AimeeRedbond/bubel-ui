@@ -129,19 +129,18 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
     tiles.insert(indexOfBest, ListTile(
         trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
   
-    List<double> diffsCopy = List.from(diffs);
-    if (diffsCopy.length > 2) {
-      diffsCopy.remove(best);
-      best = diffsCopy.reduce(max);
+    List<double> remainder = diffs.sublist(diffs.indexOf(best)+1);
+    if (remainder.length > 0) {
+      best = remainder.reduce(max);
+      print(remainder);
       indexOfBest = diffs.indexOf(best);
 
       tiles.insert(indexOfBest + 1, ListTile(
           trailing: Text(group.emoji * 2, style: TextStyle(fontSize: 24))));
 
-      List<double> zest = List.from(diffsCopy);
-      if (zest.length > 2) {
-        zest.remove(best);
-        best = zest.reduce(max);
+      List<double> secondRemainder = diffs.sublist(diffs.indexOf(best)+1);
+      if (secondRemainder.length > 0) {
+        best = secondRemainder.reduce(max);
         indexOfBest = diffs.indexOf(best);
 
         tiles.insert(indexOfBest + 2, ListTile(
