@@ -35,7 +35,7 @@ Scaffold bubblViewSettingsScaffold(context){
   final List<Widget> divided = ListTile
       .divideTiles(
     context: context,
-    tiles: settingsList(['Set your spending groups', 'Set up your transactions timeframe']),
+    tiles: settingsList(['Set your spending groups', 'Set up your transactions timeframe', 'Use text labels instead of emojis']),
   ).toList();
 
   return Scaffold(
