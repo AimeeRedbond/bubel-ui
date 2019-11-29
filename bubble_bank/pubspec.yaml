@@ -58,7 +58,7 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - assets/transactions.json
-    - assets/SCOTTFD-20191127.csv
+    - assets/real_transactions/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -69,10 +69,10 @@ class BankingState extends State<Banking> {
   }
 
   void readInTransactions() async {
-    //String data = await getFileData("assets/SCOTTFD-20191127.csv");
-    //userTransactions = csvToTransactions(data);
-    String data = await getFileData("assets/transactions.json");
-    userTransactions = jsonToTransactions(data);
+    String data = await getFileData("assets/SCOTTFD-20191127.csv");
+    userTransactions = csvToTransactions(data);
+    //String data = await getFileData("assets/transactions.json");
+    //userTransactions = jsonToTransactions(data);
   }
 
   @override
