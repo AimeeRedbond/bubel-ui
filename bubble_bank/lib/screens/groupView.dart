@@ -132,7 +132,6 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
     List<double> remainder = diffs.sublist(diffs.indexOf(best)+1);
     if (remainder.length > 0) {
       best = remainder.reduce(max);
-      print(remainder);
       indexOfBest = diffs.indexOf(best);
 
       tiles.insert(indexOfBest + 1, ListTile(

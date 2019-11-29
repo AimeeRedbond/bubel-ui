@@ -57,7 +57,7 @@ class BankingState extends State<Banking> {
     DateFormat format = new DateFormat("dd/MM/yyyy");
     for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
       String description;
-      if (row[1] == "POS"){
+      if (["POS"].contains(row[1])){
         description = row[2].split(" , ")[1];
       } else{
         description = row[2];
@@ -69,7 +69,7 @@ class BankingState extends State<Banking> {
   }
 
   void readInTransactions() async {
-    String data = await getFileData("assets/SCOTTFD-20191127.csv");
+    String data = await getFileData("assets/real_transactions/SCOTTFD-20191129.csv");
     userTransactions = csvToTransactions(data);
     //String data = await getFileData("assets/transactions.json");
     //userTransactions = jsonToTransactions(data);

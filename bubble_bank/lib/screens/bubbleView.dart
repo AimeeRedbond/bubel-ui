@@ -23,7 +23,7 @@ Scaffold bubblScaffold(context, transactions, groups) {
     body: Container(
       child: Column(
         children: <Widget>[
-          Expanded(child: bubblWheel(transactions.where((Transaction t) => t.amount < 0).toList(), groups, getBalance(transactions))),
+          Expanded(child: bubblWheel(transactions.where((Transaction t) => t.amount < 0 && t.date.year == DateTime.now().year && t.date.month == DateTime.now().month).toList(), groups, getBalance(transactions))),
           spendingStandardRow(context, transactions)
         ],
       ),
