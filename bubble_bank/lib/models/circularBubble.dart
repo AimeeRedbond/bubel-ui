@@ -12,7 +12,6 @@ class CircularBubble extends StatelessWidget {
   final String subtitle;
   final double h;
   final double w;
-  final double ratio;
   final Group group;
   final List<Transaction> transactions;
   final double font;
@@ -23,7 +22,6 @@ class CircularBubble extends StatelessWidget {
     @required this.subtitle,
     @required this.h,
     @required this.w,
-    @required this.ratio,
     @required this.group,
     @required this.transactions,
     @required this.font,
