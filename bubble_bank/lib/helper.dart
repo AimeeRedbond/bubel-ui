@@ -10,11 +10,11 @@ class UserInfo {
   UserInfo(this.transactions, this.groups);
 }
 
-class GroupAndTransactions {
+class GroupInfo {
   final List<Transaction> transactions;
   final Group group;
 
-  GroupAndTransactions(this.transactions, this.group);
+  GroupInfo(this.transactions, this.group);
 }
 
 void pushView(BuildContext context, Widget scaffold) {

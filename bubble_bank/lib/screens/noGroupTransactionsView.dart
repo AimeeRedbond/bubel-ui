@@ -5,7 +5,7 @@ import '../helper.dart';
 import 'package:bubble_bank/screens/settingsView.dart';
 
 class NoGroupTransactionsView extends StatelessWidget {
-  final GroupAndTransactions groupAndTransactions;
+  final GroupInfo groupAndTransactions;
 
   NoGroupTransactionsView({Key key, @required this.groupAndTransactions}) : super(key: key);
 

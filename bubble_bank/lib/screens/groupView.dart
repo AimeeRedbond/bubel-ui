@@ -9,7 +9,7 @@ import '../moneyHelper.dart';
 import 'dart:math';
 
 class GroupView extends StatelessWidget {
-  final GroupAndTransactions groupAndTransactions;
+  final GroupInfo groupAndTransactions;
 
   GroupView({Key key, @required this.groupAndTransactions}) : super(key: key);
 
