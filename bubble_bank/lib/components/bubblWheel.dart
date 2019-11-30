@@ -6,13 +6,7 @@ import '../moneyHelper.dart';
 import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
-
-class UserInfo {
-  final List<Transaction> transactions;
-  final List<Group> groups;
-
-  UserInfo(this.transactions, this.groups);
-}
+import '../helper.dart';
 
 final double maxBubbleSize = 170;
 final double minBubbleSize = 60;
