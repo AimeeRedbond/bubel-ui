@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: menuDrawer(),
+      drawer: MenuDrawer(),
       appBar: AppBar(
         title: Center(child: Text('bubbl')),
         actions: <Widget>[

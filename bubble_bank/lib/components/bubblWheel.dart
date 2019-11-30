@@ -62,7 +62,7 @@ List<Widget> makeGroupWidgets(List<Transaction> transactions, List<Group> groups
         id: 'GROUP$i',
         child: CircularBubble(
           title: group.emoji,
-          subtitle: formatMoneyWithoutPlus(getBalance(groupTransactions[group]).abs()).toString(),
+          subtitle: formatMoneyWithoutPlus(getBalance(groupTransactions[group]).abs()),
           h: minBubbleSize + ratio*max,
           w: minBubbleSize + ratio*max,
           group: group,
