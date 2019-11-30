@@ -1,7 +1,7 @@
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import 'package:bubble_bank/theme/style.dart';
-import 'package:bubble_bank/screens/bubbleView.dart';
+import 'package:bubble_bank/screens/homePage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,11 +24,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Assumes the given path is a text-file-asset.
-Future<String> getFileData(String path) async {
-  return await rootBundle.loadString(path);
-}
-
 class BankingState extends State<Banking> {
   List<Group> userGroups = <Group>[
     new Group("Shopping", '👕'),
@@ -39,41 +34,6 @@ class BankingState extends State<Banking> {
   ];
 
   Future<List<Transaction>> userTransactions;
-
-  List<Transaction> jsonToTransactions(String data) {
-    List<Transaction> transactions = List<Transaction>();
-    List list = json.decode(data);
-    for (Map map in list){
-      Transaction t = new Transaction(map["amount"], DateTime.parse(map["date"]), map["description"], map["group"]);
-      transactions.add(t);
-    }
-    return transactions;
-  }
-
-  List<Transaction> csvToTransactions(String data) {
-    List<Transaction> transactions = List<Transaction>();
-    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
-
-    DateFormat format = new DateFormat("dd/MM/yyyy");
-    for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
-      String description;
-      if (["POS"].contains(row[1])){
-        description = row[2].split(" , ")[1];
-      } else{
-        description = row[2];
-      }
-      Transaction t = new Transaction(row[3], format.parse(row[0]), description, null);
-      transactions.add(t);
-    }
-    return transactions;
-  }
-
-  Future<List<Transaction>> readInTransactions() async {
-    String data = await getFileData("assets/real_transactions/SCOTTFD-20191129.csv");
-    return new Future( () {return csvToTransactions(data);});
-    //String data = await getFileData("assets/transactions.json");
-    //userTransactions = jsonToTransactions(data);
-  }
 
   @override
   void initState(){
@@ -104,7 +64,7 @@ class BankingState extends State<Banking> {
           case ConnectionState.done:
             if (snapshot.hasError)
               return Text('Error: ${snapshot.error}');
-            return bubblScaffold(context, snapshot.data, userGroups);
+            return homeScreen(context, snapshot.data, userGroups);
         }
         return null; // unreachable
       },
@@ -115,4 +75,46 @@ class BankingState extends State<Banking> {
 class Banking extends StatefulWidget {
   @override
   BankingState createState() => BankingState();
+}
+
+
+
+/// Assumes the given path is a text-file-asset.
+Future<String> getFileData(String path) async {
+  return await rootBundle.loadString(path);
+}
+
+List<Transaction> jsonToTransactions(String data) {
+  List<Transaction> transactions = List<Transaction>();
+  List list = json.decode(data);
+  for (Map map in list){
+    Transaction t = new Transaction(map["amount"], DateTime.parse(map["date"]), map["description"], map["group"]);
+    transactions.add(t);
+  }
+  return transactions;
+}
+
+List<Transaction> csvToTransactions(String data) {
+  List<Transaction> transactions = List<Transaction>();
+  List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
+
+  DateFormat format = new DateFormat("dd/MM/yyyy");
+  for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
+    String description;
+    if (["POS"].contains(row[1])){
+      description = row[2].split(" , ")[1];
+    } else{
+      description = row[2];
+    }
+    Transaction t = new Transaction(row[3], format.parse(row[0]), description, null);
+    transactions.add(t);
+  }
+  return transactions;
+}
+
+Future<List<Transaction>> readInTransactions() async {
+  String data = await getFileData("assets/real_transactions/SCOTTFD-20191129.csv");
+  return new Future( () {return csvToTransactions(data);});
+  //String data = await getFileData("assets/transactions.json");
+  //userTransactions = jsonToTransactions(data);
 }

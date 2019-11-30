@@ -7,6 +7,13 @@ import '../models/circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
 
+class UserInfo {
+  final List<Transaction> transactions;
+  final List<Group> groups;
+
+  UserInfo(this.transactions, this.groups);
+}
+
 final double maxBubbleSize = 170;
 final double minBubbleSize = 60;
 final double maxFontSize = 50;
@@ -15,29 +22,36 @@ final double maxSubFontSize = 20;
 final double minSubFontSize = 10;
 final double wheelRadius = 140;
 
-Stack bubblWheel(List<Transaction> transactions, List<Group> groups, double total){
-  return Stack(
-      children: <Widget>[
-        Container(
-          child: CustomMultiChildLayout(
-            delegate: CircularLayoutDelegate(
-              itemCount: groups.length,
-              radius: wheelRadius,
+class BubblWheel extends StatelessWidget {
+  final UserInfo userInfo;
+
+  BubblWheel({Key key, @required this.userInfo}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+        children: <Widget>[
+          Container(
+            child: CustomMultiChildLayout(
+              delegate: CircularLayoutDelegate(
+                itemCount: userInfo.groups.length,
+                radius: wheelRadius,
+              ),
+              children:
+              makeGroupWidgets(userInfo.transactions.where((Transaction t) => t.amount < 0 && t.date.year == DateTime.now().year && t.date.month == DateTime.now().month).toList(), userInfo.groups),
             ),
-            children:
-            makeGroupWidgets(transactions, groups),
           ),
-        ),
-        DefaultTextStyle(
-          child: Container(
-            child: Center(
-                child: Text(formatMoneyWithoutPlus(total))
+          DefaultTextStyle(
+            child: Container(
+              child: Center(
+                  child: Text(formatMoneyWithoutPlus(getBalance(userInfo.transactions)))
+              ),
             ),
-          ),
-          style: TextStyle(color: Colors.black, fontSize: 40.0),
-        )
-      ]
-  );
+            style: TextStyle(color: Colors.black, fontSize: 40.0),
+          )
+        ]
+    );
+  }
 }
 
 List<Widget> makeGroupWidgets(List<Transaction> transactions, List<Group> groups) {

@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
-import 'settingsHelper.dart';
+import 'package:bubble_bank/screens/settingsView.dart';
 
 Scaffold noGroupTransactionsScaffold(context, Group group){
   return Scaffold(
       appBar: AppBar(
         title: Center( child: Text(group.name)),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblSettingsScaffold(context));}),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                pushView(context, Settings(settingsStuff: SettingsStuff('Customise your bubbls', ['Set your spending groups', 'Set up your transactions timeframe', 'Use text labels instead of emojis'])));
+          ;}),
         ],
       ),
       body: Column(
@@ -32,21 +36,6 @@ Scaffold noGroupTransactionsScaffold(context, Group group){
             )
           ]
       )
-  );
-}
-
-Scaffold bubblSettingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['View in chronological order', 'Set up notifications', 'Update your bubbl emoji', 'Set up bubbl colours', 'Set your spending brackets']),
-  ).toList();
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Customise your spending breakdown'),
-    ),
-    body: ListView(children: divided),
   );
 }
 

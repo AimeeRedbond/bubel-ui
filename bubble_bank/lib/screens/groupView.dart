@@ -1,9 +1,9 @@
+import 'package:bubble_bank/screens/settingsView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:bubble_bank/models/group.dart';
 import '../helper.dart';
-import 'settingsHelper.dart';
 import '../transactionHelper.dart';
 import '../moneyHelper.dart';
 import 'dart:math';
@@ -13,7 +13,7 @@ Scaffold groupScaffold(context, List<Transaction> transactions, Group group){
       appBar: AppBar(
         title: Center( child: Text(group.name)),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, bubblSettingsScaffold(context));}),
+          IconButton(icon: Icon(Icons.settings), onPressed: () {pushView(context, Settings(settingsStuff: SettingsStuff('Customise your spending breakdown', ['View in chronological order', 'Set up notifications', 'Update your bubbl emoji', 'Set up bubbl colours', 'Set your spending brackets'])));}),
         ],
       ),
       body: Column(
@@ -35,19 +35,23 @@ Scaffold groupScaffold(context, List<Transaction> transactions, Group group){
 }
 
 Scaffold bubblSettingsScaffold(context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: settingsList(['View in chronological order', 'Set up notifications', 'Update your bubbl emoji', 'Set up bubbl colours', 'Set your spending brackets']),
-  ).toList();
-
+  List<String> options = ['View in chronological order', 'Set up notifications', 'Update your bubbl emoji', 'Set up bubbl colours', 'Set your spending brackets'];
   return Scaffold(
-    appBar: AppBar(
-      title: Text('Customise your spending breakdown'),
-    ),
-    body: ListView(children: divided),
+      appBar: AppBar(
+        title: Text('Customise your spending breakdown'),
+      ),
+      body: ListView.builder(
+          itemCount: options.length,
+          itemBuilder: (context, index){
+            return ListTile(
+                title: Text(options[index],
+                  style: TextStyle(fontSize: 18.0),)
+            );
+          }
+      )
   );
 }
+
 
 String monthlySpendingString(List<Transaction> transactions, Group group){
   return "You spent ${formatMoneyWithoutPlus(getBalance(transactions).abs())} on ${group.name} in the past month.";
