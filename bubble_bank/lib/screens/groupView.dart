@@ -87,6 +87,44 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
   return sortTransactions(groupedTransactions, "amount", true);
 }
 
+ListView transactionsView(Iterable<Widget> tiles, context){
+  final List<Widget> divided = ListTile
+      .divideTiles(
+    context: context,
+    tiles: tiles,
+  ).toList();
+
+  return ListView(children: divided);
+}
+
+Container transactionsTile(transaction) {
+  return Container(
+    child: ListTile(
+      title: Text(
+        transaction.description,
+        style: TextStyle(fontSize: 15.0),
+      ),
+      subtitle: Text(
+        transaction?.date.toString().split(" ")[0],
+        style: TextStyle(fontSize: 15.0),
+      ),
+      trailing: Text(
+        formatMoney(transaction.amount),
+        style: TextStyle(fontSize: 15.0),
+      ),
+    ),
+    color: tileColor(transaction.amount),
+  );
+}
+
+Color tileColor(amount) {
+  if (amount < 0.0) {
+    return Colors.red[100];
+  } else {
+    return Colors.green[100];
+  }
+}
+
 Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
   List<ListTile> tiles = transactions.map( (Transaction transaction) {
     if (transaction.description.contains(new RegExp(r'x [1-9]'))) {

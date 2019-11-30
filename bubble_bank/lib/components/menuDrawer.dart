@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 class MenuDrawer extends StatelessWidget {
   List<String> options = ['How it all works', 'My account details', 'Manage my bank accounts', 'Suggestions for bubbl'];
+
   @override
   Widget build(BuildContext context) {
     return Drawer(

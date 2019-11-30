@@ -28,8 +28,7 @@ class SpendingStandardRow extends StatelessWidget {
                 textColor: Colors.white,
                 child: Text('Standard View'),
                 onPressed: () {
-                  pushView(context,
-                      StandardView(userInfo: userInfo));
+                  pushView(context, StandardView(userInfo: userInfo));
                 },
                 padding: EdgeInsets.all(20.0),
               )

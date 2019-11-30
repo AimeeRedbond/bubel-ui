@@ -44,9 +44,7 @@ class StandardView extends StatelessWidget {
                   )
               ),
               Expanded(
-                  child: transactionsView(transactionsTiles(
-                      sortTransactions(userInfo.transactions, "date", false)),
-                      context)
+                  child: transactionList(sortTransactions(userInfo.transactions, "date", false))
               ),
               Row(
                   children: <Widget>[
@@ -78,36 +76,38 @@ class StandardView extends StatelessWidget {
         )
     );
   }
+}
 
-  Iterable<Container> transactionsTiles(List<Transaction> transactions) {
-    return transactions.map(
-          (Transaction transaction) {
-        return Container(
-          child: ListTile(
-            title: Text(
-              transaction.description,
-              style: TextStyle(fontSize: 15.0),
-            ),
-            subtitle: Text(
-              transaction?.date.toString().split(" ")[0],
-              style: TextStyle(fontSize: 15.0),
-            ),
-            trailing: Text(
-              formatMoney(transaction.amount),
-              style: TextStyle(fontSize: 15.0),
-            ),
-          ),
-          color: tileColor(transaction.amount),
-        );
-      },
-    );
-  }
+Container transactionTile(transaction) {
+  return Container(
+    child: ListTile(
+      title: Text(
+        transaction.description,
+        style: TextStyle(fontSize: 15.0),
+      ),
+      subtitle: Text(
+        transaction?.date.toString().split(" ")[0],
+        style: TextStyle(fontSize: 15.0),
+      ),
+      trailing: Text(
+        formatMoney(transaction.amount),
+        style: TextStyle(fontSize: 15.0),
+      ),
+    ),
+    color: tileColor(transaction.amount),
+  );
+}
+
+ListView transactionList(List<Transaction> transactions){
+  return ListView.builder(
+      itemCount: transactions.length,
+      itemBuilder: (context, index){
+        return transactionTile(transactions[index]);
+      }
+  );
 }
 
 Color tileColor(amount) {
-  if (amount < 0.0) {
-    return Colors.red[100];
-  } else {
-    return Colors.green[100];
-  }
+  if (amount < 0.0) return Colors.red[100];
+  else return Colors.green[100];
 }

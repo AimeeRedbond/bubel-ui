@@ -21,8 +21,7 @@ class Settings extends StatelessWidget {
             itemCount: settingsStuff.options.length,
             itemBuilder: (context, index){
               return ListTile(
-                  title: Text(settingsStuff.options[index],
-                    style: TextStyle(fontSize: 18.0),)
+                  title: Text(settingsStuff.options[index], style: TextStyle(fontSize: 18.0),)
               );
             }
         )
