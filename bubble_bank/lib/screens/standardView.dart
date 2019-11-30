@@ -84,7 +84,7 @@ Iterable<Container> transactionsTiles(List<Transaction> transactions){
             style: TextStyle(fontSize: 15.0),
           ),
           subtitle: Text(
-            transaction.date != null ? transaction.date.toString().split(" ")[0] : "",
+            transaction?.date.toString().split(" ")[0],
             style: TextStyle(fontSize: 15.0),
           ),
           trailing: Text(

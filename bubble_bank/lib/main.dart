@@ -38,7 +38,7 @@ class BankingState extends State<Banking> {
     new Group("Other", '🤷‍♀️'),
   ];
 
-  List<Transaction> userTransactions;
+  Future<List<Transaction>> userTransactions;
 
   List<Transaction> jsonToTransactions(String data) {
     List<Transaction> transactions = List<Transaction>();
@@ -68,17 +68,47 @@ class BankingState extends State<Banking> {
     return transactions;
   }
 
-  void readInTransactions() async {
+  Future<List<Transaction>> readInTransactions() async {
     String data = await getFileData("assets/real_transactions/SCOTTFD-20191129.csv");
-    userTransactions = csvToTransactions(data);
+    return new Future( () {return csvToTransactions(data);});
     //String data = await getFileData("assets/transactions.json");
     //userTransactions = jsonToTransactions(data);
   }
 
   @override
+  void initState(){
+    super.initState();
+    userTransactions = readInTransactions();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    readInTransactions();
-    return bubblScaffold(context, userTransactions, userGroups);
+    return FutureBuilder<List<Transaction>>(
+      future: userTransactions, // a previously-obtained Future<String> or null
+      builder: (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Text('how are you seeing this');
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+            return Container(
+              color: Colors.pink,
+              child: new Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  new CircularProgressIndicator(backgroundColor: Colors.white,),
+                  new Text("Loading wur transactions"),
+                ],
+              ),
+            );
+          case ConnectionState.done:
+            if (snapshot.hasError)
+              return Text('Error: ${snapshot.error}');
+            return bubblScaffold(context, snapshot.data, userGroups);
+        }
+        return null; // unreachable
+      },
+    );
   }
 }
 
