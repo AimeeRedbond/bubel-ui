@@ -46,11 +46,10 @@ class CircularBubble extends StatelessWidget {
                 height: h, // height of the button
                 width: w, // width of the button
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Spacer(),
-                    Center(child: Text(title)),
-                    Center(child: Text(subtitle, style: TextStyle(fontSize: subFont))),
-                    Spacer(),
+                    Text(title),
+                    Text(subtitle, style: TextStyle(fontSize: subFont)),
                   ],
                 )
             ),
