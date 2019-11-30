@@ -7,7 +7,7 @@ import '../components/menuDrawer.dart';
 import '../components/spendingStandardRow.dart';
 import '../components/bubblWheel.dart';
 
-Scaffold homeScreen(context, transactions, groups) {
+Scaffold homeScreen(context, userInfo) {
   return Scaffold(
     drawer: menuDrawer(),
     appBar: AppBar(
@@ -21,8 +21,8 @@ Scaffold homeScreen(context, transactions, groups) {
     body: Container(
       child: Column(
         children: <Widget>[
-          Expanded(child: BubblWheel(userInfo: UserInfo(transactions, groups))),
-          spendingStandardRow(context, transactions)
+          Expanded(child: BubblWheel(userInfo: userInfo)),
+          spendingStandardRow(context, userInfo)
         ],
       ),
     ),

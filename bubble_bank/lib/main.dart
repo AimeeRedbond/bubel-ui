@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
+import 'helper.dart';
 
 void main() => runApp(MyApp());
 
@@ -64,7 +65,7 @@ class BankingState extends State<Banking> {
           case ConnectionState.done:
             if (snapshot.hasError)
               return Text('Error: ${snapshot.error}');
-            return homeScreen(context, snapshot.data, userGroups);
+            return homeScreen(context, UserInfo(snapshot.data, userGroups));
         }
         return null; // unreachable
       },

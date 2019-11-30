@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../helper.dart';
 import '../screens/standardView.dart';
 
-Row spendingStandardRow(context, transactions){
+Row spendingStandardRow(context, userInfo){
   return Row(
       children: <Widget>[
         Expanded(
@@ -26,7 +26,7 @@ Row spendingStandardRow(context, transactions){
               //`Text` to display
               onPressed: () {
                 pushView(context,
-                    standardScaffold(context, transactions));
+                    StandardView(userInfo: userInfo));
               },
               padding: EdgeInsets.all(20.0),
             )
