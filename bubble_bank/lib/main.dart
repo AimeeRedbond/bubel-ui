@@ -39,13 +39,13 @@ class BankingState extends State<Banking> {
   @override
   void initState(){
     super.initState();
-    userTransactions = readInTransactions();
+    userTransactions = readInTransactions("assets/real_transactions/SCOTTFD-20191129.csv");
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Transaction>>(
-      future: userTransactions, // a previously-obtained Future<String> or null
+      future: userTransactions,
       builder: (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -58,14 +58,14 @@ class BankingState extends State<Banking> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   new CircularProgressIndicator(backgroundColor: Colors.white,),
-                  new Text("Loading wur transactions"),
+                  new Text("Loading transactions"),
                 ],
               ),
             );
           case ConnectionState.done:
             if (snapshot.hasError)
               return Text('Error: ${snapshot.error}');
-            return homeScreen(context, UserInfo(snapshot.data, userGroups));
+            return HomeScreen(userInfo:UserInfo(snapshot.data, userGroups));
         }
         return null; // unreachable
       },
@@ -77,7 +77,6 @@ class Banking extends StatefulWidget {
   @override
   BankingState createState() => BankingState();
 }
-
 
 
 /// Assumes the given path is a text-file-asset.
@@ -113,8 +112,8 @@ List<Transaction> csvToTransactions(String data) {
   return transactions;
 }
 
-Future<List<Transaction>> readInTransactions() async {
-  String data = await getFileData("assets/real_transactions/SCOTTFD-20191129.csv");
+Future<List<Transaction>> readInTransactions(String fileName) async {
+  String data = await getFileData(fileName);
   return new Future( () {return csvToTransactions(data);});
   //String data = await getFileData("assets/transactions.json");
   //userTransactions = jsonToTransactions(data);
