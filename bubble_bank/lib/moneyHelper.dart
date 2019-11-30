@@ -2,7 +2,7 @@ import 'models/transaction.dart';
 
 //Helper functions for calculating moneys and formatting with currency symbols etc
 double getBalance(List<Transaction> transactions){
-  if (transactions.length > 0) {
+  if (transactions.isNotEmpty) {
     List<double> amounts = transactions.map((
         Transaction transaction) => transaction.amount).toList();
     double totalSpending = amounts.reduce((double curr, double next) =>

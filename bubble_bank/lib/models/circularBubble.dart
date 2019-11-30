@@ -33,11 +33,12 @@ class CircularBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
+      style: TextStyle(color: Colors.white, fontSize: font),
       child: Container(
         child: GestureDetector(
           onTap: () {
-            if (transactions.length > 0) {pushView(context, GroupView(groupAndTransactions:GroupInfo(sortTransactions(transactions, "amount", false), group)));}
-            else {pushView(context, NoGroupTransactionsView(groupAndTransactions:GroupInfo(sortTransactions(transactions, "amount", false), group)));}
+            if (transactions.isEmpty) {pushView(context, NoGroupTransactionsView(group:group));}
+            else {pushView(context, GroupView(groupAndTransactions:GroupInfo(sortTransactions(transactions, "amount", false), group)));}
             },
           child: ClipOval(
             child: Container(
@@ -47,7 +48,7 @@ class CircularBubble extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Spacer(),
-                    Center(child: Text(title, style: TextStyle(fontSize: font))),
+                    Center(child: Text(title)),
                     Center(child: Text(subtitle, style: TextStyle(fontSize: subFont))),
                     Spacer(),
                   ],
@@ -56,7 +57,6 @@ class CircularBubble extends StatelessWidget {
           ),
         ),
       ),
-      style: TextStyle(color: Colors.white),
     );
   }
 }

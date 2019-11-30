@@ -5,15 +5,15 @@ import '../helper.dart';
 import 'package:bubble_bank/screens/settingsView.dart';
 
 class NoGroupTransactionsView extends StatelessWidget {
-  final GroupInfo groupAndTransactions;
+  final Group group;
 
-  NoGroupTransactionsView({Key key, @required this.groupAndTransactions}) : super(key: key);
+  NoGroupTransactionsView({Key key, @required this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text(groupAndTransactions.group.name)),
+          title: Center(child: Text(group.name)),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.settings),
@@ -35,7 +35,7 @@ class NoGroupTransactionsView extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                    monthlySpendingString(groupAndTransactions.group),
+                    monthlySpendingString(group),
                     style: TextStyle(fontSize: 26),
                     textAlign: TextAlign.center,
                   )
