@@ -36,7 +36,7 @@ class CircularBubble extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             if (transactions.isEmpty) {pushView(context, NoGroupTransactionsView(group:group));}
-            else {pushView(context, GroupView(groupAndTransactions:GroupInfo(sortTransactions(transactions, "amount", false), group)));}
+            else {pushView(context, GroupView(groupInfo:GroupInfo(sortTransactions(transactions, "amount", false), group)));}
             },
           child: ClipOval(
             child: Container(

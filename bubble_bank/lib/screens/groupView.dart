@@ -9,15 +9,15 @@ import '../moneyHelper.dart';
 import 'dart:math';
 
 class GroupView extends StatelessWidget {
-  final GroupInfo groupAndTransactions;
+  final GroupInfo groupInfo;
 
-  GroupView({Key key, @required this.groupAndTransactions}) : super(key: key);
+  GroupView({Key key, @required this.groupInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text(groupAndTransactions.group.name)),
+          title: Center(child: Text(groupInfo.group.name)),
           actions: <Widget>[
             IconButton(icon: Icon(Icons.settings), onPressed: () {
               pushView(context, Settings(settingsStuff: SettingsStuff(
@@ -36,14 +36,14 @@ class GroupView extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                    monthlySpendingString(groupAndTransactions.transactions, groupAndTransactions.group),
+                    monthlySpendingString(groupInfo.transactions, groupInfo.group),
                     style: TextStyle(fontSize: 26),
                     textAlign: TextAlign.center,
                   )
               ),
               Expanded(
                   child: transactionsView(transactionsTilesWithCategorys(
-                      groupDuplicates(groupAndTransactions.transactions), groupAndTransactions.group), context)
+                      groupDuplicates(groupInfo.transactions), groupInfo.group), context)
               )
             ]
         )
@@ -88,41 +88,12 @@ List<Transaction> groupDuplicates(List<Transaction> transactions){
 }
 
 ListView transactionsView(Iterable<Widget> tiles, context){
-  final List<Widget> divided = ListTile
-      .divideTiles(
-    context: context,
-    tiles: tiles,
-  ).toList();
-
-  return ListView(children: divided);
-}
-
-Container transactionsTile(transaction) {
-  return Container(
-    child: ListTile(
-      title: Text(
-        transaction.description,
-        style: TextStyle(fontSize: 15.0),
-      ),
-      subtitle: Text(
-        transaction?.date.toString().split(" ")[0],
-        style: TextStyle(fontSize: 15.0),
-      ),
-      trailing: Text(
-        formatMoney(transaction.amount),
-        style: TextStyle(fontSize: 15.0),
-      ),
-    ),
-    color: tileColor(transaction.amount),
+  return ListView.builder(
+      itemCount: tiles.toList().length,
+      itemBuilder: (context, index){
+        return tiles.toList()[index];
+      }
   );
-}
-
-Color tileColor(amount) {
-  if (amount < 0.0) {
-    return Colors.red[100];
-  } else {
-    return Colors.green[100];
-  }
 }
 
 Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions, Group group){
@@ -153,7 +124,7 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
   },
   ).toList();
 
-  if (transactions.length > 0) {
+  if (transactions.isNotEmpty) {
     List amounts = transactions.map((transaction) => transaction.amount).toList();
 
     List<double> diffs = List<double>(amounts.length);
@@ -170,7 +141,7 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
         trailing: Text(group.emoji*3, style: TextStyle(fontSize: 24))));
   
     List<double> remainder = diffs.sublist(diffs.indexOf(best)+1);
-    if (remainder.length > 0) {
+    if (remainder.isNotEmpty) {
       best = remainder.reduce(max);
       indexOfBest = diffs.indexOf(best);
 
@@ -178,7 +149,7 @@ Iterable<ListTile> transactionsTilesWithCategorys(List<Transaction> transactions
           trailing: Text(group.emoji * 2, style: TextStyle(fontSize: 24))));
 
       List<double> secondRemainder = diffs.sublist(diffs.indexOf(best)+1);
-      if (secondRemainder.length > 0) {
+      if (secondRemainder.isNotEmpty) {
         best = secondRemainder.reduce(max);
         indexOfBest = diffs.indexOf(best);
 
