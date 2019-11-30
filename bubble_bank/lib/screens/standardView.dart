@@ -25,15 +25,14 @@ class StandardView extends StatelessWidget {
                 onPressed: () {
                   pushView(context, Settings(settingsStuff: SettingsStuff(
                       'Customise your Standard view', [
-                    'Turn off incoming/outgoing colours',
+                        'Turn off incoming/outgoing colours',
                     'Set up colour according to value'
                   ])));
-                  ;
-                }),
+                }
+                ),
           ],
         ),
-        body: Container(
-          child: Column(
+        body: Column(
             children: <Widget>[
               Padding(
                   padding: EdgeInsets.all(40),
@@ -46,34 +45,9 @@ class StandardView extends StatelessWidget {
               Expanded(
                   child: transactionList(sortTransactions(userInfo.transactions, "date", false))
               ),
-              Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: FlatButton(
-                          color: Colors.pink,
-                          textColor: Colors.white,
-                          child: Text('Spending Visuals'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          padding: EdgeInsets.all(20.0),
-                        )
-                    ),
-                    Expanded(
-                        child: FlatButton(
-                          textColor: Colors.white,
-                          child: Text('Standard View'),
-                          //`Text` to display
-                          onPressed: () {},
-                          padding: EdgeInsets.all(20.0),
-                          color: Colors.black45,
-                        )
-                    ),
-                  ]
-              )
+              SpendingStandardRowFlipped(),
             ],
           ),
-        )
     );
   }
 }
@@ -96,6 +70,38 @@ Container transactionTile(transaction) {
     ),
     color: tileColor(transaction.amount),
   );
+}
+
+
+class SpendingStandardRowFlipped extends Row {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children: <Widget>[
+          Expanded(
+              child: FlatButton(
+                color: Colors.pink,
+                textColor: Colors.white,
+                child: Text('Spending Visuals'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                padding: EdgeInsets.all(20.0),
+              )
+          ),
+          Expanded(
+              child: FlatButton(
+                textColor: Colors.white,
+                child: Text('Standard View'),
+                //`Text` to display
+                onPressed: () {},
+                padding: EdgeInsets.all(20.0),
+                color: Colors.black45,
+              )
+          ),
+        ]
+    );
+  }
 }
 
 ListView transactionList(List<Transaction> transactions){
