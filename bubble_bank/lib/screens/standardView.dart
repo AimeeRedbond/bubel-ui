@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bubble_bank/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -54,26 +56,48 @@ class StandardView extends StatelessWidget {
 
 Container transactionTile(transaction) {
   return Container(
+    color: tileColor(transaction.amount),
     child: ListTile(
       title: Text(
         transaction.description,
-        style: TextStyle(fontSize: 15.0),
+        style: TextStyle(fontSize :  15),
       ),
       subtitle: Text(
         transaction?.date.toString().split(" ")[0],
-        style: TextStyle(fontSize: 15.0),
+        style: TextStyle(fontSize: 15),
       ),
       trailing: Text(
         formatMoney(transaction.amount),
-        style: TextStyle(fontSize: 15.0),
+        style: TextStyle(fontSize: 15),
       ),
     ),
-    color: tileColor(transaction.amount),
   );
 }
 
 
-class SpendingStandardRowFlipped extends Row {
+Container transactionTileScaled(transaction) {
+  double fontSize = 25/(1+exp(-0.2*transaction.amount.abs()));
+  return Container(
+    color: tileColor(transaction.amount),
+    height: fontSize*3.5,
+    child: ListTile(
+      title: Text(
+        transaction.description,
+        style: TextStyle(fontSize :  fontSize),
+      ),
+      subtitle: Text(
+        transaction?.date.toString().split(" ")[0],
+        style: TextStyle(fontSize: fontSize),
+      ),
+      trailing: Text(
+        formatMoney(transaction.amount),
+        style: TextStyle(fontSize: fontSize),
+      ),
+    ),
+  );
+}
+
+class SpendingStandardRowFlipped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -108,7 +132,13 @@ ListView transactionList(List<Transaction> transactions){
   return ListView.builder(
       itemCount: transactions.length,
       itemBuilder: (context, index){
-        return transactionTile(transactions[index]);
+        return Column(children:<Widget>[
+          transactionTile(transactions[index]),
+          Divider(
+            thickness:0,
+            height:0,
+            color: Colors.black,
+          )]);
       }
   );
 }
