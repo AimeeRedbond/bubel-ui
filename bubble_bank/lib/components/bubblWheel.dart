@@ -33,7 +33,7 @@ class BubblWheel extends StatelessWidget {
                 radius: wheelRadius,
               ),
               children:
-              makeGroupWidgets(userInfo.transactions.where((Transaction t) => t.amount < 0).toList(), userInfo.groups),
+              makeGroupWidgets(userInfo.transactions.where((Transaction t) => t.amount < 0 && DateTime.now().difference(t.date).inDays < 30).toList(), userInfo.groups),
             ),
           ),
           DefaultTextStyle(
