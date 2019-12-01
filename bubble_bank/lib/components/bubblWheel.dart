@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../models/circularDelegate.dart';
+import 'circularDelegate.dart';
 import '../moneyHelper.dart';
-import '../models/circularBubble.dart';
+import 'circularBubble.dart';
 import '../models/transaction.dart';
 import '../models/group.dart';
 import '../helper.dart';

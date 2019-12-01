@@ -1,20 +1,11 @@
 
 class Transaction {
-  DateTime date;
-  String description;
-  double amount;
+  final DateTime date;
+  final String description;
+  final double amount;
   String groupName;
 
-  Transaction(double amount, DateTime date, String description, String groupName) {
-    this.date = date;
-    this.description = description;
-    this.amount = amount;
-    if (groupName == null) {
-      this.groupName = "Other";
-    } else{
-      this.groupName = groupName;
-    }
-  }
+  Transaction(this.amount, this.date, this.description, this.groupName);
 
   getField(String field){
     if (field == "amount"){

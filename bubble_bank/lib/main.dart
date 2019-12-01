@@ -99,14 +99,14 @@ List<Transaction> csvToTransactions(String data) {
   List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
 
   DateFormat format = new DateFormat("dd/MM/yyyy");
-  for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length-1)){
+  for (dynamic row in rowsAsListOfValues.getRange(3, rowsAsListOfValues.length)){
     String description;
     if (["POS"].contains(row[1])){
       description = row[2].split(" , ")[1];
     } else{
       description = row[2];
     }
-    Transaction t = new Transaction(row[3], format.parse(row[0]), description, null);
+    Transaction t = new Transaction(row[3], format.parse(row[0]), description, "Other");
     transactions.add(t);
   }
   return transactions;
