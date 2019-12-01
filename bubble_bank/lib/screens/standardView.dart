@@ -76,10 +76,11 @@ Container transactionTile(transaction) {
 
 
 Container transactionTileScaled(transaction) {
-  double fontSize = 25/(1+exp(-0.2*transaction.amount.abs()));
+  double fontSize = scaleAmount(20, 0.3, transaction.amount).abs();
+  double tileHeight = scaleAmount(80, 0.3, transaction.amount).abs();
   return Container(
     color: tileColor(transaction.amount),
-    height: fontSize*3.5,
+    height: tileHeight,
     child: ListTile(
       title: Text(
         transaction.description,
@@ -135,8 +136,8 @@ ListView transactionList(List<Transaction> transactions){
         return Column(children:<Widget>[
           transactionTile(transactions[index]),
           Divider(
-            thickness:0,
-            height:0,
+            thickness:1,
+            height:1,
             color: Colors.black,
           )]);
       }
@@ -146,4 +147,13 @@ ListView transactionList(List<Transaction> transactions){
 Color tileColor(amount) {
   if (amount < 0.0) return Colors.red[100];
   else return Colors.green[100];
+}
+
+Color tileColorScaled(amount) {
+  if (amount < 0.0) return Colors.red[scaleAmount(900, 0.3, amount) ~/ 100 * 100];
+  else return Colors.green[scaleAmount(900, 0.1, amount) ~/ 100 * 100];
+}
+
+double scaleAmount(double range, double scaling, double x){
+  return range/(1+exp(-scaling*x.abs()));
 }
