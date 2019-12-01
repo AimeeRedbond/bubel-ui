@@ -3,16 +3,16 @@ class Transaction {
   DateTime date;
   String description;
   double amount;
-  String group;
+  String groupName;
 
-  Transaction(double amount, DateTime date, String description, String group) {
+  Transaction(double amount, DateTime date, String description, String groupName) {
     this.date = date;
     this.description = description;
     this.amount = amount;
-    if (group == null) {
-      this.group = "Other";
+    if (groupName == null) {
+      this.groupName = "Other";
     } else{
-      this.group = group;
+      this.groupName = groupName;
     }
   }
 
@@ -22,7 +22,7 @@ class Transaction {
     } else if (field == "date"){
       return date;
     } else {
-      return group;
+      return groupName;
     }
   }
 }

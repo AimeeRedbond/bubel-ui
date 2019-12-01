@@ -8,6 +8,8 @@ class CircularLayoutDelegate extends MultiChildLayoutDelegate {
   final double radius;
   static const String actionButton = 'GROUP';
   Offset center;
+  static double _radiansPerDegree = pi / 180;
+  final double _startAngle = -90.0 * _radiansPerDegree;
 
   CircularLayoutDelegate({
     @required this.itemCount,
@@ -21,8 +23,7 @@ class CircularLayoutDelegate extends MultiChildLayoutDelegate {
       final String actionButtonId = '$actionButton$i';
 
       if (hasChild(actionButtonId)) {
-        final Size buttonSize =
-        layoutChild(actionButtonId, BoxConstraints.loose(size));
+        final Size buttonSize = layoutChild(actionButtonId, BoxConstraints.loose(size));
         final double itemAngle = _calculateItemAngle(i);
 
         positionChild(
@@ -42,8 +43,6 @@ class CircularLayoutDelegate extends MultiChildLayoutDelegate {
       itemCount != oldDelegate.itemCount ||
           radius != oldDelegate.radius ;
 
-  static double _radiansPerDegree = pi / 180;
-  final double _startAngle = -90.0 * _radiansPerDegree;
   double _calculateItemAngle(int index) {
     return _startAngle + index * (360.0 / itemCount) * _radiansPerDegree;
   }

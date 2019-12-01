@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -32,7 +33,7 @@ class BubblWheel extends StatelessWidget {
                 radius: wheelRadius,
               ),
               children:
-              makeGroupWidgets(userInfo.transactions.where((Transaction t) => t.amount < 0 && t.date.year == DateTime.now().year && t.date.month == DateTime.now().month).toList(), userInfo.groups),
+              makeGroupWidgets(userInfo.transactions.where((Transaction t) => t.amount < 0).toList(), userInfo.groups),
             ),
           ),
           DefaultTextStyle(
@@ -86,19 +87,24 @@ Map<Group, List<Transaction>> segmentTransactionsByGroup(List<Transaction> trans
       key: (item) => item,
       value: (item) => []);
   for (Group group in transactionsByGroup.keys){
-    transactionsByGroup[group] = transactions.where((Transaction t) => t.group == group.name).toList();
+    transactionsByGroup[group] = transactions.where((Transaction t) => t.groupName == group.name).toList();
   }
   return transactionsByGroup;
 }
 
 List<List> getRatios(List<Transaction> transactions, List<Group> groups) {
-  double total = getBalance(transactions);
+  double totalSpending = getBalance(transactions);
+
   Map<Group, List<Transaction>> groupTransactions = segmentTransactionsByGroup(transactions, groups);
   Map<Group, double> ratios = new Map.fromIterable(groups,
       key: (item) => item,
       value: (item) => 0);
-  for (Group group in groupTransactions.keys) {
-    ratios[group] = -getBalance(groupTransactions[group])/total;
+  for (Group group in groups) {
+    if (totalSpending == 0) {
+      ratios[group] = 1 / groups.length;
+    } else {
+      ratios[group] = -getBalance(groupTransactions[group]) / totalSpending;
+    }
   }
   return sortGroupRatios(ratios);
 }
