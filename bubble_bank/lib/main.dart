@@ -113,8 +113,8 @@ List<Transaction> csvToTransactions(String data) {
 }
 
 Future<List<Transaction>> readInTransactions(String fileName) async {
-  String data = await getFileData(fileName);
-  return new Future( () {return csvToTransactions(data);});
-  //String data = await getFileData("assets/transactions.json");
-  //userTransactions = jsonToTransactions(data);
+  //String data = await getFileData(fileName);
+  //return new Future( () {return csvToTransactions(data);});
+  String data = await getFileData("assets/transactions.json");
+  return new Future( () {return jsonToTransactions(data);});
 }

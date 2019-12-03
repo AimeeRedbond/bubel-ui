@@ -56,7 +56,7 @@ class StandardView extends StatelessWidget {
 
 Container transactionTile(transaction) {
   return Container(
-    color: tileColor(transaction.amount),
+    color: tileColorScaled(transaction.amount),
     child: ListTile(
       title: Text(
         transaction.description,
@@ -135,11 +135,7 @@ ListView transactionList(List<Transaction> transactions){
       itemBuilder: (context, index){
         return Column(children:<Widget>[
           transactionTile(transactions[index]),
-          Divider(
-            thickness:1,
-            height:1,
-            color: Colors.black,
-          )]);
+          ]);
       }
   );
 }
@@ -150,10 +146,11 @@ Color tileColor(amount) {
 }
 
 Color tileColorScaled(amount) {
-  if (amount < 0.0) return Colors.red[scaleAmount(900, 0.3, amount) ~/ 100 * 100];
-  else return Colors.green[scaleAmount(900, 0.1, amount) ~/ 100 * 100];
+  final int intensity = scaleAmount(amount, 700, 3) ~/ 100 * 100;
+  if (amount < 0) return Colors.red[intensity];
+  else return Colors.green[intensity];
 }
 
-double scaleAmount(double range, double scaling, double x){
-  return range/(1+exp(-scaling*x.abs()));
+double scaleAmount(double x, double outputRange, double inputRange){
+  return outputRange/(1+exp(-x.abs()/inputRange));
 }
