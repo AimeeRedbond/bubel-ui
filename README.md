@@ -2,12 +2,12 @@ The front-end of the banking app Bubbl, where you can view your transactions and
 
 ## Screenshots
 ### Home page
-![Homepage](/screenshots//Screenshot_1581006097.png?raw=true)
+<img src="/screenshots/Screenshot_1581006097.png" width="40%">
 ### Transactions
-![Homepage](/screenshots//Screenshot_1581006115.png?raw=true)
+<img src="/screenshots/Screenshot_1581006115.png" width="40%">
 ### Categorised spending
-![Homepage](/screenshots//Screenshot_1581006120.png?raw=true)
+<img src="/screenshots/Screenshot_1581006120.png" width="40%">
 ### Options
-![Homepage](/screenshots//Screenshot_1581006125.png?raw=true)
+<img src="/screenshots/Screenshot_1581006125.png" width="40%">
 
 Developed for [Durhack](durhack.com) 2019.
